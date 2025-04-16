@@ -1,5 +1,11 @@
 # Loja de Tênis Esportivos
 
+**Grupo 16:**
+
+Maicon Chaves Marques - 14593530
+<br>
+Karl Cruz Altenhofen – 14585976
+
 ## 1. Requisitos
 
 - O sistema deve ter 2 tipos de usuários: Clientes e Administradores. Os Administradores são responsáveis por cadastrar e gerenciar administradores, clientes e produtos/serviços oferecidos. A aplicação já vem com uma conta de administrador com login "admin" e senha "admin". Os Clientes são usuários que acessam o sistema para comprar produtos ou serviços.
