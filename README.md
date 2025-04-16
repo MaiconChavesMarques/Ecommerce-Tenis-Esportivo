@@ -2,9 +2,8 @@
 
 **Grupo 16:**
 
-Maicon Chaves Marques - 14593530
-<br>
-Karl Cruz Altenhofen – 14585976
+- Maicon Chaves Marques - 14593530
+- Karl Cruz Altenhofen – 14585976
 
 ## 1. Requisitos
 
