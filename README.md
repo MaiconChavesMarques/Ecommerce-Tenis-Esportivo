@@ -29,8 +29,12 @@
 A página retrata uma loja de tênis esportivos chamada Velox. Criamos uma logo e fizemos alguns modelos de tênis para complementar a visualização da aplicação web.
 
 O diagrama que descreve o fluxo dá página foi feito no Figma e pode ser encontrado aqui: <a href="https://www.figma.com/design/2H69M86ifX8UPAAc8rZcsv/Diagrama-Velox?node-id=0-1&t=j3J7S76tPs53cWrc-1">Figma</a>
+<br><br>
+<img src="Imagens/Captura de tela de 2025-04-27 23-25-19.png">
 
-Todos os Mockups estão também no figma com nomes iguais aqueles encontrados no fluxo da página, também uma versão que representa o design esperado para dispositivos mobile, ambos aqui: <a href="https://www.figma.com/design/D2fQcvvULSxNALH4bq2tBS/Site-Velox?t=lchPhaToMe8u2zAN-1">Figma</a>
+Todos os Mockups estão também no figma com nomes iguais aqueles encontrados no fluxo da página, também há uma versão que representa o design esperado para dispositivos mobile, ambos aqui: <a href="https://www.figma.com/design/D2fQcvvULSxNALH4bq2tBS/Site-Velox?t=lchPhaToMe8u2zAN-1">Figma</a>
+<br><br>
+<img src="Imagens/Captura de tela de 2025-04-27 23-15-51.png">
 
 ## 3. Comentários sobre o Código
 <!-- Insira comentários que ajudem a entender melhor a estrutura e as decisões do código. -->
@@ -42,11 +46,13 @@ Todos os Mockups estão também no figma com nomes iguais aqueles encontrados no
 <!-- Insira os resultados obtidos nos testes realizados. -->
 
 ## 6. Procedimentos de Build
-Para a Milestone 1 basta apresentar 3 páginas ao menos, em HTML/CSS.
+Para a Milestone 1 bastava apresentar 3 páginas ao menos, em HTML/CSS.
 
 As páginas estão dentro do zip chamada web.zip.
 
-Também é possível clonar esse github ao inves de baixar o zip.
+Também é possível clonar esse github ao invés de baixar o zip.
+
+É necessário extrair o zip para que o estilo seja aplicado a página.
 
 As páginas estão dentro da pasta "Web", bastar clicar sobre o HTML e abrir em qualquer navegador.
 
