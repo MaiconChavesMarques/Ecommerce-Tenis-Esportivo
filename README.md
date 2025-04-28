@@ -26,7 +26,11 @@
 - O sistema deve atender a requisitos de acessibilidade e oferecer boa usabilidade. Deve ser responsivo, ou seja, completar as tarefas atribuídas dentro de um tempo razoável.
 
 ## 2. Descrição do Projeto
-<!-- Descreva como seu projeto atende aos requisitos e funcionalidades. Você pode incluir diagramas aqui. -->
+A página retrata uma loja de tênis esportivos chamada Velox. Criamos uma logo e fizemos alguns modelos de tênis para complementar a visualização da aplicação web.
+
+O diagrama que descreve o fluxo dá página foi feito no Figma e pode ser encontrado aqui: <a href="https://www.figma.com/design/2H69M86ifX8UPAAc8rZcsv/Diagrama-Velox?node-id=0-1&t=j3J7S76tPs53cWrc-1">Figma</a>
+
+Todos os Mockups estão também no figma com nomes iguais aqueles encontrados no fluxo da página, também uma versão que representa o design esperado para dispositivos mobile, ambos aqui: <a href="https://www.figma.com/design/D2fQcvvULSxNALH4bq2tBS/Site-Velox?t=lchPhaToMe8u2zAN-1">Figma</a>
 
 ## 3. Comentários sobre o Código
 <!-- Insira comentários que ajudem a entender melhor a estrutura e as decisões do código. -->
@@ -38,10 +42,16 @@
 <!-- Insira os resultados obtidos nos testes realizados. -->
 
 ## 6. Procedimentos de Build
-<!-- Passo a passo para instalar dependências, rodar e testar o projeto. -->
+Para a Milestone 1 basta apresentar 3 páginas ao menos, em HTML/CSS.
+
+As páginas estão dentro do zip chamada web.zip.
+
+Também é possível clonar esse github ao inves de baixar o zip.
+
+As páginas estão dentro da pasta "Web", bastar clicar sobre o HTML e abrir em qualquer navegador.
 
 ## 7. Problemas Encontrados
-<!-- Liste os principais problemas enfrentados durante o desenvolvimento. -->
+Não foram encontrados problemas até o momento.
 
 ## 8. Comentários Finais
 <!-- Comentários adicionais que desejar incluir sobre o projeto. -->
