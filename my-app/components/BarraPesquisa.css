@@ -1,0 +1,40 @@
+#barraPesquisa {
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    border: 2px solid #6B7280; 
+    padding: 5px 10px;
+    width: 500px;
+    height: 40px;
+  }
+  
+  #formPesquisa{
+    border: none;
+    width: 100%;
+    outline: none;
+  }
+  
+  .procura {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .caixaBusca {
+    display: flex;
+    align-items: center;
+  }
+  
+  .caixaBusca button {
+    margin-left: 10px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    border: 2px solid #6B7280;
+    padding: 5px 10px;
+    width: 100px;
+    height: 40px;
+  }
+  
