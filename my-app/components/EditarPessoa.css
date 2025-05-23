@@ -1,0 +1,149 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  background-color: #f5f5f5;
+}
+
+.container-editar {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f5f5;
+}
+
+.container-conteudo-editar {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  max-width: 800px;
+  margin: 20px auto;
+  width: 100%;
+}
+
+.cabecalho-editar {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  padding: 20px 0;
+}
+
+.btn-voltar {
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.btn-voltar:hover {
+  background-color: #f0f0f0;
+  border-color: #ccc;
+}
+
+.titulo-pagina {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.titulo-pagina h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.titulo-pagina .subtitulo {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.conteudo-editar {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.formulario-wrapper {
+  width: 100%;
+  max-width: 600px;
+}
+
+.erro-acesso {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+  color: #666;
+  gap: 20px;
+}
+
+.erro-acesso h2 {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.erro-acesso p {
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.btn-erro {
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-erro:hover {
+  background-color: #333;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  font-size: 1.1rem;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .container-conteudo-editar {
+    margin: 10px;
+  }
+  
+  .cabecalho-editar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 0;
+  }
+  
+  .titulo-pagina h1 {
+    font-size: 1.5rem;
+  }
+}

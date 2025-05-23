@@ -7,7 +7,7 @@ function Login({ onLoginSuccess }) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const navigate = useNavigate();
-
+/*
   async function handleSubmit(e) {
     e.preventDefault();
   
@@ -34,7 +34,34 @@ function Login({ onLoginSuccess }) {
       console.error("Erro ao fazer login:", err);
       alert("Erro de rede.");
     }
-  }  
+  }
+*/ 
+async function handleSubmit(e) {
+    e.preventDefault();
+  
+    try {
+      const response = await fetch('/usuarios.json'); // acessa o arquivo local
+      const usuarios = await response.json();
+  
+      const usuario = usuarios.find(
+        (u) => u.email === email && u.senha === senha
+      );
+  
+      if (usuario) {
+        onLoginSuccess(usuario.token, usuario.tipo); // atualiza estado no App
+        if (usuario.tipo === "administrador") {
+          navigate('/admin');
+        } else {
+          navigate('/home');
+        }
+      } else {
+        alert("Login inválido.");
+      }
+    } catch (err) {
+      console.error("Erro ao carregar dados locais:", err);
+      alert("Erro ao acessar os dados de login.");
+    }
+  }
 
   return (
     <div className="container">

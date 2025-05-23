@@ -5,7 +5,7 @@ import IconeIA from './IconeIA';
 import IconeCarrinho from './IconeCarrinho';
 import IconePerfil from './IconePerfil';
 
-const NavBar = () => {
+const NavBar = ({ onLogout, token }) => {
     return ( 
         <>
             <div id="barraNavegacao">
@@ -14,7 +14,7 @@ const NavBar = () => {
                 <div className="lateralEsquerda">
                     <IconeIA />
                     <IconeCarrinho />
-                    <IconePerfil />
+                    <IconePerfil token={token} />
                 </div>
             </div> 
         </>

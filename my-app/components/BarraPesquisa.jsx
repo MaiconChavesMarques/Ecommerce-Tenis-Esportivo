@@ -1,19 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import "./BarraPesquisa.css";
 
-const BarraPesquisa = () => {
+const BarraPesquisa = ({ placeholder = "Buscar administradores...", onBuscar }) => {
+    const [termo, setTermo] = useState('');
+
+    function handleInputChange(e) {
+        const valor = e.target.value;
+        setTermo(valor);
+    }
+
+    function handleBuscar() {
+        onBuscar(termo);
+    }
+
     return ( 
-        <div className="procura">
-            <h2>Procure seu modelo</h2>
-            <div className="caixaBusca">
-                <div id="barraPesquisa">
-                    <img src="imagens/lupa6.png" height="15px"/>
-                    <input type="text" id="formPesquisa"/>
-                </div>
-                <button id="buscar">Buscar</button>
+        <div className="caixaBusca">
+            <div id="barraPesquisa">
+                <img src="imagens/lupa6.png" height="15px" alt="buscar"/>
+                <input 
+                    type="text" 
+                    id="formPesquisa" 
+                    placeholder={placeholder}
+                    value={termo}
+                    onChange={handleInputChange}
+                />
             </div>
+            <button id="buscar" onClick={handleBuscar}>Busca</button>
         </div>
      );
 }
- 
+
 export default BarraPesquisa;

@@ -1,0 +1,44 @@
+[
+  {
+    "nome": "Bruno Lima",
+    "email": "b",
+    "senha": "2",
+    "telefone": "21988888888",
+    "rua": "Avenida Brasil",
+    "cidade": "Rio de Janeiro",
+    "estado": "RJ",
+    "cep": "20000-000",
+    "pais": "Brasil",
+    "token": "xyz789",
+    "tipo": "cliente",
+    "estadoConta": "inativo"
+  },
+  {
+    "nome": "Carla Mendes",
+    "email": "carla@example.com",
+    "senha": "3senhaCarla",
+    "telefone": "31977777777",
+    "rua": "Rua Central",
+    "cidade": "Belo Horizonte",
+    "estado": "MG",
+    "cep": "30000-000",
+    "pais": "Brasil",
+    "token": "token456",
+    "tipo": "cliente",
+    "estadoConta": "ativo"
+  },
+  {
+    "nome": "Alice Souza",
+    "email": "a",
+    "senha": "1",
+    "telefone": "11999999999",
+    "rua": "Rua das Flores",
+    "cidade": "São Paulo",
+    "estado": "SP",
+    "cep": "01000-000",
+    "pais": "Brasil",
+    "token": "abc123",
+    "tipo": "administrador",
+    "estadoConta": "ativo"
+  }
+]
