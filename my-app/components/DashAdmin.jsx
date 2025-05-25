@@ -1,14 +1,23 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useState, useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './DashAdmin.css';
 import BarraPesquisa from './BarraPesquisa';
 import TabelaPessoa from './TabelaPessoa';
 
-function DashAdmin({ tipo }) {
+function DashAdmin({ 
+  tipo, 
+  pessoas, 
+  onIniciarEdicao, 
+  onAtualizarPessoas, 
+  onAdicionarPessoa, 
+  onAtualizarPessoa, 
+  onRemoverPessoa 
+}) {
   const navigate = useNavigate();
-  const location = useLocation();
   const [termoBusca, setTermoBusca] = useState('');
-  const [pessoas, setPessoas] = useState([]);
+  const [paginaAtual, setPaginaAtual] = useState(1);
+  const [totalPaginas, setTotalPaginas] = useState(1);
+  const itensPorPagina = 5;
 
   // Configurações baseadas no tipo
   const config = {
@@ -30,25 +39,61 @@ function DashAdmin({ tipo }) {
 
   const currentConfig = config[tipo] || config.administrador;
 
+  // Filtrar pessoas do tipo específico
+  const pessoasTipo = useMemo(() => {
+    return (pessoas || []).filter(pessoa => pessoa.tipo === tipo);
+  }, [pessoas, tipo]);
+
+  // Filtrar pessoas baseado no termo de busca
+  const pessoasFiltradas = useMemo(() => {
+    if (!pessoasTipo || pessoasTipo.length === 0) return [];
+    
+    if (!termoBusca) return pessoasTipo;
+    
+    return pessoasTipo.filter(pessoa => {
+      const nomeMatch = pessoa.nome?.toLowerCase().includes(termoBusca.toLowerCase());
+      const emailMatch = pessoa.email?.toLowerCase().includes(termoBusca.toLowerCase());
+      return nomeMatch || emailMatch;
+    });
+  }, [pessoasTipo, termoBusca]);
+
+  // Aplicar paginação aos dados filtrados
+  const pessoasPaginadas = useMemo(() => {
+    // Calcular total de páginas com base nos dados filtrados
+    const paginas = Math.ceil(pessoasFiltradas.length / itensPorPagina);
+    setTotalPaginas(paginas);
+
+    // Obter somente os itens da página atual
+    const inicio = (paginaAtual - 1) * itensPorPagina;
+    const fim = inicio + itensPorPagina;
+    return pessoasFiltradas.slice(inicio, fim);
+  }, [pessoasFiltradas, paginaAtual, itensPorPagina]);
+
+  // Reset da página quando o termo de busca muda
+  useEffect(() => {
+    setPaginaAtual(1);
+  }, [termoBusca]);
+
+  // Carregar dados iniciais
   useEffect(() => {
     async function buscarPessoas() {
       try {
         const response = await fetch(currentConfig.arquivo);
         const data = await response.json();
-  
-        // Filtra só os que têm o tipo desejado
-        const pessoasFiltradas = (data || []).filter(pessoa => pessoa.tipo === tipo);
-  
-        setPessoas(pessoasFiltradas);
-        console.log(pessoasFiltradas);
+        
+        // Atualiza a lista no componente pai
+        onAtualizarPessoas(data || []);
       } catch (error) {
         console.error(`Erro ao buscar ${tipo}:`, error);
-        setPessoas([]);
+        onAtualizarPessoas([]);
       }
     }
     
-    buscarPessoas();
-  }, [tipo, currentConfig.arquivo]);  
+    // Só carrega se não há pessoas ou se mudou o tipo
+    if (!pessoas || pessoas.length === 0) {
+      buscarPessoas();
+    }
+  }, [tipo, currentConfig.arquivo, onAtualizarPessoas]);
 
   // Função para enviar dados de pessoa (POST)
   async function enviarPessoa(pessoa, acao = 'adicionar') {
@@ -82,21 +127,24 @@ function DashAdmin({ tipo }) {
   }
 
   function handleAdicionar() {
-    // Implementar navegação ou modal para adicionar pessoa
     console.log(`Adicionar ${tipo.slice(0, -1)}`);
+    
+    // Inicia o processo de edição através do componente pai
+    onIniciarEdicao(null, tipo, "adicionar");
+    
+    // Navega para a página de edição
+    navigate('/admin/pessoas/editar-pessoa');
   }
 
-  // Função para editar pessoa - navega para EditarPessoa com dados
+  // Função para editar pessoa
   function handleEditar(pessoa) {
     console.log(`Editar ${tipo.slice(0, -1)}:`, pessoa);
     
-    // Navega para a página de edição passando os dados da pessoa
-    navigate('/editar-pessoa', {
-      state: {
-        pessoa: pessoa,
-        tipo: tipo
-      }
-    });
+    // Inicia o processo de edição através do componente pai
+    onIniciarEdicao(pessoa, tipo, "editar");
+    
+    // Navega para a página de edição
+    navigate('/admin/pessoas/editar-pessoa');
   }
 
   async function handleExcluir(pessoa) {
@@ -104,44 +152,19 @@ function DashAdmin({ tipo }) {
     const sucesso = await enviarPessoa(pessoa, 'excluir');
     
     if (sucesso) {
-      // Remove a pessoa da lista local
-      setPessoas(prev => 
-        prev.filter(p => p.email !== pessoa.email)
-      );
+      // Remove a pessoa através do componente pai usando o token
+      onRemoverPessoa(pessoa.token);
     }
   }
 
-  function handleAdicionarNovo(novaPessoa) {
-    // Função para ser chamada quando uma nova pessoa for adicionada
-    setPessoas(prev => [...prev, novaPessoa]);
-  }
+  // Funções de navegação da paginação
+  const irParaPaginaAnterior = () => {
+    if (paginaAtual > 1) setPaginaAtual(paginaAtual - 1);
+  };
 
-  function handleAtualizar(pessoaAtualizada) {
-    // Função para ser chamada quando uma pessoa for editada
-    setPessoas(prev => 
-      prev.map(p => 
-        p.email === pessoaAtualizada.email ? pessoaAtualizada : p
-      )
-    );
-  }
-
-  // Escuta por mudanças na página (quando voltar da edição)
-  useEffect(() => {
-    // Recarrega os dados quando a página voltar ao foco
-    async function buscarPessoas() {
-      try {
-        const response = await fetch(currentConfig.arquivo);
-        const data = await response.json();
-        const pessoasFiltradas = (data || []).filter(pessoa => pessoa.tipo === tipo);
-        setPessoas(pessoasFiltradas);
-      } catch (error) {
-        console.error(`Erro ao buscar ${tipo}:`, error);
-        setPessoas([]);
-      }
-    }
-    
-    buscarPessoas();
-  }, [location.pathname]); // Executa quando a URL muda
+  const irParaProximaPagina = () => {
+    if (paginaAtual < totalPaginas) setPaginaAtual(paginaAtual + 1);
+  };
 
   return (
     <div className="container">
@@ -162,11 +185,21 @@ function DashAdmin({ tipo }) {
         <TabelaPessoa 
           tipo={tipo}
           termoBusca={termoBusca}
-          pessoas={pessoas}
+          pessoas={pessoasPaginadas}
           onEditar={handleEditar}
           onExcluir={handleExcluir}
           onEnviarPessoa={enviarPessoa}
         />
+
+        <div className="paginacao">
+          <button onClick={irParaPaginaAnterior} disabled={paginaAtual === 1}>
+            Página Anterior
+          </button>
+          <span>Página {paginaAtual} de {totalPaginas}</span>
+          <button onClick={irParaProximaPagina} disabled={paginaAtual === totalPaginas}>
+            Próxima Página
+          </button>
+        </div>
       </div>
     </div>
   );

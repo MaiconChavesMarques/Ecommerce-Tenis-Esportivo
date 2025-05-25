@@ -1,36 +1,35 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './EditarPessoa.css';
 import './EditarProduto.css';
 
-function EditarProduto() {
+function EditarProduto({ 
+  dadosProduto, 
+  onLimparEdicao, 
+  onAdicionarProduto, 
+  onAtualizarProduto 
+}) {
   const navigate = useNavigate();
-  const location = useLocation();
   
-  const [dadosProduto, setDadosProduto] = useState(null);
   const [formData, setFormData] = useState({
     nome: '',
     imagem: '',
     descricao: '',
     preco: '',
-    quantidade: [] // Array de quantidades por tamanho
+    quantidade: [0, 0, 0, 0, 0, 0, 0] // Array de quantidades por tamanho
   });
 
   useEffect(() => {
-    // Verifica se os dados do produto foram passados via state da navegação
-    if (location.state && location.state.produto) {
-      const produto = location.state.produto;
-      
-      setDadosProduto(produto);
+    if (dadosProduto) {
       setFormData({
-        nome: produto.nome || '',
-        imagem: produto.imagem || '',
-        descricao: produto.descricao || '',
-        preco: produto.preco || '',
-        quantidade: produto.quantidade || [0, 0, 0, 0, 0, 0, 0] // Array com 7 posições para os tamanhos
+        nome: dadosProduto.nome || '',
+        imagem: dadosProduto.imagem || '',
+        descricao: dadosProduto.descricao || '',
+        preco: dadosProduto.preco || '',
+        quantidade: dadosProduto.quantidade || [0, 0, 0, 0, 0, 0, 0]
       });
     }
-  }, [location.state]);
+  }, [dadosProduto]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -56,6 +55,8 @@ function EditarProduto() {
     
     if (!dadosProduto) return;
     
+    const acao = dadosProduto._acao;
+    
     // Validações básicas
     if (!formData.nome.trim()) {
       alert('Nome do produto é obrigatório');
@@ -67,49 +68,72 @@ function EditarProduto() {
       return;
     }
 
-    // Monta o objeto com os dados atualizados
-    const produtoAtualizado = {
-      ...dadosProduto,
+    // Monta os dados para salvar
+    const produtoParaSalvar = {
       nome: formData.nome.trim(),
       imagem: formData.imagem.trim(),
       descricao: formData.descricao.trim(),
       preco: parseFloat(formData.preco),
-      quantidade: formData.quantidade // Mantém como array
-      // Não precisa calcular quantidade total - os arrays já contêm toda a informação necessária
+      quantidade: formData.quantidade
     };
 
+    // Se for edição, mantém o ID original
+    if (acao === 'editar' && dadosProduto.id) {
+      produtoParaSalvar.id = dadosProduto.id;
+    }
+
+    //Esta aqui apenas para a boa demonstração
+    // Atualiza a lista no componente pai
+    if (acao === 'adicionar') {
+      onAdicionarProduto(produtoParaSalvar);
+    } else {
+      onAtualizarProduto(produtoParaSalvar);
+    }
+
     try {
-      // Faz a requisição para atualizar
       const response = await fetch('/api/produtos', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          ...produtoAtualizado,
-          acao: 'editar'
+          ...produtoParaSalvar,
+          acao: acao
         })
       });
 
       if (response.ok) {
-        console.log('Produto atualizado com sucesso');
-        // Volta para a página anterior após salvar
+        console.log(`Produto ${acao === 'adicionar' ? 'adicionado' : 'editado'} com sucesso`);
+        //Aqui era o local correto
+        // Limpa os dados de edição
+        onLimparEdicao();
+
+        // Volta para a página anterior
         navigate(-1);
       } else {
-        console.error('Erro ao atualizar produto');
-        alert('Erro ao salvar as alterações. Tente novamente.');
+        //alert('Erro ao salvar. Tente novamente.');
+          // Limpa os dados de edição
+          onLimparEdicao();
+
+          // Volta para a página anterior
+          navigate(-1);
       }
     } catch (error) {
-      console.error('Erro na requisição:', error);
-      alert('Erro ao salvar as alterações. Verifique sua conexão.');
+      console.error('Erro:', error);
+      //alert('Erro ao salvar. Verifique sua conexão.');
+        // Limpa os dados de edição
+        onLimparEdicao();
+
+        // Volta para a página anterior
+        navigate(-1);
     }
   };
 
-  const handleVoltar = () => {
+  const handleCancelar = () => {
+    // Limpa os dados de edição e volta
+    onLimparEdicao();
     navigate(-1);
   };
 
-  // Se não há dados do produto (acesso direto à URL)
+  // Se não há dados do produto (acesso direto à URL ou dados não foram passados)
   if (!dadosProduto) {
     return (
       <div className="container-editar">
@@ -119,7 +143,7 @@ function EditarProduto() {
             <p>Esta página só pode ser acessada através do painel de estoque.</p>
             <button 
               className="btn-erro"
-              onClick={() => navigate('/estoque')}
+              onClick={() => navigate('/admin/estoque')}
             >
               Voltar ao Estoque
             </button>
@@ -129,18 +153,34 @@ function EditarProduto() {
     );
   }
 
-  const tamanhos = [38, 39, 40, 41, 42, 43, 44]; // Usando números para corresponder ao BD
+  const tamanhos = [38, 39, 40, 41, 42, 43, 44];
+  const acao = dadosProduto._acao;
+  
+  // Textos dinâmicos baseados na ação
+  const textos = {
+    editar: {
+      titulo: 'Editar produto',
+      subtitulo: 'Atualize as informações do produto',
+      icone: '🔄 Atualizar produto Velox!',
+      botao: 'Atualizar produto'
+    },
+    adicionar: {
+      titulo: 'Adicionar produto',
+      subtitulo: 'Cadastre um novo produto',
+      icone: '➕ Novo produto Velox!',
+      botao: 'Adicionar produto'
+    }
+  };
+
+  const textosAtivos = textos[acao] || textos.editar;
 
   return (
     <div className="container-editar">
       <div className="container-conteudo-editar">
         <div className="cabecalho-editar">
-          <button className="btn-voltar" onClick={handleVoltar}>
-            ← Voltar
-          </button>
           <div className="titulo-pagina">
-            <h1>Editar produto</h1>
-            <span className="subtitulo">Atualize as informações do produto</span>
+            <h1>{textosAtivos.titulo}</h1>
+            <span className="subtitulo">{textosAtivos.subtitulo}</span>
           </div>
         </div>
 
@@ -149,7 +189,7 @@ function EditarProduto() {
             <form onSubmit={handleSalvar} className="formulario-produto">
               <div className="cabecalho-formulario">
                 <div className="icone-novo-produto">
-                  🔄 Atualizar produto Velox!
+                  {textosAtivos.icone}
                 </div>
               </div>
 
@@ -161,13 +201,14 @@ function EditarProduto() {
                   value={formData.nome}
                   onChange={handleInputChange}
                   className="input-campo"
+                  required
                 />
               </div>
 
               <div className="campo-formulario">
                 <label className="label-campo">URL da imagem</label>
                 <input
-                  type="url"
+                  type="text"
                   name="imagem"
                   value={formData.imagem}
                   onChange={handleInputChange}
@@ -196,6 +237,7 @@ function EditarProduto() {
                   min="0"
                   step="0.01"
                   className="input-campo"
+                  required
                 />
               </div>
 
@@ -221,9 +263,11 @@ function EditarProduto() {
                 </div>
               </div>
 
-              <button type="submit" className="btn-atualizar-produto">
-                Atualizar produto
-              </button>
+              <div className="acoes-formulario">
+                <button type="submit" className="btn-atualizar-produto">
+                  {textosAtivos.botao}
+                </button>
+              </div>
             </form>
           </div>
         </div>

@@ -1,13 +1,27 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import "./ValoresCarrinho.css";
 
 const ValoresCarrinho = ({ carrinho }) => {
+  const navigate = useNavigate();
+  
   const subtotal = carrinho.reduce(
     (acc, item) => acc + item.preco * item.quantidade,
     0
   );
   const desconto = 10.0; // Você pode tornar isso dinâmico se quiser
   const total = subtotal - desconto;
+
+  const handleComprar = () => {
+    navigate('/cartao', { 
+      state: { 
+        carrinho, 
+        subtotal, 
+        desconto, 
+        total 
+      } 
+    });
+  };
 
   return (
       <div className="resumoValores">
@@ -29,7 +43,7 @@ const ValoresCarrinho = ({ carrinho }) => {
           </div>
         </div>
         <div className="comprarBotao">
-          <button className="comprar">Comprar</button>
+          <button className="comprar" onClick={handleComprar}>Comprar</button>
         </div>
       </div>
   );

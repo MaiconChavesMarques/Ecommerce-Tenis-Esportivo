@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import './TabelaPessoa.css';
 
 function TabelaPessoa({ 
@@ -27,19 +26,6 @@ function TabelaPessoa({
     }
   }
 
-  // Filtrar pessoas baseado no termo de busca usando useMemo para otimização
-  const pessoasFiltradas = useMemo(() => {
-    if (!pessoas || pessoas.length === 0) return [];
-    
-    if (!termoBusca) return pessoas;
-    
-    return pessoas.filter(pessoa => {
-      const nomeMatch = pessoa.nome?.toLowerCase().includes(termoBusca.toLowerCase());
-      const emailMatch = pessoa.email?.toLowerCase().includes(termoBusca.toLowerCase());
-      return nomeMatch || emailMatch;
-    });
-  }, [pessoas, termoBusca]);
-
   // Determinar o título baseado no tipo
   const getTitulo = () => {
     switch(tipo) {
@@ -54,27 +40,11 @@ function TabelaPessoa({
 
   // Mostrar mensagem quando não há pessoas
   if (!pessoas || pessoas.length === 0) {
-    return (
-      <div className="tabela-container">
-        <div className="tabela-header">
-          <div className="icone-tabela">
-            👤
-          </div>
-          <h2>{getTitulo()}</h2>
-        </div>
-        <div style={{ 
-          padding: '40px 20px', 
-          textAlign: 'center', 
-          color: '#666' 
-        }}>
-          Nenhum {tipo === 'administradores' ? 'administrador' : 'cliente'} encontrado.
-        </div>
-      </div>
-    );
-  }
+    // Se há termo de busca, significa que não há resultados para a busca
+    const mensagem = termoBusca 
+      ? `Nenhum resultado encontrado para "${termoBusca}".`
+      : `Nenhum ${tipo === 'administradores' ? 'administrador' : 'cliente'} encontrado.`;
 
-  // Mostrar mensagem quando não há resultados de busca
-  if (pessoasFiltradas.length === 0 && termoBusca) {
     return (
       <div className="tabela-container">
         <div className="tabela-header">
@@ -88,7 +58,7 @@ function TabelaPessoa({
           textAlign: 'center', 
           color: '#666' 
         }}>
-          Nenhum resultado encontrado para "{termoBusca}".
+          {mensagem}
         </div>
       </div>
     );
@@ -111,7 +81,7 @@ function TabelaPessoa({
       </div>
 
       <div className="tabela-corpo">
-        {pessoasFiltradas.map((pessoa, index) => (
+        {pessoas.map((pessoa, index) => (
           <div key={pessoa.email || index} className="item-tabela">
             <div className="coluna-nome">
               <span className="nome-pessoa">{pessoa.nome || 'Nome não informado'}</span>

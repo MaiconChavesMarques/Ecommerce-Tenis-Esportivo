@@ -16,7 +16,8 @@ const BarraPesquisa = ({ placeholder = "Buscar administradores...", onBuscar }) 
     return ( 
         <div className="caixaBusca">
             <div id="barraPesquisa">
-                <img src="imagens/lupa6.png" height="15px" alt="buscar"/>
+                {/* Mudança: caminho absoluto começando com / */}
+                <img src="/imagens/lupa6.png" height="15px" alt="buscar"/>
                 <input 
                     type="text" 
                     id="formPesquisa" 

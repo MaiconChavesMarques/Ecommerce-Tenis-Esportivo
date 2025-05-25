@@ -1,81 +1,93 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './EditarPessoa.css';
 import FormEditarConta from './FormEditarConta';
 
-function EditarPessoa() {
+function EditarPessoa({ 
+  dadosPessoa, 
+  onLimparEdicao, 
+  onAdicionarPessoa, 
+  onAtualizarPessoa 
+}) {
   const navigate = useNavigate();
-  const location = useLocation();
-  
-  const [dadosPessoa, setDadosPessoa] = useState(null);
-
-  useEffect(() => {
-    // Verifica se os dados da pessoa foram passados via state da navegação
-    if (location.state && location.state.pessoa) {
-      const pessoa = location.state.pessoa;
-      const tipo = location.state.tipo || 'cliente';
-      
-      setDadosPessoa({
-        ...pessoa,
-        tipo: tipo
-      });
-    }
-  }, [location.state]);
 
   const handleSalvar = async (dadosFormulario) => {
     if (!dadosPessoa) return;
     
-    // Monta o objeto com os dados atualizados
-    const pessoaAtualizada = {
-      ...dadosPessoa,
+    const acao = dadosPessoa._acao;
+    
+    // Monta os dados para salvar
+    const pessoaParaSalvar = {
       ...dadosFormulario,
-      ativo: dadosPessoa.ativo,
-      tipo: dadosFormulario.tipo || dadosPessoa.tipo
+      ativo: acao === 'adicionar' ? true : dadosPessoa.ativo,
+      // Para edição, mantém o token original; para adição, será gerado no backend
+      token: acao === 'editar' ? dadosPessoa.token : undefined
     };
 
-    // Se a senha está vazia, remove ela do objeto (mantém a atual)
-    if (!dadosFormulario.senha || dadosFormulario.senha.trim() === '') {
-      delete pessoaAtualizada.senha;
+    // Se for edição e senha estiver vazia, remove a senha
+    if (acao === 'editar' && !dadosFormulario.senha?.trim()) {
+      delete pessoaParaSalvar.senha;
     }
 
-    // Determina o endpoint baseado no tipo
-    const endpoints = {
-      administrador: '/api/administradores',
-      administradores: '/api/administradores',
-      cliente: '/api/clientes',
-      clientes: '/api/clientes'
-    };
-    
-    const endpoint = endpoints[pessoaAtualizada.tipo] || endpoints.clientes;
+    // Endpoint baseado no tipo
+    const endpoint = pessoaParaSalvar.tipo === 'administrador' ? '/api/administradores' : '/api/clientes';
+
+    //Demonstração:
+    // Atualiza a lista no componente pai
+    if (acao === 'adicionar') {
+      // Para adição, gera um token temporário (normalmente seria feito no backend)
+      const tokenTemporario = Date.now().toString() + Math.random().toString(36).substr(2, 9);
+      const pessoaComToken = { ...pessoaParaSalvar, token: tokenTemporario };
+      onAdicionarPessoa(pessoaComToken);
+    } else {
+      onAtualizarPessoa(pessoaParaSalvar);
+    }
 
     try {
-      // Faz a requisição para atualizar
       const response = await fetch(endpoint, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          ...pessoaAtualizada,
-          acao: 'editar'
+          ...pessoaParaSalvar,
+          acao: acao
         })
       });
 
       if (response.ok) {
-        console.log('Pessoa atualizada com sucesso');
-        // Volta para a página anterior após salvar
+        console.log(`Pessoa ${acao === 'adicionar' ? 'adicionada' : 'editada'} com sucesso`);
+        
+        // Limpa os dados de edição
+        onLimparEdicao();
+        
+        // Volta para a página anterior
         navigate(-1);
       } else {
-        console.error('Erro ao atualizar pessoa');
-        alert('Erro ao salvar as alterações. Tente novamente.');
+        //alert('Erro ao salvar. Tente novamente.');
+        //Erro:
+        // Limpa os dados de edição
+        onLimparEdicao();
+        
+        // Volta para a página anterior
+        navigate(-1);
       }
     } catch (error) {
-      console.error('Erro na requisição:', error);
-      alert('Erro ao salvar as alterações. Verifique sua conexão.');
+      console.error('Erro:', error);
+      //alert('Erro ao salvar. Verifique sua conexão.');
+      //Erro:
+        // Limpa os dados de edição
+        onLimparEdicao();
+        
+        // Volta para a página anterior
+        navigate(-1);
     }
   };
 
-  // Se não há dados da pessoa (acesso direto à URL)
+  const handleCancelar = () => {
+    // Limpa os dados de edição e volta
+    onLimparEdicao();
+    navigate(-1);
+  };
+
+  // Se não há dados da pessoa (acesso direto à URL ou dados não foram passados)
   if (!dadosPessoa) {
     return (
       <div className="container-editar">
@@ -100,13 +112,14 @@ function EditarPessoa() {
     tipo: dadosPessoa.tipo || "cliente",
     nome: dadosPessoa.nome || "",
     email: dadosPessoa.email || "",
-    senha: "", // Sempre vazio por segurança
+    senha: "",
     telefone: dadosPessoa.telefone || "",
     rua: dadosPessoa.rua || "",
     cidade: dadosPessoa.cidade || "",
     estado: dadosPessoa.estado || "",
     cep: dadosPessoa.cep || "",
-    pais: dadosPessoa.pais || ""
+    pais: dadosPessoa.pais || "",
+    token: dadosPessoa.token || "" // Inclui o token nos dados iniciais
   };
 
   return (
@@ -114,7 +127,9 @@ function EditarPessoa() {
       <FormEditarConta
         dadosIniciais={dadosIniciais}
         onSubmit={handleSalvar}
+        onCancel={handleCancelar}
         mostrarTipo={true}
+        acao={dadosPessoa._acao}
       />
     </div>
   );

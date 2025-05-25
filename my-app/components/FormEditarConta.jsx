@@ -12,10 +12,12 @@ function FormEditarConta({
     cidade: "",
     estado: "",
     cep: "",
-    pais: ""
+    pais: "",
+    token: ""
   },
   onSubmit,
-  mostrarTipo = true
+  mostrarTipo = true,
+  acao
 }) {
   const [formData, setFormData] = useState(dadosIniciais);
 
@@ -25,6 +27,7 @@ function FormEditarConta({
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(name);
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -36,17 +39,42 @@ function FormEditarConta({
     onSubmit(formData);
   };
 
+  // Determina os textos baseado na ação
+  const textos = {
+    editar: {
+      titulo: "Editando conta Velox!",
+      subtitulo: "Editar conta",
+      botao: "Editar conta",
+      aviso: "IMPORTANTE: O tipo da conta deve ser editado com cuidado para evitar qualquer engano!"
+    },
+    adicionar: {
+      titulo: "Adicionando nova conta Velox!",
+      subtitulo: "Adicionar conta",
+      botao: "Adicionar conta",
+      aviso: "IMPORTANTE: Escolha o tipo da conta com cuidado!"
+    }
+  };
+
+  const textosAtivos = textos[acao] || textos.editar;
+  
   return (
     <div className="form-editar-conta">
-      <h1 className="titulo-principal">Editando conta Velox!</h1>
+      <h1 className="titulo-principal">{textosAtivos.titulo}</h1>
       
       <div className="container-formulario">
-        <h2 className="titulo-formulario">Editar conta</h2>
+        <h2 className="titulo-formulario">{textosAtivos.subtitulo}</h2>
         <p className="aviso-importante">
-          IMPORTANTE: O tipo da conta deve ser editado com cuidado para evitar qualquer engano!
+          {textosAtivos.aviso}
         </p>
         
         <form className="formulario-editar" onSubmit={handleSubmit}>
+          {/* Campo oculto para o token */}
+          <input
+            type="hidden"
+            name="token"
+            value={formData.token}
+          />
+
           {mostrarTipo && (
             <div className="grupo-campo">
               <label className="label-campo obrigatorio" htmlFor="tipo">
@@ -107,7 +135,12 @@ function FormEditarConta({
               className="input-campo"
               value={formData.senha}
               onChange={handleChange}
-              placeholder="Digite uma nova senha ou deixe em branco para manter a atual"
+              placeholder={
+                acao === "adicionar" 
+                  ? "Digite a senha para a nova conta" 
+                  : "Digite uma nova senha ou deixe em branco para manter a atual"
+              }
+              required={acao === "adicionar"} // Obrigatório apenas ao adicionar
             />
           </div>
 
@@ -204,7 +237,7 @@ function FormEditarConta({
           </div>
 
           <button type="submit" className="botao-editar">
-            Editar conta
+            {textosAtivos.botao}
           </button>
         </form>
       </div>

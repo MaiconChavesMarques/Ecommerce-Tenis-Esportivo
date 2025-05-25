@@ -1,14 +1,22 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useState, useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './DashAdmin.css';
 import BarraPesquisa from './BarraPesquisa';
 import TabelaEstoque from './TabelaEstoque';
 
-function DashEstoque() {
+function DashEstoque({ 
+  produtos, 
+  onIniciarEdicao, 
+  onAtualizarProdutos, 
+  onAdicionarProduto, 
+  onAtualizarProduto, 
+  onRemoverProduto 
+}) {
   const navigate = useNavigate();
-  const location = useLocation();
   const [termoBusca, setTermoBusca] = useState('');
-  const [produtos, setProdutos] = useState([]);
+  const [paginaAtual, setPaginaAtual] = useState(1);
+  const [totalPaginas, setTotalPaginas] = useState(1);
+  const itensPorPagina = 5;
 
   // Configuração para estoque
   const config = {
@@ -19,22 +27,56 @@ function DashEstoque() {
     endpoint: '/api/produtos'
   };
 
+  // Filtrar produtos baseado no termo de busca usando useMemo para otimização
+  const produtosFiltrados = useMemo(() => {
+    if (!produtos || produtos.length === 0) return [];
+    
+    if (!termoBusca) return produtos;
+    
+    return produtos.filter(produto => {
+      const nomeMatch = produto.nome?.toLowerCase().includes(termoBusca.toLowerCase());
+      const precoMatch = produto.preco?.toString().includes(termoBusca);
+      return nomeMatch || precoMatch;
+    });
+  }, [produtos, termoBusca]);
+
+  // Aplicar paginação aos dados filtrados
+  const produtosPaginados = useMemo(() => {
+    // Calcular total de páginas com base nos dados filtrados
+    const paginas = Math.ceil(produtosFiltrados.length / itensPorPagina);
+    setTotalPaginas(paginas);
+
+    // Obter somente os itens da página atual
+    const inicio = (paginaAtual - 1) * itensPorPagina;
+    const fim = inicio + itensPorPagina;
+    return produtosFiltrados.slice(inicio, fim);
+  }, [produtosFiltrados, paginaAtual, itensPorPagina]);
+
+  // Reset da página quando o termo de busca muda
+  useEffect(() => {
+    setPaginaAtual(1);
+  }, [termoBusca]);
+
+  // Carregar dados iniciais
   useEffect(() => {
     async function buscarProdutos() {
       try {
         const response = await fetch(config.arquivo);
         const data = await response.json();
-
-        setProdutos(data || []);
-        console.log(data);
+        
+        // Atualiza a lista no componente pai
+        onAtualizarProdutos(data || []);
       } catch (error) {
         console.error('Erro ao buscar produtos:', error);
-        setProdutos([]);
+        onAtualizarProdutos([]);
       }
     }
     
-    buscarProdutos();
-  }, []);
+    // Só carrega se não há produtos
+    if (!produtos || produtos.length === 0) {
+      buscarProdutos();
+    }
+  }, [config.arquivo, onAtualizarProdutos]);
 
   // Função para enviar dados de produto (POST)
   async function enviarProduto(produto, acao = 'adicionar') {
@@ -68,65 +110,44 @@ function DashEstoque() {
   }
 
   function handleAdicionar() {
-    // Implementar navegação ou modal para adicionar produto
     console.log('Adicionar produto');
+    
+    // Inicia o processo de edição através do componente pai
+    onIniciarEdicao(null, "adicionar");
+    
+    // Navega para a página de edição
+    navigate('/admin/estoque/editar-produto');
   }
 
   // Função para editar produto
   function handleEditar(produto) {
     console.log('Editar produto:', produto);
-
-    // Navega para a página de edição passando os dados do produto
-    navigate('/editar-produto', {
-      state: {
-        produto: produto
-      }
-    });
+    
+    // Inicia o processo de edição através do componente pai
+    onIniciarEdicao(produto, "editar");
+    
+    // Navega para a página de edição
+    navigate('/admin/estoque/editar-produto');
   }
-
 
   async function handleExcluir(produto) {
     console.log('Excluir produto:', produto);
     const sucesso = await enviarProduto(produto, 'excluir');
     
     if (sucesso) {
-      // Remove o produto da lista local
-      setProdutos(prev => 
-        prev.filter(p => p.id !== produto.id)
-      );
+      // Remove o produto através do componente pai
+      onRemoverProduto(produto.id);
     }
   }
 
-  function handleAdicionarNovo(novoProduto) {
-    // Função para ser chamada quando um novo produto for adicionado
-    setProdutos(prev => [...prev, novoProduto]);
-  }
+  // Funções de navegação da paginação
+  const irParaPaginaAnterior = () => {
+    if (paginaAtual > 1) setPaginaAtual(paginaAtual - 1);
+  };
 
-  function handleAtualizar(produtoAtualizado) {
-    // Função para ser chamada quando um produto for editado
-    setProdutos(prev => 
-      prev.map(p => 
-        p.id === produtoAtualizado.id ? produtoAtualizado : p
-      )
-    );
-  }
-
-  // Escuta por mudanças na página (quando voltar da edição)
-  useEffect(() => {
-    // Recarrega os dados quando a página voltar ao foco
-    async function buscarProdutos() {
-      try {
-        const response = await fetch(config.arquivo);
-        const data = await response.json();
-        setProdutos(data || []);
-      } catch (error) {
-        console.error('Erro ao buscar produtos:', error);
-        setProdutos([]);
-      }
-    }
-    
-    buscarProdutos();
-  }, [location.pathname]); // Executa quando a URL muda
+  const irParaProximaPagina = () => {
+    if (paginaAtual < totalPaginas) setPaginaAtual(paginaAtual + 1);
+  };
 
   return (
     <div className="container">
@@ -146,11 +167,21 @@ function DashEstoque() {
 
         <TabelaEstoque 
           termoBusca={termoBusca}
-          produtos={produtos}
+          produtos={produtosPaginados}
           onEditar={handleEditar}
           onExcluir={handleExcluir}
           onEnviarProduto={enviarProduto}
         />
+
+        <div className="paginacao">
+          <button onClick={irParaPaginaAnterior} disabled={paginaAtual === 1}>
+            Página Anterior
+          </button>
+          <span>Página {paginaAtual} de {totalPaginas}</span>
+          <button onClick={irParaProximaPagina} disabled={paginaAtual === totalPaginas}>
+            Próxima Página
+          </button>
+        </div>
       </div>
     </div>
   );

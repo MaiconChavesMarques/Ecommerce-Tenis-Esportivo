@@ -225,6 +225,9 @@ function FormPerfil({
               <button type="submit" className="botao-salvar">
                 Salvar mudanças
               </button>
+              <button type="button" className="botao-sair" onClick={onSair}>
+                Sair
+              </button>
             </div>
           </form>
         </div>

@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "imagem": "imagens/1.png",
+    "imagem": "/imagens/1.png",
     "nome": "Velox StrideX",
     "preco": 149.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -10,7 +10,7 @@
   },
   {
     "id": 2,
-    "imagem": "imagens/2.png",
+    "imagem": "/imagens/2.png",
     "nome": "Velox AeroPulse",
     "preco": 159.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -19,7 +19,7 @@
   },
   {
     "id": 3,
-    "imagem": "imagens/3.png",
+    "imagem": "/imagens/3.png",
     "nome": "Velox NitroRun",
     "preco": 169.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -28,7 +28,7 @@
   },
   {
     "id": 4,
-    "imagem": "imagens/4.png",
+    "imagem": "/imagens/4.png",
     "nome": "Velox Tempest 300",
     "preco": 179.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -37,7 +37,7 @@
   },
   {
     "id": 5,
-    "imagem": "imagens/5.png",
+    "imagem": "/imagens/5.png",
     "nome": "Velox Flytrail",
     "preco": 189.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -46,7 +46,7 @@
   },
   {
     "id": 6,
-    "imagem": "imagens/6.png",
+    "imagem": "/imagens/6.png",
     "nome": "Velox HyperTrack",
     "preco": 199.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -55,7 +55,7 @@
   },
   {
     "id": 7,
-    "imagem": "imagens/7.png",
+    "imagem": "/imagens/7.png",
     "nome": "Velox Sprint Core",
     "preco": 209.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -64,7 +64,7 @@
   },
   {
     "id": 8,
-    "imagem": "imagens/8.png",
+    "imagem": "/imagens/8.png",
     "nome": "Velox JetRush",
     "preco": 219.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -73,7 +73,7 @@
   },
   {
     "id": 9,
-    "imagem": "imagens/9.png",
+    "imagem": "/imagens/9.png",
     "nome": "Velox Vortex Pro",
     "preco": 229.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -82,7 +82,7 @@
   },
   {
     "id": 10,
-    "imagem": "imagens/10.png",
+    "imagem": "/imagens/10.png",
     "nome": "Velox UltraSwift",
     "preco": 239.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -91,7 +91,7 @@
   },
   {
     "id": 11,
-    "imagem": "imagens/11.png",
+    "imagem": "/imagens/11.png",
     "nome": "Velox Pulse One",
     "preco": 249.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -100,7 +100,7 @@
   },
   {
     "id": 12,
-    "imagem": "imagens/12.png",
+    "imagem": "/imagens/12.png",
     "nome": "Velox DriftZone",
     "preco": 259.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -109,7 +109,7 @@
   },
   {
     "id": 13,
-    "imagem": "imagens/13.png",
+    "imagem": "/imagens/13.png",
     "nome": "Velox UrbanFlow",
     "preco": 269.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -118,7 +118,7 @@
   },
   {
     "id": 14,
-    "imagem": "imagens/14.png",
+    "imagem": "/imagens/14.png",
     "nome": "Velox StreetForm",
     "preco": 279.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -127,7 +127,7 @@
   },
   {
     "id": 15,
-    "imagem": "imagens/15.png",
+    "imagem": "/imagens/15.png",
     "nome": "Velox NovaSet",
     "preco": 289.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -136,7 +136,7 @@
   },
   {
     "id": 16,
-    "imagem": "imagens/16.png",
+    "imagem": "/imagens/16.png",
     "nome": "Velox GridFlex",
     "preco": 299.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -145,7 +145,7 @@
   },
   {
     "id": 17,
-    "imagem": "imagens/17.png",
+    "imagem": "/imagens/17.png",
     "nome": "Velox Prime Beat",
     "preco": 309.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -154,7 +154,7 @@
   },
   {
     "id": 18,
-    "imagem": "imagens/18.png",
+    "imagem": "/imagens/18.png",
     "nome": "Velox MetroRush",
     "preco": 319.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -163,7 +163,7 @@
   },
   {
     "id": 19,
-    "imagem": "imagens/19.png",
+    "imagem": "/imagens/19.png",
     "nome": "Velox EdgeStep",
     "preco": 329.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -172,7 +172,7 @@
   },
   {
     "id": 20,
-    "imagem": "imagens/20.png",
+    "imagem": "/imagens/20.png",
     "nome": "Velox Flux Rise",
     "preco": 339.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -181,7 +181,7 @@
   },
   {
     "id": 21,
-    "imagem": "imagens/21.png",
+    "imagem": "/imagens/21.png",
     "nome": "Velox QuantumStep",
     "preco": 349.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -190,7 +190,7 @@
   },
   {
     "id": 22,
-    "imagem": "imagens/22.png",
+    "imagem": "/imagens/22.png",
     "nome": "Velox NeuroRun",
     "preco": 359.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -199,7 +199,7 @@
   },
   {
     "id": 23,
-    "imagem": "imagens/23.png",
+    "imagem": "/imagens/23.png",
     "nome": "Velox XenonDrive",
     "preco": 369.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -208,7 +208,7 @@
   },
   {
     "id": 24,
-    "imagem": "imagens/24.png",
+    "imagem": "/imagens/24.png",
     "nome": "Velox ZeroG",
     "preco": 379.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -217,7 +217,7 @@
   },
   {
     "id": 25,
-    "imagem": "imagens/25.png",
+    "imagem": "/imagens/25.png",
     "nome": "Velox Synapse Boost",
     "preco": 389.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -226,7 +226,7 @@
   },
   {
     "id": 26,
-    "imagem": "imagens/26.png",
+    "imagem": "/imagens/26.png",
     "nome": "Velox ChronoShift",
     "preco": 399.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -235,7 +235,7 @@
   },
   {
     "id": 27,
-    "imagem": "imagens/27.png",
+    "imagem": "/imagens/27.png",
     "nome": "Velox Helix Motion",
     "preco": 399.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -244,7 +244,7 @@
   },
   {
     "id": 28,
-    "imagem": "imagens/28.png",
+    "imagem": "/imagens/28.png",
     "nome": "Velox CoreDynamics",
     "preco": 389.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -253,7 +253,7 @@
   },
   {
     "id": 29,
-    "imagem": "imagens/29.png",
+    "imagem": "/imagens/29.png",
     "nome": "Velox BioStep",
     "preco": 379.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],
@@ -262,7 +262,7 @@
   },
   {
     "id": 30,
-    "imagem": "imagens/30.png",
+    "imagem": "/imagens/30.png",
     "nome": "Velox Orion Prime",
     "preco": 369.99,
     "tamanhos": [38, 39, 40, 41, 42, 43, 44],

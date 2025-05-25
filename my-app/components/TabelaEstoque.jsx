@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import './TabelaPessoa.css';
 import './DashEstoque.css';
 
@@ -27,42 +26,13 @@ function TabelaEstoque({
     }
   }
 
-  // Filtrar produtos baseado no termo de busca usando useMemo para otimização
-  const produtosFiltrados = useMemo(() => {
-    if (!produtos || produtos.length === 0) return [];
-    
-    if (!termoBusca) return produtos;
-    
-    return produtos.filter(produto => {
-      const nomeMatch = produto.nome?.toLowerCase().includes(termoBusca.toLowerCase());
-      const precoMatch = produto.preco?.toString().includes(termoBusca);
-      return nomeMatch || precoMatch;
-    });
-  }, [produtos, termoBusca]);
-
   // Mostrar mensagem quando não há produtos
   if (!produtos || produtos.length === 0) {
-    return (
-      <div className="tabela-container">
-        <div className="tabela-header">
-          <div className="icone-tabela">
-            📦
-          </div>
-          <h2>Estoque</h2>
-        </div>
-        <div style={{ 
-          padding: '40px 20px', 
-          textAlign: 'center', 
-          color: '#666' 
-        }}>
-          Nenhum produto encontrado.
-        </div>
-      </div>
-    );
-  }
+    // Se há termo de busca, significa que não há resultados para a busca
+    const mensagem = termoBusca 
+      ? `Nenhum resultado encontrado para "${termoBusca}".`
+      : 'Nenhum produto encontrado.';
 
-  // Mostrar mensagem quando não há resultados de busca
-  if (produtosFiltrados.length === 0 && termoBusca) {
     return (
       <div className="tabela-container">
         <div className="tabela-header">
@@ -76,7 +46,7 @@ function TabelaEstoque({
           textAlign: 'center', 
           color: '#666' 
         }}>
-          Nenhum resultado encontrado para "{termoBusca}".
+          {mensagem}
         </div>
       </div>
     );
@@ -100,7 +70,7 @@ function TabelaEstoque({
       </div>
 
       <div className="tabela-corpo">
-        {produtosFiltrados.map((produto, index) => (
+        {produtos.map((produto, index) => (
           <div key={produto.id || index} className="item-tabela item-produto">
             <div className="coluna-imagem">
               <img 
@@ -121,7 +91,7 @@ function TabelaEstoque({
               </span>
             </div>
             <div className="coluna-quantidade">
-              <span className="quantidade-produto">{produto.quantidade || 0}</span>
+              <span className="quantidade-produto">{produto.quantidade.reduce((total, q) => total + q, 0) || 0}</span>
             </div>
             <div className="coluna-acoes">
               <button 

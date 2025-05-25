@@ -1,10 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const IconeHome = () => {
-    return ( 
-        <Link to="home" className="linkBarra">Home</Link>
+    const navigate = useNavigate();
+
+    return (
+        <div onClick={() => navigate("/home")} className="linkBarra">
+            Home
+        </div>
     );
 }
- 
+
 export default IconeHome;

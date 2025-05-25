@@ -5,15 +5,15 @@ function Administrador() {
   const navigate = useNavigate();
 
   function handleGerenciarAdmins() {
-    navigate('/administradores');
+    navigate('/admin/pessoas/administradores');
   }
 
   function handleGerenciarClientes() {
-    navigate('/clientes');
+    navigate('/admin/pessoas/clientes');
   }
 
   function handleGerenciarProdutos() {
-    navigate('/estoque');
+    navigate('/admin/estoque');
   }
 
   function handleGerenciarPedidos() {
