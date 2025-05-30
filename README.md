@@ -265,8 +265,8 @@ sudo apt install nodejs npm
 ### 2. Clone o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/seu-repositorio.git
-cd seu-repositorio
+git clone https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo.git
+cd Ecommerce-Tenis-Esportivo/my-app
 ```
 
 ---
@@ -294,4 +294,4 @@ Abra no navegador: [http://localhost:5173](http://localhost:5173)
 Não foram encontrados problemas até o momento.
 
 ## 8. Comentários Finais
-<!-- Comentários adicionais que desejar incluir sobre o projeto. -->
+Sem comentários.
