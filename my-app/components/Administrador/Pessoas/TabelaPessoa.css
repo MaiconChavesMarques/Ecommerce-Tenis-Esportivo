@@ -1,0 +1,204 @@
+/* Layout específico para pessoas com 4 colunas */
+.pessoa-item {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1fr;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e1e1e1;
+}
+
+.pessoa-item .pessoa-cabecalho {
+  grid-template-columns: 2fr 2fr 1fr 1fr;
+}
+
+/* Configuração do cabeçalho da tabela */
+.pessoa-cabecalho {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1fr;
+  background-color: #f8f9fa;
+  padding: 12px 16px;
+  border-bottom: 2px solid #dee2e6;
+  font-weight: 600;
+  color: #495057;
+  font-size: 14px;
+}
+
+/* Estilos para o conteúdo das colunas */
+.pessoa-nome {
+  font-weight: 500;
+  color: #333;
+  font-size: 14px;
+}
+
+.pessoa-email {
+  font-weight: 400;
+  color: #666;
+  font-size: 14px;
+}
+
+/* Status com mesmo padrão do estoque */
+.pessoa-status {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-align: center;
+  display: inline-block;
+  min-width: 60px;
+}
+
+.pessoa-status.ativo {
+  background-color: #e8f5e8;
+  color: #2d7d32;
+}
+
+.pessoa-status.inativo {
+  background-color: #ffebee;
+  color: #d32f2f;
+}
+
+/* Alinhamento das colunas */
+.pessoa-coluna-nome {
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+}
+
+.pessoa-coluna-email {
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+}
+
+.pessoa-coluna-estado {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pessoa-coluna-acoes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Estilos dos botões de ação */
+.pessoa-btn-acao {
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: background-color 0.2s;
+}
+
+.pessoa-btn-acao:hover {
+  background-color: #f1f3f4;
+}
+
+.pessoa-btn-acao.editar:hover {
+  background-color: #e3f2fd;
+}
+
+.pessoa-btn-acao.excluir:hover {
+  background-color: #ffebee;
+}
+
+/* Container da tabela - Ocupando menos espaço */
+.pessoa-tabela-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-left: clamp(60px, 25vw, 350px);
+  margin-right: clamp(60px, 25vw, 350px);
+  max-width: calc(100% - 2 * clamp(60px, 25vw, 350px));
+}
+
+.pessoa-tabela-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 20px 16px 20px;
+  border-bottom: 1px solid #e1e1e1;
+}
+
+.pessoa-icone-tabela {
+  font-size: 24px;
+}
+
+.pessoa-tabela-header h2 {
+  margin: 0;
+  color: #333;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Hover effect para itens da tabela */
+.pessoa-item:hover {
+  background-color: #f8f9fa;
+}
+
+.pessoa-item:last-child {
+  border-bottom: none;
+}
+
+/* Responsividade para pessoas */
+@media (max-width: 768px) {
+  .pessoa-tabela-container {
+    margin-left: 60px;
+    margin-right: 60px;
+    max-width: calc(100% - 120px);
+  }
+
+  .pessoa-item {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 16px;
+  }
+  
+  .pessoa-cabecalho {
+    display: none;
+  }
+  
+  .pessoa-item .pessoa-coluna-nome::before {
+    content: 'Nome: ';
+    font-weight: 500;
+    color: #666;
+  }
+  
+  .pessoa-item .pessoa-coluna-email::before {
+    content: 'Email: ';
+    font-weight: 500;
+    color: #666;
+  }
+  
+  .pessoa-item .pessoa-coluna-estado::before {
+    content: 'Estado: ';
+    font-weight: 500;
+    color: #666;
+  }
+
+  .pessoa-coluna-nome,
+  .pessoa-coluna-email,
+  .pessoa-coluna-estado {
+    justify-content: flex-start;
+  }
+
+  .pessoa-coluna-acoes {
+    justify-content: flex-start;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #f0f0f0;
+  }
+}
+
+@media (max-width: 480px) {
+  .pessoa-tabela-container {
+    margin-left: 40px;
+    margin-right: 40px;
+    max-width: calc(100% - 80px);
+  }
+}

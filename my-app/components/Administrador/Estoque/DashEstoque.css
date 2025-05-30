@@ -1,0 +1,251 @@
+/* Reset básico para DashEstoque */
+.dash-estoque * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.dash-estoque html {
+  height: 100%;
+}
+
+.dash-estoque body {
+  height: 100%;
+}
+
+/* Container principal do estoque */
+.dash-estoque-container {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#containerEstoque {
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Cabeçalho do dashboard estoque - seguindo padrão da Home */
+.dash-estoque-cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-left: 60px;
+  margin-right: 60px;
+  gap: 20px;
+}
+
+.dash-estoque-cabecalho h1 {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+}
+
+/* Controle da quebra de linha do título */
+.dash-estoque-cabecalho h1 br {
+  display: none; /* Por padrão, não quebra linha */
+}
+
+/* A partir de 1300px, quebra linha */
+@media (max-width: 1330px) {
+  .dash-estoque-cabecalho h1 br {
+    display: block;
+  }
+}
+
+.dash-estoque-acoes-cabecalho {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.dash-estoque-btn-adicionar {
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  border: 2px solid #6B7280;
+  padding: 8px 16px;
+  height: 40px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+  min-width: 120px;
+}
+
+.dash-estoque-btn-adicionar:hover {
+  background-color: #333;
+  border-color: #4B5563;
+}
+
+/* Estilos da paginação do estoque */
+.dash-estoque-paginacao {
+  padding-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dash-estoque-paginacao button {
+  margin-left: 10px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  border: 2px solid #6B7280;
+  padding: 5px 10px;
+  width: 100px;
+  height: 40px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+/* Hover apenas se não estiver desabilitado */
+.dash-estoque-paginacao button:hover:not(:disabled) {
+  background-color: #1f1f1f;
+  border-color: #4B5563;
+}
+
+/* Estilo quando desabilitado */
+.dash-estoque-paginacao button:disabled {
+  background-color: #444;
+  color: #aaa;
+  border-color: #555;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.dash-estoque-paginacao span {
+  font-size: 0.9rem;
+  color: #495057;
+  font-weight: 500;
+}
+
+/* Responsividade intermediária - corrige problema da barra empurrar o botão */
+@media (max-width: 1200px) {
+  .dash-estoque-cabecalho {
+    margin-left: 40px;
+    margin-right: 40px;
+    gap: 15px;
+  }
+  
+  .dash-estoque-cabecalho h1 {
+    font-size: 1.7rem;
+  }
+}
+
+@media (max-width: 1000px) {
+  .dash-estoque-cabecalho {
+    margin-left: 30px;
+    margin-right: 30px;
+    gap: 12px;
+  }
+  
+  .dash-estoque-cabecalho h1 {
+    font-size: 1.6rem;
+  }
+  
+  .dash-estoque-acoes-cabecalho {
+    gap: 10px;
+  }
+  
+  .dash-estoque-btn-adicionar {
+    min-width: 100px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 850px) {
+  .dash-estoque-cabecalho {
+    margin-left: 20px;
+    margin-right: 20px;
+    gap: 10px;
+  }
+  
+  .dash-estoque-cabecalho h1 {
+    font-size: 1.5rem;
+  }
+  
+  .dash-estoque-acoes-cabecalho {
+    gap: 8px;
+  }
+  
+  .dash-estoque-btn-adicionar {
+    min-width: 90px;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Responsividade do dashboard estoque */
+@media (max-width: 768px) {
+  .dash-estoque-cabecalho {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  
+  .dash-estoque-cabecalho h1 {
+    text-align: center;
+    font-size: 1.5rem;
+  }
+  
+  .dash-estoque-acoes-cabecalho {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .dash-estoque-btn-adicionar {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .dash-estoque-paginacao {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .dash-estoque-paginacao button {
+    margin-left: 0;
+    width: 120px;
+  }
+
+  .dash-estoque-paginacao span {
+    order: -1;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dash-estoque-cabecalho {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  
+  .dash-estoque-cabecalho h1 {
+    font-size: 1.3rem;
+  }
+
+  .dash-estoque-btn-adicionar {
+    font-size: 0.8rem;
+    height: 35px;
+    padding: 6px 12px;
+  }
+  
+  .dash-estoque-paginacao button {
+    width: 100px;
+    font-size: 0.8rem;
+  }
+}

@@ -1,0 +1,165 @@
+.tenis {
+  display: flex;
+  width: 100%;
+  border-radius: 20px;
+  border: 2px solid #6B7280;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.tenis.estoque-insuficiente {
+  opacity: 0.7;
+  background-color: #FEF2F2;
+  border: 2px solid #FCA5A5;
+}
+
+.infoBotoes {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.botoes {
+  display: flex;
+  align-items: center;
+}
+
+.botoes > * {
+  border: none;
+  background-color: #f5f5f5;
+  margin-left: 30px;
+}
+
+.botoes button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.tamanhoPreco {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 40px;
+}
+
+.tamanhoInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.tamanhoInfo p:first-child {
+  margin: 0;
+}
+
+.estoque {
+  font-weight: 500;
+  font-style: italic;
+}
+
+.nome-produto.indisponivel {
+  color: #DC2626;
+}
+
+.quantidade.indisponivel {
+  color: #DC2626;
+  font-weight: bold;
+}
+
+.preco.indisponivel {
+  color: #DC2626;
+}
+
+.aviso-estoque {
+  color: #DC2626;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 5px 0 0 0;
+}
+
+.quantidade-loading {
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+/* Responsividade para tablets */
+@media (max-width: 768px) {
+  .tenis {
+    margin-bottom: 20px;
+  }
+  
+  .descricao {
+    padding: 10px 15px;
+  }
+  
+  .infoBotoes {
+    margin-top: 20px;
+  }
+  
+  .botoes > * {
+    margin-left: 20px;
+  }
+}
+
+/* Responsividade para telas menores que 450px - imitando TenisItem */
+@media (max-width: 449px) {
+  .tenis {
+    flex-direction: column;
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto 20px auto;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  
+  .imgTenis {
+    width: 100% !important;
+    height: auto;
+    object-fit: cover;
+    object-position: center;
+  }
+  
+  .descricao {
+    padding: 8px;
+    width: 100%;
+  }
+  
+  .infoBotoes {
+    margin-top: 15px;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .botoes {
+    align-self: flex-end;
+    gap: 5px;
+  }
+  
+  .botoes > * {
+    margin-left: 15px;
+  }
+  
+  .botoes button {
+    padding: 6px 8px;
+    border-radius: 5px;
+  }
+  
+  .botoes img {
+    width: 18px;
+  }
+  
+  .tamanhoPreco {
+    margin-top: 15px;
+  }
+  
+  .tamanhoInfo p {
+    font-size: 14px;
+  }
+  
+  .estoque {
+    font-size: 11px !important;
+  }
+  
+  .aviso-estoque {
+    font-size: 12px;
+  }
+}

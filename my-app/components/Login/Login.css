@@ -1,0 +1,169 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html{
+  height: 100%;
+}
+
+.container{
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+body{
+  height: 100%;
+}
+
+#containerConteudo {
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  padding-bottom: 20px;
+}
+
+.conteudo{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60%;
+  max-width: 800px;
+}
+
+.identificador{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.parteTextual{
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  line-height: 1.6;
+}
+
+#Rodape {
+  margin-top: 10px;
+  background-color: black;
+  height: 50px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+#Rodape p{
+  margin-right: 20px;
+  color: white;
+}
+
+/* Media Queries para Mobile */
+@media (max-width: 768px) {
+  #containerConteudo {
+    margin: 10px;
+    padding-bottom: 15px;
+  }
+  
+  .conteudo {
+    width: 90%;
+  }
+  
+  .identificador {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+  }
+  
+  .identificador h2 {
+    font-size: 2rem;
+  }
+  
+  .parteTextual {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    padding: 0 10px;
+  }
+  
+  #Rodape {
+    height: 45px;
+    padding: 0 10px;
+  }
+  
+  #Rodape p {
+    margin-right: 10px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #containerConteudo {
+    margin: 5px;
+  }
+  
+  .conteudo {
+    width: 100%;
+  }
+  
+  .identificador {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .identificador h2 {
+    font-size: 1.8rem;
+  }
+  
+  .parteTextual {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    padding: 0 5px;
+  }
+  
+  #Rodape {
+    height: 40px;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  #Rodape p {
+    margin: 0;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .identificador h2 {
+    font-size: 1.6rem;
+  }
+  
+  .parteTextual {
+    font-size: 1rem;
+  }
+  
+  .parteTextual br {
+    display: none;
+  }
+  
+  .parteTextual p {
+    margin-bottom: 10px;
+  }
+}
+
+/* Ajuste específico para telas muito pequenas */
+@media (max-width: 660px) {
+  .caixaLogin {
+    width: 95vw !important;
+  }
+}

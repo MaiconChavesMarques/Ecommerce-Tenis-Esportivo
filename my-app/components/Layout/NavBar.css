@@ -1,0 +1,253 @@
+.linkBarra {
+  color: white; 
+  text-decoration: none; 
+  font-size: 20px;
+}
+
+#barraNavegacao {
+  background-color: black; 
+  min-height: 50px; /* Mudou de height fixo para min-height */
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  padding: 5px 10px; /* Padding para evitar que ícones grudem nas bordas */
+  box-sizing: border-box;
+}
+
+/* Logo sempre à esquerda - INDEPENDENTE */
+.navbar-logo-container-unico {
+  position: absolute;
+  left: 20px;
+  z-index: 10;
+}
+
+/* Ícones laterais esquerdos - INDEPENDENTE do logo */
+.navbar-lateral-esquerda-container {
+  position: absolute;
+  left: 100px;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+}
+
+.navbar-lateral-esquerda-container > * {
+  margin-right: 20px;
+}
+
+/* Home sempre no centro absoluto - VERSÃO ANTI-SCROLL SIMPLIFICADA */
+.navbar-home-container-fixo-centro {
+  position: absolute;
+  left: 50vw;
+  top: 0;
+  bottom: 0;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  z-index: 15;
+  pointer-events: none;
+  margin: 0;
+  padding: 0;
+  width: max-content;
+}
+
+.navbar-home-container-fixo-centro > * {
+  pointer-events: all;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+/* Lateral direita sempre à direita - INDEPENDENTE */
+.navbar-lateral-direita-container {
+  position: absolute;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+  pointer-events: all;
+}
+
+.navbar-lateral-direita-container > * {
+  margin-left: 20px;
+}
+
+/* Garantia adicional de que o container principal não interfira */
+#barraNavegacao > * {
+  flex-shrink: 0;
+}
+
+/* MEDIA QUERIES PARA TELAS PEQUENAS */
+
+/* Tablets pequenos e celulares grandes (768px e abaixo) */
+@media screen and (max-width: 768px) {
+  .linkBarra {
+    font-size: 18px;
+  }
+  
+  .navbar-logo-container-unico {
+    left: 15px;
+  }
+  
+  .navbar-lateral-esquerda-container {
+    left: 80px;
+  }
+  
+  .navbar-lateral-esquerda-container > * {
+    margin-right: 15px;
+  }
+  
+  .navbar-lateral-direita-container {
+    right: 15px;
+  }
+  
+  .navbar-lateral-direita-container > * {
+    margin-left: 15px;
+  }
+}
+
+/* Celulares grandes (576px e abaixo) */
+@media screen and (max-width: 576px) {
+  .linkBarra {
+    font-size: 16px;
+  }
+  
+  .navbar-logo-container-unico {
+    left: 10px;
+  }
+  
+  .navbar-lateral-esquerda-container {
+    left: 70px;
+  }
+  
+  .navbar-lateral-esquerda-container > * {
+    margin-right: 10px;
+  }
+  
+  .navbar-lateral-direita-container {
+    right: 10px;
+  }
+  
+  .navbar-lateral-direita-container > * {
+    margin-left: 10px;
+  }
+}
+
+/* TELAS ULTRA PEQUENAS - LAYOUT DE 3 LINHAS */
+@media screen and (max-width: 400px) {
+  #barraNavegacao {
+    height: auto; /* Remove altura fixa */
+    min-height: 120px; /* Altura mínima para 3 linhas */
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    padding: 8px 5px;
+    gap: 8px;
+  }
+  
+  /* Primeira linha: Logo */
+  .navbar-logo-container-unico {
+    position: static; /* Remove positioning absoluto */
+    order: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+    left: auto;
+    z-index: auto;
+  }
+  
+  /* Segunda linha: Home no centro */
+  .navbar-home-container-fixo-centro {
+    position: static; /* Remove positioning absoluto */
+    order: 2;
+    left: auto;
+    top: auto;
+    bottom: auto;
+    transform: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+    z-index: auto;
+    pointer-events: all;
+  }
+  
+  .navbar-home-container-fixo-centro > * {
+    pointer-events: all;
+    font-size: 22px !important; /* Aumenta o tamanho do texto do Home quando quebrado */
+  }
+  
+  /* Terceira linha: Ícones laterais combinados */
+  .navbar-lateral-esquerda-container {
+    position: static;
+    order: 3;
+    left: auto;
+    right: auto;
+    display: none; /* Esconde o container esquerdo */
+    width: 100%;
+    height: 30px;
+    z-index: auto;
+  }
+  
+  .navbar-lateral-direita-container {
+    position: static;
+    order: 3;
+    left: auto;
+    right: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+    z-index: auto;
+  }
+  
+  /* Reduz margens entre ícones em telas ultra pequenas */
+  .navbar-lateral-esquerda-container > * {
+    margin-right: 8px;
+    margin-left: 8px;
+  }
+  
+  .navbar-lateral-direita-container > * {
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+  
+  /* Reduz tamanho da fonte ainda mais */
+  .linkBarra {
+    font-size: 14px;
+  }
+}
+
+/* TELAS EXTREMAMENTE PEQUENAS */
+@media screen and (max-width: 320px) {
+  #barraNavegacao {
+    min-height: 105px;
+    padding: 5px 3px;
+    gap: 5px;
+  }
+  
+  .navbar-logo-container-unico,
+  .navbar-home-container-fixo-centro,
+  .navbar-lateral-direita-container {
+    height: 25px;
+  }
+  
+  .navbar-home-container-fixo-centro > * {
+    font-size: 20px !important; /* Mantém tamanho maior do Home mesmo em telas extremamente pequenas */
+  }
+  
+  .navbar-lateral-esquerda-container > *,
+  .navbar-lateral-direita-container > * {
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+  
+  .linkBarra {
+    font-size: 12px;
+  }
+}

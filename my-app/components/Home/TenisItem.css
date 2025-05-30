@@ -1,0 +1,153 @@
+.itens {
+  border-radius: 20px;
+  border: 2px solid #6B7280;
+  width: 300px;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 20px;
+}
+
+.descricao {
+  padding: 5px 10px;
+  width: 100%;
+}
+
+.descricao > * {
+  margin-top: 8px;
+}
+
+.itensBotoes {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.tamanhoTenis {
+  border: none;
+  border-radius: 5px;
+  border: 1px solid #6B7280;
+  padding: 6px 8px;
+  font-size: 14px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: white;
+  color: black;
+}
+
+.tamanhoTenis input[type="radio"] {
+  display: none;
+}
+
+.tamanhoTenis input[type="radio"]:checked {
+  background-color: black;
+  color: white;
+}
+
+.tamanhoTenis.selecionado {
+  background-color: black;
+  color: white;
+  border-color: black;
+}
+
+.tamanhoTenis.indisponivel {
+  background-color: #f5f5f5;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.botaoCarrinho {
+  margin-top: 8px;
+  width: 100%;
+  display: flex;
+}
+
+.descricao p {
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.tamanhosDisponiveis {
+  color: #6B7280;
+}
+
+.botaoCarrinho button {
+  height: 50px;
+  border: none;
+  border-radius: 20px;
+  background-color: black;
+  width: 100%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+}
+
+.botaoCarrinho button > * {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+/* Responsividade para tablets */
+@media (max-width: 768px) {
+  .itens {
+    width: 280px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  
+  .itensBotoes {
+    flex-wrap: wrap;
+    gap: 3px;
+  }
+  
+  .tamanhoTenis {
+    padding: 5px 6px;
+    font-size: 13px;
+  }
+}
+
+/* Responsividade para mobile */
+@media (max-width: 480px) {
+  .itens {
+    width: 100%;
+    max-width: 350px;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  
+  .descricao {
+    padding: 8px;
+  }
+  
+  .descricao p {
+    font-size: 16px;
+  }
+  
+  .itensBotoes {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  
+  .tamanhoTenis {
+    flex: 0 0 auto;
+    min-width: 35px;
+    text-align: center;
+    padding: 4px 6px;
+    font-size: 12px;
+  }
+  
+  .botaoCarrinho button {
+    height: 45px;
+    font-size: 14px;
+  }
+  
+  .botaoCarrinho button img {
+    width: 18px;
+  }
+}

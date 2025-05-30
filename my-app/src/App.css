@@ -4,21 +4,6 @@
     box-sizing: border-box;
   }
 
-.linkBarra {color: white; text-decoration: none; font-size: 20px;}
-
-#barraNavegacao {
-  background-color: black; 
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.lateralEsquerda > * {
-  margin-left: 20px;
-  margin-right: 20px;
-}
-
 #Rodape {
     margin-top: 10px;
     bottom: 0;

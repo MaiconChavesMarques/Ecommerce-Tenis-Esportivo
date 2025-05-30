@@ -1,0 +1,324 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Serif:wght@400;700&display=swap');
+
+/* Estilos específicos apenas para o componente FormPerfil */
+.form-perfil * {
+  box-sizing: border-box;
+}
+
+.form-perfil {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  padding: 40px 20px;
+  font-family: 'Roboto Serif', serif;
+  margin: 0;
+}
+
+.cabecalho-perfil {
+  max-width: 600px;
+  margin: 0 auto 32px auto;
+  background-color: transparent;
+  padding: 0;
+  text-align: left;
+}
+
+.titulo-perfil {
+  font-size: 20px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  font-family: 'Roboto Serif', serif;
+}
+
+.titulo-perfil::before {
+  content: "👤";
+  font-size: 16px;
+}
+
+.subtitulo-perfil {
+  color: #6b7280;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+  font-family: 'Roboto Serif', serif;
+  margin: 0;
+}
+
+.container-perfil {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 20px;
+  border: 1px solid #6b7280;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  padding: 40px;
+}
+
+.conteudo-perfil {
+  padding: 0;
+}
+
+.cabecalho-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e1e5e9;
+}
+
+.titulo-secao-perfil {
+  font-size: 20px;
+  font-weight: 700;
+  color: #000;
+  font-family: 'Roboto Serif', serif;
+  margin: 0;
+}
+
+.tipo-usuario {
+  font-size: 16px;
+  font-weight: 700;
+  color: #000;
+  font-family: 'Roboto Serif', serif;
+  margin: 0;
+}
+
+.formulario-perfil {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.grupo-campo-perfil {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label-campo-perfil {
+  font-size: 16px;
+  font-weight: 700;
+  color: #000;
+  font-family: 'Roboto Serif', serif;
+  margin: 0;
+}
+
+.input-campo-perfil {
+  padding: 12px 16px;
+  border: 1px solid #6b7280;
+  border-radius: 20px;
+  font-size: 16px;
+  background-color: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  color: #000;
+  height: 44px;
+  outline: none;
+  font-family: 'Roboto Serif', serif;
+}
+
+.input-campo-perfil:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.input-campo-perfil::placeholder {
+  color: #9ca3af;
+  font-size: 16px;
+  font-family: 'Roboto Serif', serif;
+}
+
+.secao-endereco-perfil {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.titulo-endereco {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #000;
+  font-family: 'Roboto Serif', serif;
+}
+
+.linha-campos-perfil {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.secao-senha-perfil {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.titulo-senha {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #000;
+  font-family: 'Roboto Serif', serif;
+}
+
+.linha-senha-dupla {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 0;
+}
+
+.acoes-perfil {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #e1e5e9;
+}
+
+.botao-salvar {
+  padding: 12px 32px;
+  background-color: #000;
+  color: white;
+  border: 1px solid #6b7280;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 44px;
+  font-family: 'Roboto Serif', serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.botao-salvar:hover {
+  background-color: #1f2937;
+}
+
+.botao-salvar:active {
+  background-color: #111827;
+}
+
+.botao-sair {
+  padding: 12px 32px;
+  background-color: #dc3545;
+  color: white;
+  border: 1px solid #6b7280;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  box-shadow: 0 2px 4px rgba(220, 53, 69, 0.1);
+  height: 44px;
+  font-family: 'Roboto Serif', serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.botao-sair:hover {
+  background-color: #c82333;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .form-perfil {
+    padding: 20px 10px;
+  }
+  
+  .container-perfil {
+    margin: 0 10px;
+    border-radius: 20px;
+    padding: 32px 24px;
+    max-width: 100%;
+  }
+  
+  .cabecalho-perfil {
+    margin: 0 auto 24px auto;
+    padding: 0 10px;
+  }
+  
+  .conteudo-perfil {
+    padding: 0;
+  }
+  
+  .linha-campos-perfil,
+  .linha-senha-dupla {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .titulo-perfil {
+    font-size: 18px;
+  }
+  
+  .titulo-secao-perfil,
+  .titulo-endereco,
+  .titulo-senha {
+    font-size: 18px;
+  }
+  
+  .label-campo-perfil {
+    font-size: 14px;
+  }
+  
+  .botao-salvar,
+  .botao-sair {
+    font-size: 14px;
+  }
+  
+  .cabecalho-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .acoes-perfil {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container-perfil {
+    padding: 24px 16px;
+  }
+  
+  .cabecalho-perfil {
+    padding: 0 5px;
+  }
+  
+  .titulo-perfil {
+    font-size: 16px;
+  }
+  
+  .subtitulo-perfil {
+    font-size: 14px;
+  }
+  
+  .titulo-secao-perfil,
+  .titulo-endereco,
+  .titulo-senha {
+    font-size: 16px;
+  }
+  
+  .label-campo-perfil {
+    font-size: 14px;
+  }
+  
+  .botao-salvar,
+  .botao-sair {
+    font-size: 14px;
+  }
+}

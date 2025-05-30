@@ -1,0 +1,394 @@
+/* Importação da fonte Roboto Serif */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Serif:wght@400;700&display=swap');
+
+/* Estilos específicos apenas para o componente EditarProduto */
+.container-editar * {
+  box-sizing: border-box;
+}
+
+.container-editar {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  font-family: 'Roboto Serif', serif;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.container-conteudo-editar {
+  width: 100%;
+  max-width: 600px;
+}
+
+.cabecalho-editar {
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.titulo-pagina h1 {
+  font-family: 'Roboto Serif', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.titulo-pagina h1::before {
+  content: "📦";
+  font-size: 16px;
+}
+
+.subtitulo {
+  font-family: 'Roboto Serif', serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #6b7280;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Formulário principal */
+.formulario-produto {
+  background-color: white;
+  border-radius: 20px;
+  border: 1px solid #6b7280;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  padding: 40px;
+}
+
+.cabecalho-formulario {
+  text-align: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e1e5e9;
+}
+
+.icone-novo-produto {
+  font-family: 'Roboto Serif', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #000;
+  margin: 0;
+}
+
+/* Campos do formulário */
+.campo-formulario {
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label-campo {
+  font-family: 'Roboto Serif', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #000;
+  margin: 0;
+}
+
+.input-campo,
+.textarea-campo {
+  padding: 12px 16px;
+  border: 1px solid #6b7280;
+  border-radius: 20px;
+  font-family: 'Roboto Serif', serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #000;
+  background-color: #fff;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  height: 44px;
+}
+
+.textarea-campo {
+  height: 120px;
+  resize: vertical;
+  min-height: 120px;
+  padding-top: 12px;
+}
+
+.input-campo:focus,
+.textarea-campo:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.input-campo::placeholder,
+.textarea-campo::placeholder {
+  color: #9ca3af;
+  font-size: 16px;
+  font-family: 'Roboto Serif', serif;
+}
+
+/* Seção de tamanhos */
+.secao-tamanhos {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.titulo-tamanhos {
+  font-family: 'Roboto Serif', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 4px;
+}
+
+.grid-tamanhos {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.item-tamanho {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid #6b7280;
+  border-radius: 20px;
+  padding: 8px 4px;
+  background-color: #fff;
+}
+
+.numero-tamanho {
+  font-family: 'Roboto Serif', serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 2px;
+}
+
+.input-tamanho {
+  width: 50px;
+  height: 32px;
+  padding: 4px;
+  border: 1px solid #6b7280;
+  border-radius: 20px;
+  text-align: center;
+  font-family: 'Roboto Serif', serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #000;
+  background-color: #fff;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input-tamanho:focus {
+  border-color: #3b82f6;
+}
+
+.info-estoque {
+  text-align: center;
+}
+
+.info-estoque p {
+  font-family: 'Roboto Serif', serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #6b7280;
+}
+
+/* Botão de ação */
+.acoes-formulario {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e1e5e9;
+}
+
+.btn-atualizar-produto {
+  padding: 12px 32px;
+  background-color: #000;
+  color: white;
+  border: 1px solid #6b7280;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 44px;
+  font-family: 'Roboto Serif', serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-atualizar-produto:hover {
+  background-color: #1f2937;
+}
+
+.btn-atualizar-produto:active {
+  background-color: #111827;
+}
+
+/* Estilo para erro de acesso */
+.erro-acesso {
+  text-align: center;
+  padding: 40px;
+  background-color: white;
+  border: 1px solid #6b7280;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.erro-acesso h2 {
+  font-family: 'Roboto Serif', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 8px;
+}
+
+.erro-acesso p {
+  font-family: 'Roboto Serif', serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #6b7280;
+  margin-bottom: 24px;
+}
+
+.btn-erro {
+  background-color: #000;
+  color: #fff;
+  border: 1px solid #6b7280;
+  border-radius: 20px;
+  padding: 12px 32px;
+  font-family: 'Roboto Serif', serif;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-erro:hover {
+  background-color: #1f2937;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .container-editar {
+    padding: 20px 10px;
+  }
+  
+  .container-conteudo-editar {
+    max-width: 100%;
+    margin: 0 10px;
+  }
+  
+  .formulario-produto {
+    padding: 24px;
+  }
+  
+  .cabecalho-editar {
+    margin-bottom: 20px;
+    padding: 0 10px;
+  }
+  
+  .titulo-pagina h1 {
+    font-size: 18px;
+  }
+  
+  .subtitulo {
+    font-size: 14px;
+  }
+  
+  .icone-novo-produto {
+    font-size: 18px;
+  }
+  
+  .label-campo {
+    font-size: 14px;
+  }
+  
+  .titulo-tamanhos {
+    font-size: 18px;
+  }
+  
+  .grid-tamanhos {
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+  }
+  
+  .item-tamanho {
+    padding: 6px 2px;
+  }
+  
+  .input-tamanho {
+    width: 45px;
+    height: 30px;
+  }
+  
+  .numero-tamanho {
+    font-size: 14px;
+  }
+  
+  .btn-atualizar-produto,
+  .btn-erro {
+    font-size: 14px;
+  }
+  
+  .cabecalho-formulario {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .formulario-produto {
+    padding: 24px 16px;
+  }
+  
+  .cabecalho-editar {
+    padding: 0 5px;
+  }
+  
+  .titulo-pagina h1 {
+    font-size: 16px;
+  }
+  
+  .subtitulo {
+    font-size: 14px;
+  }
+  
+  .icone-novo-produto {
+    font-size: 16px;
+  }
+  
+  .titulo-tamanhos {
+    font-size: 16px;
+  }
+  
+  .grid-tamanhos {
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+  }
+  
+  .input-tamanho {
+    width: 40px;
+    height: 28px;
+    font-size: 11px;
+  }
+  
+  .numero-tamanho {
+    font-size: 12px;
+  }
+}

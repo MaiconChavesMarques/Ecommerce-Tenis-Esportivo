@@ -1,0 +1,524 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body{
+  height: 100%;
+}
+
+.container{
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+#root{
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#conteudo {
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.elementos {
+  display: flex;
+  margin-left: 60px;
+  margin-right: 60px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.produtos{
+  width: 60%;
+  margin-right: 2%;
+}
+
+.destaque {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.status-sincronizacao {
+  font-size: 14px;
+  color: #666;
+  margin-top: 5px;
+}
+
+.aviso-indisponibilidade {
+  font-size: 14px;
+  color: #DC2626;
+  margin-top: 5px;
+  font-weight: 500;
+}
+
+/* Melhorias para o estado de Loading */
+#Carregando {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+#Carregando p {
+  font-size: 18px;
+  color: #666;
+  margin-top: 20px;
+  font-weight: 500;
+}
+
+/* Indicador estático para loading */
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  background: #3498db;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-spinner::before {
+  content: "⏳";
+  font-size: 20px;
+  color: white;
+}
+
+/* Melhorias para o estado Vazio */
+#Vazio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px;
+  margin: 20px 0;
+  border: 2px dashed #dee2e6;
+}
+
+#Vazio::before {
+  content: "🛒";
+  font-size: 64px;
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+#Vazio p {
+  font-size: 24px;
+  color: #6c757d;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+#Vazio::after {
+  content: "Adicione alguns produtos para começar suas compras";
+  font-size: 16px;
+  color: #868e96;
+  margin-top: 8px;
+}
+
+/* Melhorias na responsividade mobile */
+@media (max-width: 1100px) {
+  .produtos {
+    width: 100%;
+    margin: 0px;
+  }
+
+  .resumoValores {
+    width: 100%;
+    margin: 0px;
+  }
+
+  .elementos {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .elementos {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  #conteudo {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .identificador {
+    margin-left: 10px;
+  }
+
+  /* Ajustes para loading em mobile */
+  #Carregando {
+    min-height: 250px;
+    padding: 30px 15px;
+  }
+
+  #Carregando p {
+    font-size: 16px;
+  }
+
+  .loading-spinner {
+    width: 35px;
+    height: 35px;
+    border-width: 3px;
+  }
+
+  /* Ajustes para vazio em mobile */
+  #Vazio {
+    min-height: 300px;
+    padding: 40px 15px;
+    margin: 15px 0;
+  }
+
+  #Vazio::before {
+    font-size: 48px;
+    margin-bottom: 15px;
+  }
+
+  #Vazio p {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  #Vazio::after {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 700px) {
+  .infoBotoes {
+    flex-wrap: wrap;
+  }
+
+  .botoes {
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 575px) {
+  .botoes {
+    flex-wrap: wrap;
+  }
+
+  .tamanhoPreco {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .imgTenis {
+    width: 150px;
+  }
+
+  #conteudo {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
+  .identificador {
+    margin-left: 20px;
+  }
+
+  /* Melhor espaçamento em telas muito pequenas */
+  .elementos {
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 15px;
+  }
+
+  /* Loading ainda mais compacto */
+  #Carregando {
+    min-height: 200px;
+    padding: 25px 10px;
+  }
+
+  .loading-spinner {
+    width: 30px;
+    height: 30px;
+  }
+
+  /* Vazio mais compacto */
+  #Vazio {
+    min-height: 250px;
+    padding: 30px 10px;
+  }
+
+  #Vazio::before {
+    font-size: 40px;
+  }
+
+  #Vazio p {
+    font-size: 18px;
+  }
+}
+
+/* Telas muito pequenas - até 480px */
+@media (max-width: 480px) {
+  #conteudo {
+    margin-top: 15px;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
+  .elementos {
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 10px;
+  }
+
+  .identificador {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+
+  .identificador h2 {
+    font-size: 20px;
+  }
+
+  .status-sincronizacao {
+    font-size: 12px;
+  }
+
+  .aviso-indisponibilidade {
+    font-size: 12px;
+  }
+
+  .imgTenis {
+    width: 120px;
+  }
+
+  #Carregando {
+    min-height: 180px;
+    padding: 20px 8px;
+  }
+
+  #Carregando p {
+    font-size: 14px;
+  }
+
+  .loading-spinner {
+    width: 28px;
+    height: 28px;
+  }
+
+  .loading-spinner::before {
+    font-size: 16px;
+  }
+
+  #Vazio {
+    min-height: 220px;
+    padding: 25px 8px;
+    border-radius: 8px;
+  }
+
+  #Vazio::before {
+    font-size: 36px;
+    margin-bottom: 12px;
+  }
+
+  #Vazio p {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  #Vazio::after {
+    font-size: 12px;
+  }
+}
+
+/* Telas extra pequenas - até 360px */
+@media (max-width: 360px) {
+  .identificador {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .identificador h2 {
+    font-size: 18px;
+  }
+
+  .status-sincronizacao, 
+  .aviso-indisponibilidade {
+    font-size: 11px;
+  }
+
+  .imgTenis {
+    width: 100px;
+  }
+
+  #Carregando {
+    min-height: 160px;
+    padding: 15px 5px;
+  }
+
+  #Carregando p {
+    font-size: 13px;
+    margin-top: 15px;
+  }
+
+  .loading-spinner {
+    width: 24px;
+    height: 24px;
+  }
+
+  .loading-spinner::before {
+    font-size: 14px;
+  }
+
+  #Vazio {
+    min-height: 200px;
+    padding: 20px 5px;
+    margin: 10px 0;
+    border-radius: 6px;
+  }
+
+  #Vazio::before {
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+
+  #Vazio p {
+    font-size: 15px;
+    margin-bottom: 6px;
+  }
+
+  #Vazio::after {
+    font-size: 11px;
+  }
+}
+
+/* Telas muito pequenas - até 320px (iPhone SE e similares) */
+@media (max-width: 320px) {
+  .identificador {
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+
+  .identificador h2 {
+    font-size: 16px;
+  }
+
+  .status-sincronizacao, 
+  .aviso-indisponibilidade {
+    font-size: 10px;
+  }
+
+  .imgTenis {
+    width: 90px;
+  }
+
+  #Carregando {
+    min-height: 140px;
+    padding: 12px 3px;
+  }
+
+  #Carregando p {
+    font-size: 12px;
+    margin-top: 12px;
+  }
+
+  .loading-spinner {
+    width: 22px;
+    height: 22px;
+  }
+
+  .loading-spinner::before {
+    font-size: 12px;
+  }
+
+  #Vazio {
+    min-height: 180px;
+    padding: 18px 3px;
+    margin: 8px 0;
+    border-radius: 4px;
+  }
+
+  #Vazio::before {
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+
+  #Vazio p {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+
+  #Vazio::after {
+    font-size: 10px;
+  }
+}
+
+/* Orientação landscape para dispositivos móveis pequenos */
+@media (max-width: 480px) and (orientation: landscape) {
+  #Carregando {
+    min-height: 120px;
+    padding: 15px 10px;
+  }
+
+  #Vazio {
+    min-height: 140px;
+    padding: 20px 10px;
+  }
+
+  #Vazio::before {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+}
+
+@media (max-width: 360px) and (orientation: landscape) {
+  #Carregando {
+    min-height: 100px;
+    padding: 12px 8px;
+  }
+
+  #Vazio {
+    min-height: 120px;
+    padding: 15px 8px;
+  }
+
+  #Vazio::before {
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
+}
+
+/* Melhorias adicionais para acessibilidade e UX */
+.loading-spinner {
+  opacity: 0.8;
+}
+
+/* Ajustes para orientação landscape em dispositivos móveis */
+@media (max-width: 768px) and (orientation: landscape) {
+  #Carregando {
+    min-height: 150px;
+    padding: 20px 15px;
+  }
+
+  #Vazio {
+    min-height: 200px;
+    padding: 25px 15px;
+  }
+
+  #Vazio::before {
+    font-size: 36px;
+    margin-bottom: 10px;
+  }
+}

@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import NavBar from '../components/NavBar';
-import Footer from '../components/Footer';
-import Home from '../components/Home';
-import Carrinho from '../components/Carrinho';
-import Cartao from '../components/Cartao';
-import Login from '../components/Login';
-import Registro from '../components/Registro';
-import ProdutoDetalhe from '../components/ProdutoDetalhe';
-import Administrador from '../components/Administrador';
-import Perfil from '../components/Perfil';
-import Chat from '../components/Chat';
-import RoteadorEstoque from '../components/RoteadorEstoque';
-import RoteadorPessoas from '../components/RoteadorPessoas';
+import NavBar from '../components/Layout/NavBar';
+import Footer from '../components/Layout/Footer';
+import Home from '../components/Home/Home';
+import Carrinho from '../components/Carrinho/Carrinho';
+import Cartao from '../components/Carrinho/Cartao';
+import Login from '../components/Login/Login';
+import Registro from '../components/Login/Registro';
+import ProdutoDetalhe from '../components/Produto/ProdutoDetalhe';
+import Administrador from '../components/Administrador/Administrador';
+import Perfil from '../components/Perfil/Perfil';
+import Chat from '../components/Chat/Chat';
+import RoteadorEstoque from '../components/Administrador/Estoque/RoteadorEstoque';
+import RoteadorPessoas from '../components/Administrador/Pessoas/RoteadorPessoas';
 
 function App() {
   const [carrinho, setCarrinho] = useState({});
@@ -129,7 +129,6 @@ function App() {
   }
 
   async function adicionarAoCarrinho(id, tamanho) {
-    console.log(carrinho);
     console.log("Mandei adicionar");
     
     const chave = `${id}_${tamanho}`;
@@ -350,9 +349,9 @@ function App() {
             <RotaProtegidaLogado>
               <>
                 <NavBar 
-                  onLogout={handleLogout} 
+                  onLogout={handleLogout}
                   token={token} 
-                  paginaAtual="perfil"
+                  paginaAtual={(token && tipoUsuario === "administrador") ? "perfil-adm" : "perfil"}
                 />
                 <Perfil 
                   token={token}
@@ -409,7 +408,7 @@ function App() {
                 token={token} 
                 paginaAtual="registro"
               />
-              <Registro />
+              <Registro onLoginSuccess={handleLoginSuccess}/>
               <Footer />
             </>
           } 

@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Serif:wght@400;700&display=swap');
+
+.caixaLogin{
+  width: 600px;
+  max-width: 90vw;
+  border-radius: 20px;
+  border: 1px solid #6B7280;
+  padding: 32px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  background-color: white;
+  font-family: 'Roboto Serif', serif;
+}
+
+.caixaTexto p{
+  font-size: 16px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 6px;
+}
+
+.descricaoCaixa > *{
+  margin-bottom: 16px;
+}
+
+.descricaoCaixa p{
+  font-size: 16px;
+  font-weight: 400;
+  color: #6B7280;
+  line-height: 1.4;
+}
+
+.descricaoCaixa h2{
+  font-size: 20px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 12px;
+}
+
+.entradaTexto{
+  width: 100%;
+  border-radius: 20px;
+  border: 1px solid #6B7280;
+  height: 44px;
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  box-sizing: border-box;
+  font-size: 16px;
+  font-family: 'Roboto Serif', serif;
+  background-color: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+.entradaTexto:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.entradaTexto::placeholder {
+  color: #9ca3af;
+  font-family: 'Roboto Serif', serif;
+}
+
+.entrar{
+  width: 100%;
+  border-radius: 20px;
+  border: 1px solid #6B7280;
+  background-color: black;
+  color: white;
+  height: 44px;
+  margin-bottom: 10px;
+  margin-top: 24px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'Roboto Serif', serif;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.entrar:hover {
+  background-color: #1f2937;
+}
+
+.entrar:active {
+  background-color: #111827;
+}
+
+.semLogin{
+  display: flex;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 400;
+  flex-wrap: wrap;
+  text-align: center;
+  margin-top: 16px;
+  font-family: 'Roboto Serif', serif;
+}
+
+.naotemConta{
+  color: #6B7280;
+}
+
+.novoRegistro #direcionamento{
+  display: flex;
+  text-decoration: none;
+  margin-left: 10px;
+  cursor: pointer;
+  align-items: center;
+}
+
+.novoRegistro #direcionamento p{
+  margin-left: 5px;
+  color: #2563EB;
+  font-family: 'Roboto Serif', serif;
+}
+
+/* Media Queries para Mobile */
+@media (max-width: 768px) {
+  .caixaLogin {
+    width: 95vw;
+    padding: 24px 20px;
+    border-radius: 15px;
+  }
+  
+  .caixaTexto p {
+    font-size: 14px;
+  }
+  
+  .descricaoCaixa p {
+    font-size: 14px;
+  }
+  
+  .descricaoCaixa h2 {
+    font-size: 18px;
+  }
+  
+  .entradaTexto {
+    height: 44px;
+    border-radius: 15px;
+    padding: 12px 16px;
+  }
+  
+  .entrar {
+    height: 44px;
+    border-radius: 15px;
+    font-size: 14px;
+  }
+  
+  .semLogin {
+    font-size: 14px;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .novoRegistro #direcionamento {
+    justify-content: center;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .caixaLogin {
+    width: 98vw;
+    padding: 20px 16px;
+    border-radius: 12px;
+  }
+  
+  .caixaTexto p {
+    font-size: 14px;
+  }
+  
+  .descricaoCaixa p {
+    font-size: 14px;
+  }
+  
+  .descricaoCaixa h2 {
+    font-size: 16px;
+  }
+  
+  .entradaTexto {
+    height: 44px;
+    border-radius: 12px;
+    padding: 12px 16px;
+  }
+  
+  .entrar {
+    height: 44px;
+    border-radius: 12px;
+    font-size: 14px;
+  }
+  
+  .semLogin {
+    font-size: 14px;
+  }
+  
+  .novoRegistro #direcionamento img {
+    width: 18px;
+  }
+}
+
+@media (max-width: 320px) {
+  .caixaLogin {
+    padding: 20px 16px;
+  }
+  
+  .caixaTexto p {
+    font-size: 14px;
+  }
+  
+  .descricaoCaixa h2 {
+    font-size: 16px;
+  }
+  
+  .entradaTexto {
+    height: 44px;
+  }
+  
+  .entrar {
+    height: 44px;
+  }
+}
