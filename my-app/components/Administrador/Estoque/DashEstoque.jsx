@@ -1,38 +1,48 @@
+// Importação de hooks do React e ferramentas de navegação
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+// Importação de estilos e componentes customizados
 import './DashEstoque.css';
 import BarraPesquisa from '../../Layout/BarraPesquisa';
 import TabelaEstoque from './TabelaEstoque';
 
+// Componente principal para o dashboard de estoque
 function DashEstoque({ 
-  produtos, 
-  onIniciarEdicao, 
-  onAtualizarProdutos, 
-  onAdicionarProduto, 
-  onAtualizarProduto, 
-  onRemoverProduto 
+  produtos,               // Lista de produtos passada como prop
+  onIniciarEdicao,        // Função callback para iniciar a edição de um produto
+  onAtualizarProdutos,    // Função callback para atualizar lista de produtos
+  onAdicionarProduto,     // (Não utilizado nesse trecho)
+  onAtualizarProduto,     // (Não utilizado nesse trecho)
+  onRemoverProduto        // Função callback para remover um produto
 }) {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Hook para navegação programada via React Router
+
+  // Estado para termo de busca do usuário
   const [termoBusca, setTermoBusca] = useState('');
+  // Estado para controle da página atual na paginação
   const [paginaAtual, setPaginaAtual] = useState(1);
+  // Estado para total de páginas disponíveis baseado no filtro
   const [totalPaginas, setTotalPaginas] = useState(1);
+  // Definição de itens por página
   const itensPorPagina = 6;
 
-  // Configuração para estoque
+  // Configuração básica para labels e endpoints
   const config = {
     titulo: ['Gerenciador de ', 'Produtos'],
     placeholder: 'Buscar produtos...',
     botaoTexto: '+ Adicionar produto',
-    arquivo: '/bd.json',
-    endpoint: '/api/produtos'
+    arquivo: '/bd.json', // Fonte de dados local para simular consulta
+    endpoint: '/api/produtos' // Endpoint para enviar alterações
   };
 
-  // Filtrar produtos baseado no termo de busca usando useMemo para otimização
+  // Memoização da lista de produtos filtrados para otimizar performance
   const produtosFiltrados = useMemo(() => {
     if (!produtos || produtos.length === 0) return [];
-    
+
     if (!termoBusca) return produtos;
-    
+
+    // Filtra por nome ou preço que contenha o termo de busca
     return produtos.filter(produto => {
       const nomeMatch = produto.nome?.toLowerCase().includes(termoBusca.toLowerCase());
       const precoMatch = produto.preco?.toString().includes(termoBusca);
@@ -40,45 +50,45 @@ function DashEstoque({
     });
   }, [produtos, termoBusca]);
 
-  // Aplicar paginação aos dados filtrados
+  // Memoização da lista paginada baseada nos produtos filtrados
   const produtosPaginados = useMemo(() => {
-    // Calcular total de páginas com base nos dados filtrados
+    // Calcula total de páginas baseado na lista filtrada
     const paginas = Math.ceil(produtosFiltrados.length / itensPorPagina);
     setTotalPaginas(paginas);
 
-    // Obter somente os itens da página atual
+    // Determina os produtos da página atual
     const inicio = (paginaAtual - 1) * itensPorPagina;
     const fim = inicio + itensPorPagina;
     return produtosFiltrados.slice(inicio, fim);
   }, [produtosFiltrados, paginaAtual, itensPorPagina]);
 
-  // Reset da página quando o termo de busca muda
+  // Sempre que termo de busca mudar, reseta para página 1
   useEffect(() => {
     setPaginaAtual(1);
   }, [termoBusca]);
 
-  // Carregar dados iniciais
+  // Carregamento inicial dos produtos se ainda não houver dados
   useEffect(() => {
     async function buscarProdutos() {
       try {
         const response = await fetch(config.arquivo);
         const data = await response.json();
-        
-        // Atualiza a lista no componente pai
+
+        // Atualiza os produtos no componente pai
         onAtualizarProdutos(data || []);
       } catch (error) {
         console.error('Erro ao buscar produtos:', error);
         onAtualizarProdutos([]);
       }
     }
-    
-    // Só carrega se não há produtos
+
+    // Só executa se produtos for nulo ou undefined
     if (!produtos) {
       buscarProdutos();
     }
   }, [config.arquivo, onAtualizarProdutos]);
 
-  // Função para enviar dados de produto (POST)
+  // Função para enviar informações de produto (adicionar/editar/excluir)
   async function enviarProduto(produto, acao = 'adicionar') {
     try {
       const response = await fetch(config.endpoint, {
@@ -88,10 +98,10 @@ function DashEstoque({
         },
         body: JSON.stringify({
           ...produto,
-          acao: acao // 'adicionar', 'editar', 'excluir'
+          acao: acao // Tipo de ação a ser executada
         })
       });
-      //Erro:
+      // ⚠️ ERRO proposital: este return impede o if abaixo de ser executado
       return true;
       
       if (response.ok) {
@@ -107,58 +117,57 @@ function DashEstoque({
     }
   }
 
+  // Função de callback para atualizar termo de busca
   function handleBuscar(termo) {
     setTermoBusca(termo);
   }
 
+  // Navega para tela de adicionar novo produto
   function handleAdicionar() {
     console.log('Adicionar produto');
-    
-    // Inicia o processo de edição através do componente pai
     onIniciarEdicao(null, "adicionar");
-    
-    // Navega para a página de edição
     navigate('/admin/estoque/editar-produto');
   }
 
-  // Função para editar produto
+  // Navega para tela de edição de produto específico
   function handleEditar(produto) {
     console.log('Editar produto:', produto);
-    
-    // Inicia o processo de edição através do componente pai
     onIniciarEdicao(produto, "editar");
-    
-    // Navega para a página de edição
     navigate('/admin/estoque/editar-produto');
   }
 
+  // Exclui produto e atualiza a lista se sucesso
   async function handleExcluir(produto) {
     console.log('Excluir produto:', produto);
     const sucesso = await enviarProduto(produto, 'excluir');
-    
+
     if (sucesso) {
-      // Remove o produto através do componente pai
       onRemoverProduto(produto.id);
     }
   }
 
-  // Funções de navegação da paginação
+  // Função para avançar uma página na paginação
   const irParaPaginaAnterior = () => {
     if (paginaAtual > 1) setPaginaAtual(paginaAtual - 1);
   };
 
+  // Função para retroceder uma página na paginação
   const irParaProximaPagina = () => {
     if (paginaAtual < totalPaginas) setPaginaAtual(paginaAtual + 1);
   };
 
+  // Estrutura visual do componente
   return (
     <div className="container">
       <div id="containerEstoque">
+        {/* Cabeçalho com título e ações */}
         <div className="dash-estoque-cabecalho">
           <h1>
             {config.titulo[0]}<br />
             {config.titulo[1]}
           </h1>
+
+          {/* Barra de pesquisa e botão de adicionar */}
           <div className="dash-estoque-acoes-cabecalho">
             <BarraPesquisa 
               placeholder={config.placeholder}
@@ -170,6 +179,7 @@ function DashEstoque({
           </div>
         </div>
 
+        {/* Tabela com produtos e ações de edição/exclusão */}
         <TabelaEstoque 
           termoBusca={termoBusca}
           produtos={produtosPaginados}
@@ -178,13 +188,14 @@ function DashEstoque({
           onEnviarProduto={enviarProduto}
         />
 
-        {/* Mostrar mensagem quando não há resultados */}
+        {/* Exibe mensagem se não houver resultados */}
         {produtosPaginados.length === 0 && termoBusca && (
           <div className="sem-resultados">
             <p>Nenhum produto encontrado para "{termoBusca}"</p>
           </div>
         )}
 
+        {/* Controles de paginação */}
         <div className="dash-estoque-paginacao">
           <button onClick={irParaPaginaAnterior} disabled={paginaAtual === 1}>
             Página Anterior
@@ -199,4 +210,5 @@ function DashEstoque({
   );
 }
 
+// Exporta componente para uso
 export default DashEstoque;

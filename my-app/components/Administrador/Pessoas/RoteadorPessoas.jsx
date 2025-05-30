@@ -1,20 +1,27 @@
+// Importa useState para gerenciar estado local e componentes de rota do react-router-dom
 import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
+// Importa componentes de navegação e rodapé
 import NavBar from '../../Layout/NavBar';
 import Footer from '../../Layout/Footer';
+// Importa componentes específicos da funcionalidade de pessoas
 import DashAdmin from './DashAdmin';
 import EditarPessoa from './EditarPessoa';
 
+// Componente principal que gerencia as rotas e estado relacionado às pessoas (clientes e administradores)
 function RoteadorPessoas({ token, onLogout }) {
-  // Estados compartilhados entre DashAdmin e EditarPessoa
+  // Estado que armazena os dados da pessoa que está sendo editada ou adicionada
   const [dadosEdicao, setDadosEdicao] = useState(null);
+  // Estado que mantém a lista atual de pessoas (clientes ou administradores)
   const [pessoas, setPessoas] = useState(null);
+  // Estado que guarda o tipo atual selecionado, padrão 'cliente'
   const [tipoAtual, setTipoAtual] = useState('cliente');
 
-  // Função para iniciar edição/adição
+  // Função para iniciar edição ou adição de uma pessoa
   const handleIniciarEdicao = (pessoa, tipo, acao) => {
-    setTipoAtual(tipo);
+    setTipoAtual(tipo); // Atualiza o tipo atual com o tipo passado
     
+    // Se for uma nova pessoa, inicializa dados vazios para o formulário
     if (acao === 'adicionar') {
       setDadosEdicao({
         tipo: tipo || 'cliente',
@@ -27,35 +34,36 @@ function RoteadorPessoas({ token, onLogout }) {
         cep: '', 
         pais: '',
         token: '', // Token vazio para nova pessoa
-        estadoConta: 'ativo', // Nova pessoa começa ativa por padrão
-        _acao: acao
+        estadoConta: 'ativo', // Estado ativo padrão para nova pessoa
+        _acao: acao           // Marca ação para controle interno (adicionar)
       });
     } else {
+      // Se for edição, preenche com dados existentes e garante estadoConta definido
       setDadosEdicao({
         ...pessoa,
         tipo: tipo,
-        estadoConta: pessoa.estadoConta || 'ativo', // Garante que o campo estadoConta existe
-        _acao: acao
+        estadoConta: pessoa.estadoConta || 'ativo', // Garante campo estadoConta válido
+        _acao: acao  // Marca ação para controle interno (editar)
       });
     }
   };
 
-  // Função para limpar dados de edição
+  // Função para limpar os dados da edição, resetando estado
   const handleLimparEdicao = () => {
     setDadosEdicao(null);
   };
 
-  // Função para atualizar lista de pessoas
+  // Atualiza a lista completa de pessoas com novos dados
   const handleAtualizarPessoas = (novasPessoas) => {
     setPessoas(novasPessoas);
   };
 
-  // Função para adicionar nova pessoa
+  // Adiciona uma nova pessoa à lista existente
   const handleAdicionarPessoa = (novaPessoa) => {
     setPessoas(prev => [...prev, novaPessoa]);
   };
 
-  // Função para atualizar pessoa existente
+  // Atualiza uma pessoa existente na lista com dados atualizados
   const handleAtualizarPessoa = (pessoaAtualizada) => {
     setPessoas(prev => 
       prev.map(p => 
@@ -64,20 +72,23 @@ function RoteadorPessoas({ token, onLogout }) {
     );
   };
 
-  // Função para remover pessoa - corrigida para usar token
+  // Remove uma pessoa da lista pelo seu token único
   const handleRemoverPessoa = (tokenPessoa) => {
     setPessoas(prev => prev.filter(p => p.token !== tokenPessoa));
   };
 
   return (
     <>
+      {/* Barra de navegação que recebe token e função de logout */}
       <NavBar 
         onLogout={onLogout} 
         token={token} 
-        paginaAtual="pessoas"
+        paginaAtual="pessoas" // Informa que estamos na página 'pessoas'
       />
+      
+      {/* Define rotas internas para diferentes tipos de usuários e edição */}
       <Routes>
-        {/* Rota para /admin/pessoas/administradores */}
+        {/* Rota para mostrar administradores */}
         <Route 
           path="administradores" 
           element={
@@ -93,7 +104,7 @@ function RoteadorPessoas({ token, onLogout }) {
           }
         />
         
-        {/* Rota para /admin/pessoas/clientes */}
+        {/* Rota para mostrar clientes */}
         <Route 
           path="clientes"
           element={
@@ -109,22 +120,25 @@ function RoteadorPessoas({ token, onLogout }) {
           }
         />
         
-        {/* Rota para /admin/pessoas/editar-pessoa */}
+        {/* Rota para editar ou adicionar pessoa */}
         <Route 
           path="editar-pessoa" 
           element={
             <EditarPessoa 
-              dadosPessoa={dadosEdicao}
-              onLimparEdicao={handleLimparEdicao}
-              onAdicionarPessoa={handleAdicionarPessoa}
-              onAtualizarPessoa={handleAtualizarPessoa}
+              dadosPessoa={dadosEdicao}             // Dados da pessoa a editar ou adicionar
+              onLimparEdicao={handleLimparEdicao}   // Função para limpar edição
+              onAdicionarPessoa={handleAdicionarPessoa} // Callback para adicionar pessoa
+              onAtualizarPessoa={handleAtualizarPessoa} // Callback para atualizar pessoa
             />
           }
         />
       </Routes>
+      
+      {/* Rodapé do site */}
       <Footer />
     </>
   );
 }
 
+// Exporta o componente para ser usado em outras partes da aplicação
 export default RoteadorPessoas;

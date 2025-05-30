@@ -1,27 +1,29 @@
-/* Reset básico para DashAdmin */
+/* Reset básico para todos os elementos dentro da classe dash-admin */
 .dash-admin * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  box-sizing: border-box; /* Inclui padding e border no tamanho total */
 }
 
+/* Define altura total para html dentro de dash-admin */
 .dash-admin html {
   height: 100%;
 }
 
+/* Define altura total para body dentro de dash-admin */
 .dash-admin body {
   height: 100%;
 }
 
-/* Container principal do admin */
+/* Container principal do painel administrativo com layout flexível em coluna */
 .dash-admin-container {
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex: 1; /* Permite crescer para ocupar o espaço disponível */
 }
 
-/* Container de conteúdo específico do DashAdmin */
+/* Container para o conteúdo específico do painel admin, com margens laterais e superior */
 .dash-admin-container-conteudo {
   margin-top: 20px;
   margin-left: 20px;
@@ -31,14 +33,14 @@
   flex: 1;
 }
 
-/* Área principal do conteúdo que expande para empurrar o rodapé */
+/* Área principal do conteúdo que expande para empurrar o rodapé para baixo */
 .dash-admin-conteudo-principal {
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
-/* Cabeçalho do dashboard admin - seguindo padrão da Home */
+/* Cabeçalho do dashboard com espaçamento entre elementos e alinhamento central */
 .dash-admin-cabecalho {
   display: flex;
   justify-content: space-between;
@@ -46,26 +48,28 @@
   margin-bottom: 20px;
   margin-left: 60px;
   margin-right: 60px;
-  gap: 20px;
+  gap: 20px; /* Espaço entre os itens */
 }
 
+/* Estilo do título principal do cabeçalho */
 .dash-admin-cabecalho h1 {
   font-size: 1.8rem;
-  flex-shrink: 0;
+  flex-shrink: 0; /* Impede que o título encolha */
 }
 
-/* Controle da quebra de linha do título */
+/* Controla a quebra de linha do título - padrão não quebra linha */
 .dash-admin-cabecalho h1 br {
-  display: none; /* Por padrão, não quebra linha */
+  display: none;
 }
 
-/* A partir de 1300px, quebra linha */
+/* Em telas menores que 1330px, permite quebra de linha no título */
 @media (max-width: 1330px) {
   .dash-admin-cabecalho h1 br {
     display: block;
   }
 }
 
+/* Container para ações no cabeçalho, com espaçamento e alinhamento */
 .dash-admin-acoes-cabecalho {
   display: flex;
   gap: 15px;
@@ -73,27 +77,29 @@
   flex-shrink: 0;
 }
 
+/* Estilo do botão "Adicionar" no painel admin */
 .dash-admin-btn-adicionar {
   background-color: black;
   color: white;
   border: none;
   border-radius: 20px;
-  border: 2px solid #6B7280;
+  border: 2px solid #6B7280; /* Borda cinza */
   padding: 8px 16px;
   height: 40px;
   font-size: 0.9rem;
   cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.2s;
-  min-width: 120px;
+  white-space: nowrap; /* Impede quebra do texto */
+  transition: all 0.2s; /* Transição suave para efeitos */
+  min-width: 120px; /* Largura mínima */
 }
 
+/* Efeito hover do botão "Adicionar" */
 .dash-admin-btn-adicionar:hover {
-  background-color: #333;
-  border-color: #4B5563;
+  background-color: #333; /* Fundo mais claro */
+  border-color: #4B5563; /* Borda mais escura */
 }
 
-/* Mensagem quando não há resultados */
+/* Estilo para mensagem exibida quando não há resultados */
 .dash-admin-sem-resultados {
   text-align: center;
   padding: 40px 20px;
@@ -101,11 +107,12 @@
   font-style: italic;
 }
 
+/* Estilo do texto da mensagem sem resultados */
 .dash-admin-sem-resultados p {
   font-size: 1rem;
 }
 
-/* Estilos da paginação do admin - logo abaixo da tabela */
+/* Estilo da área de paginação abaixo da tabela */
 .dash-admin-paginacao {
   padding-top: 20px;
   display: flex;
@@ -113,6 +120,7 @@
   justify-content: center;
 }
 
+/* Botões de paginação com estilo padrão */
 .dash-admin-paginacao button {
   margin-left: 10px;
   background-color: black;
@@ -127,28 +135,29 @@
   transition: all 0.2s;
 }
 
-/* Hover apenas se não estiver desabilitado */
+/* Hover aplicado apenas quando botão não está desabilitado */
 .dash-admin-paginacao button:hover:not(:disabled) {
   background-color: #1f1f1f;
   border-color: #4B5563;
 }
 
-/* Estilo quando desabilitado */
+/* Estilo para botão desabilitado na paginação */
 .dash-admin-paginacao button:disabled {
   background-color: #444;
   color: #aaa;
   border-color: #555;
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: 0.6; /* Transparência para indicar estado desabilitado */
 }
 
+/* Estilo do texto da paginação */
 .dash-admin-paginacao span {
   font-size: 0.9rem;
   color: #495057;
   font-weight: 500;
 }
 
-/* Responsividade intermediária - corrige problema da barra empurrar o botão */
+/* Responsividade para telas menores que 1200px, reduz margens e gaps */
 @media (max-width: 1200px) {
   .dash-admin-cabecalho {
     margin-left: 40px;
@@ -161,6 +170,7 @@
   }
 }
 
+/* Ajustes para telas menores que 1000px */
 @media (max-width: 1000px) {
   .dash-admin-cabecalho {
     margin-left: 30px;
@@ -183,6 +193,7 @@
   }
 }
 
+/* Ajustes para telas menores que 850px */
 @media (max-width: 850px) {
   .dash-admin-cabecalho {
     margin-left: 20px;
@@ -205,8 +216,9 @@
   }
 }
 
-/* Responsividade do dashboard admin */
+/* Responsividade para telas até 768px (mobile e tablets menores) */
 @media (max-width: 768px) {
+  /* Cabeçalho muda para coluna para melhor empilhamento */
   .dash-admin-cabecalho {
     flex-direction: column;
     align-items: stretch;
@@ -215,32 +227,38 @@
     margin-right: 20px;
   }
   
+  /* Centraliza o título e ajusta tamanho */
   .dash-admin-cabecalho h1 {
     text-align: center;
     font-size: 1.5rem;
   }
   
+  /* Ações no cabeçalho em coluna com espaçamento */
   .dash-admin-acoes-cabecalho {
     flex-direction: column;
     gap: 10px;
     width: 100%;
   }
 
+  /* Botão de adicionar ocupa toda largura disponível */
   .dash-admin-btn-adicionar {
     width: 100%;
-    min-width: unset;
+    min-width: unset; /* Remove largura mínima */
   }
 
+  /* Paginação pode quebrar linha com espaçamento */
   .dash-admin-paginacao {
     flex-wrap: wrap;
     gap: 10px;
   }
 
+  /* Ajuste de margem e largura dos botões da paginação */
   .dash-admin-paginacao button {
     margin-left: 0;
     width: 120px;
   }
 
+  /* Texto da paginação ordenado para cima e centralizado */
   .dash-admin-paginacao span {
     order: -1;
     width: 100%;
@@ -249,6 +267,7 @@
   }
 }
 
+/* Responsividade para telas muito pequenas, até 480px */
 @media (max-width: 480px) {
   .dash-admin-cabecalho {
     margin-left: 10px;

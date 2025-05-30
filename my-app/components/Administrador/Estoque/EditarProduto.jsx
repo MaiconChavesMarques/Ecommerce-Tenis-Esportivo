@@ -1,8 +1,11 @@
+// Importa hooks do React e função de navegação do React Router
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+// Importa os arquivos de estilo
 import '../Pessoas/EditarPessoa.css';
 import './EditarProduto.css';
 
+// Componente EditarProduto recebe props de dados e funções de controle
 function EditarProduto({ 
   dadosProduto, 
   onLimparEdicao, 
@@ -11,6 +14,7 @@ function EditarProduto({
 }) {
   const navigate = useNavigate();
   
+  // Estado para armazenar dados do formulário
   const [formData, setFormData] = useState({
     nome: '',
     imagem: '',
@@ -19,6 +23,7 @@ function EditarProduto({
     quantidade: [0, 0, 0, 0, 0, 0, 0] // Array de quantidades por tamanho
   });
 
+  // Atualiza o estado formData ao receber dadosProduto por props
   useEffect(() => {
     if (dadosProduto) {
       setFormData({
@@ -31,6 +36,7 @@ function EditarProduto({
     }
   }, [dadosProduto]);
 
+  // Atualiza campos do formulário (exceto quantidade)
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -39,6 +45,7 @@ function EditarProduto({
     }));
   };
 
+  // Atualiza quantidade de estoque por tamanho
   const handleQuantidadeChange = (index, valor) => {
     setFormData(prev => {
       const novaQuantidade = [...prev.quantidade];
@@ -50,6 +57,7 @@ function EditarProduto({
     });
   };
 
+  // Função para salvar produto (adicionar ou atualizar)
   const handleSalvar = async (e) => {
     e.preventDefault();
     
@@ -57,7 +65,7 @@ function EditarProduto({
     
     const acao = dadosProduto._acao;
     
-    // Validações básicas
+    // Validações básicas antes de enviar
     if (!formData.nome.trim()) {
       alert('Nome do produto é obrigatório');
       return;
@@ -68,7 +76,7 @@ function EditarProduto({
       return;
     }
 
-    // Monta os dados para salvar
+    // Monta objeto com dados para envio
     const produtoParaSalvar = {
       nome: formData.nome.trim(),
       imagem: formData.imagem.trim(),
@@ -82,8 +90,7 @@ function EditarProduto({
       produtoParaSalvar.id = dadosProduto.id;
     }
 
-    //Esta aqui apenas para a boa demonstração
-    // Atualiza a lista no componente pai
+    // Chama função de adicionar ou atualizar no componente pai
     if (acao === 'adicionar') {
       onAdicionarProduto(produtoParaSalvar);
     } else {
@@ -91,6 +98,7 @@ function EditarProduto({
     }
 
     try {
+      // Envia os dados para a API
       const response = await fetch('/api/produtos', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -101,39 +109,33 @@ function EditarProduto({
       });
 
       if (response.ok) {
+        // Log de sucesso no console
         console.log(`Produto ${acao === 'adicionar' ? 'adicionado' : 'editado'} com sucesso`);
-        //Aqui era o local correto
         // Limpa os dados de edição
         onLimparEdicao();
-
         // Volta para a página anterior
         navigate(-1);
       } else {
-        //alert('Erro ao salvar. Tente novamente.');
-          // Limpa os dados de edição
-          onLimparEdicao();
-
-          // Volta para a página anterior
-          navigate(-1);
+        // Caso de erro — ainda assim limpa e volta
+        onLimparEdicao();
+        navigate(-1);
       }
     } catch (error) {
+      // Log de erro
       console.error('Erro:', error);
-      //alert('Erro ao salvar. Verifique sua conexão.');
-        // Limpa os dados de edição
-        onLimparEdicao();
-
-        // Volta para a página anterior
-        navigate(-1);
+      // Em caso de exceção, limpa e volta
+      onLimparEdicao();
+      navigate(-1);
     }
   };
 
+  // Função para cancelar edição/adicionar e voltar
   const handleCancelar = () => {
-    // Limpa os dados de edição e volta
     onLimparEdicao();
     navigate(-1);
   };
 
-  // Se não há dados do produto (acesso direto à URL ou dados não foram passados)
+  // Se não houver dados do produto, bloqueia acesso e exibe mensagem
   if (!dadosProduto) {
     return (
       <div className="container-editar">
@@ -153,10 +155,12 @@ function EditarProduto({
     );
   }
 
+  // Array com os tamanhos disponíveis
   const tamanhos = [38, 39, 40, 41, 42, 43, 44];
+  // Determina ação (editar ou adicionar)
   const acao = dadosProduto._acao;
   
-  // Textos dinâmicos baseados na ação
+  // Textos personalizados para cada ação
   const textos = {
     editar: {
       titulo: 'Editar produto',
@@ -172,8 +176,10 @@ function EditarProduto({
     }
   };
 
+  // Define os textos ativos com base na ação
   const textosAtivos = textos[acao] || textos.editar;
 
+  // Renderização do componente
   return (
     <div className="container-editar">
       <div className="container-conteudo-editar">
@@ -193,6 +199,7 @@ function EditarProduto({
                 </div>
               </div>
 
+              {/* Campo Nome */}
               <div className="campo-formulario">
                 <label className="label-campo">Nome</label>
                 <input
@@ -205,6 +212,7 @@ function EditarProduto({
                 />
               </div>
 
+              {/* Campo Imagem */}
               <div className="campo-formulario">
                 <label className="label-campo">URL da imagem</label>
                 <input
@@ -216,6 +224,7 @@ function EditarProduto({
                 />
               </div>
 
+              {/* Campo Descrição */}
               <div className="campo-formulario">
                 <label className="label-campo">Descrição do produto</label>
                 <textarea
@@ -227,6 +236,7 @@ function EditarProduto({
                 />
               </div>
 
+              {/* Campo Preço */}
               <div className="campo-formulario">
                 <label className="label-campo">Preço</label>
                 <input
@@ -241,6 +251,7 @@ function EditarProduto({
                 />
               </div>
 
+              {/* Estoque por tamanho */}
               <div className="secao-tamanhos">
                 <h3 className="titulo-tamanhos">Estoque por Tamanho</h3>
                 <div className="grid-tamanhos">
@@ -259,10 +270,12 @@ function EditarProduto({
                   ))}
                 </div>
                 <div className="info-estoque">
+                  {/* Exibe o total de itens somando todas as quantidades */}
                   <p>Total em estoque: {formData.quantidade.reduce((total, qtd) => total + (qtd || 0), 0)} unidades</p>
                 </div>
               </div>
 
+              {/* Botão de ação */}
               <div className="acoes-formulario">
                 <button type="submit" className="btn-atualizar-produto">
                   {textosAtivos.botao}
@@ -276,4 +289,5 @@ function EditarProduto({
   );
 }
 
+// Exporta o componente
 export default EditarProduto;

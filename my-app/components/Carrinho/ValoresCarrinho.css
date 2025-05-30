@@ -1,56 +1,87 @@
 .resumoValores {
+  /* Margem à esquerda de 2% para posicionamento */
   margin-left: 2%;
+  /* Largura definida em 36% do container pai */
   width: 36%;
+  /* Bordas arredondadas com raio de 20px */
   border-radius: 20px;
+  /* Borda sólida cinza escuro */
   border: 2px solid #6B7280;
+  /* Altura definida em 20% do container pai */
   height: 20%;
+  /* Usa flexbox para layout */
   display: flex;
+  /* Direção dos itens na coluna */
   flex-direction: column;
+  /* Centraliza os itens no eixo transversal (não funciona para flexbox coluna, mas está definido) */
   justify-items: center;
 }
 
 .resumoTextual {
+  /* Espaçamento interno nas laterais e topo/baixo */
   padding: 10px 20px;
 }
 
 .subtotal, .desconto, .total {
+  /* Flexbox para distribuir os itens */
   display: flex;
+  /* Espaço entre os itens para alinhamento à esquerda e direita */
   justify-content: space-between;
+  /* Espaçamento superior de 10px para separação vertical */
   margin-top: 10px;
 }
 
 .subtotal, .desconto, .total p {
+  /* Define tamanho da fonte para os textos */
   font-size: 20px;
 }
 
-.comprarBotao{
+.comprarBotao {
+  /* Flexbox para centralizar o botão horizontalmente */
   display: flex;
   justify-content: center;
+  /* Ocupa 100% da largura do container pai */
   width: 100%;
 }
 
 .comprar {
+  /* Largura quase total (98%) do container pai */
   width: 98%;
+  /* Cor de fundo preta */
   background-color: black;
+  /* Cor do texto branca */
   color: white;
+  /* Bordas arredondadas */
   border-radius: 20px;
+  /* Borda sólida cinza escuro */
   border: 2px solid #6B7280;
+  /* Espaçamento superior e inferior para separar visualmente */
   margin-top: 20px;
   margin-bottom: 5px;
+  /* Altura fixa do botão */
   height: 40px;
+  /* Cursor muda para indicar que é clicável */
   cursor: pointer;
 }
 
 .comprar:disabled {
+  /* Transparência reduzida para indicar desabilitado */
   opacity: 0.6;
+  /* Cursor indica que não é clicável */
   cursor: not-allowed;
+  /* Cor de fundo cinza para desabilitado */
   background-color: #9CA3AF;
 }
 
 .aviso-compra {
+  /* Fonte pequena para mensagens secundárias */
   font-size: 12px;
+  /* Cor vermelha para avisos ou erros */
   color: #DC2626;
+  /* Margem superior para separar do conteúdo acima */
   margin-top: 10px;
+  /* Centraliza o texto */
   text-align: center;
+  /* Estilo itálico para diferenciação */
   font-style: italic;
 }

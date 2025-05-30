@@ -1,13 +1,16 @@
+/* Reset básico para margens, padding e box-sizing */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Altura total para html e body */
 html, body{
   height: 100%;
 }
 
+/* Container principal com altura mínima e layout flexível em coluna */
 .container{
   min-height: 100%;
   display: flex;
@@ -15,12 +18,14 @@ html, body{
   flex: 1;
 }
 
+/* Elemento root também com flex para layout em coluna e altura mínima */
 #root{
   min-height: 100%;
   display: flex;
   flex-direction: column;
 }
 
+/* Conteúdo com margens laterais e topo, layout em coluna */
 #conteudo {
   margin-top: 20px;
   margin-left: 20px;
@@ -29,30 +34,35 @@ html, body{
   flex-direction: column;
 }
 
+/* Container para elementos com flex e espaçamentos laterais */
 .elementos {
   display: flex;
   margin-left: 60px;
   margin-right: 60px;
   margin-top: 20px;
-  flex-wrap: wrap;
+  flex-wrap: wrap; /* Permite quebra de linha */
 }
 
+/* Produtos ocupam 60% da largura com margem à direita */
 .produtos{
   width: 60%;
   margin-right: 2%;
 }
 
+/* Estilo para texto em destaque */
 .destaque {
   font-size: 18px;
   font-weight: bold;
 }
 
+/* Texto para status de sincronização com cor cinza e espaçamento superior */
 .status-sincronizacao {
   font-size: 14px;
   color: #666;
   margin-top: 5px;
 }
 
+/* Aviso de indisponibilidade com cor vermelha e peso médio */
 .aviso-indisponibilidade {
   font-size: 14px;
   color: #DC2626;
@@ -60,7 +70,7 @@ html, body{
   font-weight: 500;
 }
 
-/* Melhorias para o estado de Loading */
+/* Estilo para container de loading, centralizado com padding e altura mínima */
 #Carregando {
   display: flex;
   flex-direction: column;
@@ -71,6 +81,7 @@ html, body{
   padding: 40px 20px;
 }
 
+/* Parágrafo dentro do loading com tamanho de fonte e cor */
 #Carregando p {
   font-size: 18px;
   color: #666;
@@ -78,7 +89,7 @@ html, body{
   font-weight: 500;
 }
 
-/* Indicador estático para loading */
+/* Indicador visual estático para loading: círculo azul com ícone */
 .loading-spinner {
   width: 40px;
   height: 40px;
@@ -90,13 +101,14 @@ html, body{
   justify-content: center;
 }
 
+/* Ícone do spinner com estilo */
 .loading-spinner::before {
   content: "⏳";
   font-size: 20px;
   color: white;
 }
 
-/* Melhorias para o estado Vazio */
+/* Container para estado vazio, centralizado, com fundo degradê e borda pontilhada */
 #Vazio {
   display: flex;
   flex-direction: column;
@@ -111,6 +123,7 @@ html, body{
   border: 2px dashed #dee2e6;
 }
 
+/* Ícone grande e opaco antes do conteúdo vazio */
 #Vazio::before {
   content: "🛒";
   font-size: 64px;
@@ -118,6 +131,7 @@ html, body{
   opacity: 0.5;
 }
 
+/* Texto principal do estado vazio */
 #Vazio p {
   font-size: 24px;
   color: #6c757d;
@@ -125,6 +139,7 @@ html, body{
   margin-bottom: 12px;
 }
 
+/* Texto explicativo após o parágrafo no estado vazio */
 #Vazio::after {
   content: "Adicione alguns produtos para começar suas compras";
   font-size: 16px;
@@ -132,7 +147,7 @@ html, body{
   margin-top: 8px;
 }
 
-/* Melhorias na responsividade mobile */
+/* Responsividade para telas até 1100px: produtos ocupam 100%, ajustes margens */
 @media (max-width: 1100px) {
   .produtos {
     width: 100%;
@@ -150,6 +165,7 @@ html, body{
   }
 }
 
+/* Ajustes para telas até 768px, reduz margens e tamanho do loading/vazio */
 @media (max-width: 768px) {
   .elementos {
     margin-left: 10px;
@@ -165,7 +181,7 @@ html, body{
     margin-left: 10px;
   }
 
-  /* Ajustes para loading em mobile */
+  /* Loading menor para mobile */
   #Carregando {
     min-height: 250px;
     padding: 30px 15px;
@@ -181,7 +197,7 @@ html, body{
     border-width: 3px;
   }
 
-  /* Ajustes para vazio em mobile */
+  /* Vazio menor para mobile */
   #Vazio {
     min-height: 300px;
     padding: 40px 15px;
@@ -203,6 +219,7 @@ html, body{
   }
 }
 
+/* Ajustes para telas até 700px: botões com wrap e margem superior */
 @media (max-width: 700px) {
   .infoBotoes {
     flex-wrap: wrap;
@@ -213,6 +230,7 @@ html, body{
   }
 }
 
+/* Ajustes para telas até 575px: botões e preços flexíveis, imagens menores */
 @media (max-width: 575px) {
   .botoes {
     flex-wrap: wrap;
@@ -236,14 +254,14 @@ html, body{
     margin-left: 20px;
   }
 
-  /* Melhor espaçamento em telas muito pequenas */
+  /* Margens reduzidas para elementos */
   .elementos {
     margin-left: 5px;
     margin-right: 5px;
     margin-top: 15px;
   }
 
-  /* Loading ainda mais compacto */
+  /* Loading mais compacto */
   #Carregando {
     min-height: 200px;
     padding: 25px 10px;
@@ -269,7 +287,7 @@ html, body{
   }
 }
 
-/* Telas muito pequenas - até 480px */
+/* Ajustes para telas até 480px: margens reduzidas e fontes menores */
 @media (max-width: 480px) {
   #conteudo {
     margin-top: 15px;
@@ -304,6 +322,7 @@ html, body{
     width: 120px;
   }
 
+  /* Loading ainda menor */
   #Carregando {
     min-height: 180px;
     padding: 20px 8px;
@@ -322,6 +341,7 @@ html, body{
     font-size: 16px;
   }
 
+  /* Vazio compacto com bordas arredondadas menores */
   #Vazio {
     min-height: 220px;
     padding: 25px 8px;
@@ -343,7 +363,7 @@ html, body{
   }
 }
 
-/* Telas extra pequenas - até 360px */
+/* Ajustes para telas extra pequenas até 360px */
 @media (max-width: 360px) {
   .identificador {
     margin-left: 10px;
@@ -363,6 +383,7 @@ html, body{
     width: 100px;
   }
 
+  /* Loading ainda mais compacto */
   #Carregando {
     min-height: 160px;
     padding: 15px 5px;
@@ -382,6 +403,7 @@ html, body{
     font-size: 14px;
   }
 
+  /* Vazio compacto com margens reduzidas */
   #Vazio {
     min-height: 200px;
     padding: 20px 5px;
@@ -404,7 +426,7 @@ html, body{
   }
 }
 
-/* Telas muito pequenas - até 320px (iPhone SE e similares) */
+/* Ajustes para telas muito pequenas até 320px (exemplo iPhone SE) */
 @media (max-width: 320px) {
   .identificador {
     margin-left: 8px;
@@ -424,6 +446,7 @@ html, body{
     width: 90px;
   }
 
+  /* Loading compacto para tela muito pequena */
   #Carregando {
     min-height: 140px;
     padding: 12px 3px;
@@ -443,6 +466,7 @@ html, body{
     font-size: 12px;
   }
 
+  /* Vazio compacto para tela muito pequena */
   #Vazio {
     min-height: 180px;
     padding: 18px 3px;
@@ -462,63 +486,5 @@ html, body{
 
   #Vazio::after {
     font-size: 10px;
-  }
-}
-
-/* Orientação landscape para dispositivos móveis pequenos */
-@media (max-width: 480px) and (orientation: landscape) {
-  #Carregando {
-    min-height: 120px;
-    padding: 15px 10px;
-  }
-
-  #Vazio {
-    min-height: 140px;
-    padding: 20px 10px;
-  }
-
-  #Vazio::before {
-    font-size: 24px;
-    margin-bottom: 8px;
-  }
-}
-
-@media (max-width: 360px) and (orientation: landscape) {
-  #Carregando {
-    min-height: 100px;
-    padding: 12px 8px;
-  }
-
-  #Vazio {
-    min-height: 120px;
-    padding: 15px 8px;
-  }
-
-  #Vazio::before {
-    font-size: 20px;
-    margin-bottom: 6px;
-  }
-}
-
-/* Melhorias adicionais para acessibilidade e UX */
-.loading-spinner {
-  opacity: 0.8;
-}
-
-/* Ajustes para orientação landscape em dispositivos móveis */
-@media (max-width: 768px) and (orientation: landscape) {
-  #Carregando {
-    min-height: 150px;
-    padding: 20px 15px;
-  }
-
-  #Vazio {
-    min-height: 200px;
-    padding: 25px 15px;
-  }
-
-  #Vazio::before {
-    font-size: 36px;
-    margin-bottom: 10px;
   }
 }

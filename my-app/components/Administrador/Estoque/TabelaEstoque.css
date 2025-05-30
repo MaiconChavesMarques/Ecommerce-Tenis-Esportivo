@@ -1,276 +1,225 @@
 /* Layout específico para produtos com 5 colunas */
 .produto-item {
-    display: grid;
-    grid-template-columns: 80px 2fr 1fr 1fr 1fr;
-    align-items: center;
-    padding: 12px 16px;
-    border-bottom: 1px solid #e1e1e1;
+  display: grid;
+  grid-template-columns: 80px 2fr 1fr 1fr 1fr;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e1e1e1;
+}
+
+/* Garante que o cabeçalho siga o mesmo grid das linhas de produto */
+.produto-item .produto-cabecalho {
+  grid-template-columns: 80px 2fr 1fr 1fr 1fr;
+}
+
+/* Estilização do cabeçalho da tabela de produtos */
+.produto-cabecalho {
+  display: grid;
+  grid-template-columns: 80px 2fr 1fr 1fr 1fr;
+  background-color: #f8f9fa;
+  padding: 12px 16px;
+  border-bottom: 2px solid #dee2e6;
+  font-weight: 600;
+  color: #495057;
+  font-size: 14px;
+}
+
+/* Estilo para o nome do produto */
+.produto-nome {
+  font-weight: 500;
+  color: #333;
+  font-size: 14px;
+}
+
+/* Estilo para o preço do produto */
+.produto-preco {
+  font-weight: 600;
+  color: #2d7d32;
+  font-size: 14px;
+}
+
+/* Estilo para a quantidade do produto */
+.produto-quantidade {
+  font-weight: 500;
+  color: #666;
+  font-size: 14px;
+}
+
+/* Estilo da imagem do produto */
+.produto-imagem {
+  width: 50px !important;
+  height: 50px !important;
+  max-width: 50px !important;
+  max-height: 50px !important;
+  min-width: 50px !important;
+  min-height: 50px !important;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #e1e1e1;
+  background-color: #f8f8f8;
+  display: block;
+}
+
+/* Alinhamento das colunas da tabela */
+.produto-coluna-imagem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.produto-coluna-nome {
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+}
+
+.produto-coluna-preco,
+.produto-coluna-quantidade,
+.produto-coluna-acoes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Espaçamento entre os botões de ação */
+.produto-coluna-acoes {
+  gap: 8px;
+}
+
+/* Estilo base dos botões de ação */
+.produto-btn-acao {
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: background-color 0.2s;
+}
+
+/* Hover padrão para botões de ação */
+.produto-btn-acao:hover {
+  background-color: #f1f3f4;
+}
+
+/* Hover específico para botão de editar */
+.produto-btn-acao.editar:hover {
+  background-color: #e3f2fd;
+}
+
+/* Hover específico para botão de excluir */
+.produto-btn-acao.excluir:hover {
+  background-color: #ffebee;
+}
+
+/* Container da tabela, com sombra e margens responsivas */
+.produto-tabela-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-left: clamp(60px, 25vw, 350px);
+  margin-right: clamp(60px, 25vw, 350px);
+  max-width: calc(100% - 2 * clamp(60px, 25vw, 350px));
+}
+
+/* Cabeçalho da tabela (título e ícone) */
+.produto-tabela-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 20px 16px 20px;
+  border-bottom: 1px solid #e1e1e1;
+}
+
+/* Estilo do ícone no cabeçalho */
+.produto-icone-tabela {
+  font-size: 24px;
+}
+
+/* Estilo do título no cabeçalho */
+.produto-tabela-header h2 {
+  margin: 0;
+  color: #333;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Efeito hover para as linhas de produto */
+.produto-item:hover {
+  background-color: #f8f9fa;
+}
+
+/* Remove a borda inferior do último item da tabela */
+.produto-item:last-child {
+  border-bottom: none;
+}
+
+/* Responsividade para telas menores que 768px */
+@media (max-width: 768px) {
+  .produto-tabela-container {
+    margin-left: 60px;
+    margin-right: 60px;
+    max-width: calc(100% - 120px);
   }
-  
-  .produto-item .produto-cabecalho {
-    grid-template-columns: 80px 2fr 1fr 1fr 1fr;
+
+  /* Altera o layout das linhas de produto para layout único (stacked) */
+  .produto-item {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 16px;
   }
-  
-  /* Configuração do cabeçalho da tabela */
+
+  /* Esconde o cabeçalho da tabela */
   .produto-cabecalho {
-    display: grid;
-    grid-template-columns: 80px 2fr 1fr 1fr 1fr;
-    background-color: #f8f9fa;
-    padding: 12px 16px;
-    border-bottom: 2px solid #dee2e6;
-    font-weight: 600;
-    color: #495057;
-    font-size: 14px;
+    display: none;
   }
-  
-  /* Estilos para o conteúdo das colunas */
-  .produto-nome {
-    font-weight: 500;
-    color: #333;
-    font-size: 14px;
+
+  /* Alinhamento à esquerda para imagem em mobile */
+  .produto-item .produto-coluna-imagem {
+    justify-content: flex-start;
   }
-  
-  .produto-preco {
-    font-weight: 600;
-    color: #2d7d32;
-    font-size: 14px;
-  }
-  
-  .produto-quantidade {
+
+  /* Adiciona labels antes de nome, preço e quantidade */
+  .produto-item .produto-coluna-nome::before {
+    content: 'Nome: ';
     font-weight: 500;
     color: #666;
-    font-size: 14px;
   }
-  
-  /* Imagem do produto */
-  .produto-imagem {
-    width: 50px !important;
-    height: 50px !important;
-    max-width: 50px !important;
-    max-height: 50px !important;
-    min-width: 50px !important;
-    min-height: 50px !important;
-    object-fit: cover;
-    border-radius: 8px;
-    border: 1px solid #e1e1e1;
-    background-color: #f8f8f8;
-    display: block;
+
+  .produto-item .produto-coluna-preco::before {
+    content: 'Preço: ';
+    font-weight: 500;
+    color: #666;
   }
-  
-  /* Alinhamento das colunas */
-  .produto-coluna-imagem {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+  .produto-item .produto-coluna-quantidade::before {
+    content: 'Quantidade: ';
+    font-weight: 500;
+    color: #666;
   }
-  
-  .produto-coluna-nome {
-    display: flex;
-    align-items: center;
-    padding-left: 8px;
-  }
-  
-  .produto-coluna-preco {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
+
+  /* Alinhamento à esquerda para as colunas de texto */
+  .produto-coluna-nome,
+  .produto-coluna-preco,
   .produto-coluna-quantidade {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
   }
-  
+
+  /* Alinhamento e espaçamento para área de ações */
   .produto-coluna-acoes {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+    justify-content: flex-start;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #f0f0f0;
   }
-  
-  /* Estilos dos botões de ação */
-  .produto-btn-acao {
-    background: none;
-    border: none;
-    padding: 6px;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 16px;
-    transition: background-color 0.2s;
-  }
-  
-  .produto-btn-acao:hover {
-    background-color: #f1f3f4;
-  }
-  
-  .produto-btn-acao.editar:hover {
-    background-color: #e3f2fd;
-  }
-  
-  .produto-btn-acao.excluir:hover {
-    background-color: #ffebee;
-  }
-  
-  /* Container da tabela - Ocupando menos espaço */
+}
+
+/* Responsividade para telas menores que 480px */
+@media (max-width: 480px) {
   .produto-tabela-container {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    margin-left: clamp(60px, 25vw, 350px);
-    margin-right: clamp(60px, 25vw, 350px);
-    max-width: calc(100% - 2 * clamp(60px, 25vw, 350px));
+    margin-left: 40px;
+    margin-right: 40px;
+    max-width: calc(100% - 80px);
   }
-  
-  .produto-tabela-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 20px 20px 16px 20px;
-    border-bottom: 1px solid #e1e1e1;
-  }
-  
-  .produto-icone-tabela {
-    font-size: 24px;
-  }
-  
-  .produto-tabela-header h2 {
-    margin: 0;
-    color: #333;
-    font-size: 20px;
-    font-weight: 600;
-  }
-  
-  /* Hover effect para itens da tabela */
-  .produto-item:hover {
-    background-color: #f8f9fa;
-  }
-  
-  .produto-item:last-child {
-    border-bottom: none;
-  }
-  
-  /* Responsividade para produtos */
-  @media (max-width: 768px) {
-    .produto-tabela-container {
-      margin-left: 60px;
-      margin-right: 60px;
-      max-width: calc(100% - 120px);
-    }
-  
-    .produto-item {
-      grid-template-columns: 1fr;
-      gap: 12px;
-      padding: 16px;
-    }
-    
-    .produto-cabecalho {
-      display: none;
-    }
-    
-    .produto-item .produto-coluna-imagem {
-      justify-content: flex-start;
-    }
-    
-    .produto-item .produto-coluna-nome::before {
-      content: 'Nome: ';
-      font-weight: 500;
-      color: #666;
-    }
-    
-    .produto-item .produto-coluna-preco::before {
-      content: 'Preço: ';
-      font-weight: 500;
-      color: #666;
-    }
-    
-    .produto-item .produto-coluna-quantidade::before {
-      content: 'Quantidade: ';
-      font-weight: 500;
-      color: #666;
-    }
-  
-    .produto-coluna-nome,
-    .produto-coluna-preco,
-    .produto-coluna-quantidade {
-      justify-content: flex-start;
-    }
-  
-    .produto-coluna-acoes {
-      justify-content: flex-start;
-      margin-top: 8px;
-      padding-top: 8px;
-      border-top: 1px solid #f0f0f0;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .produto-tabela-container {
-      margin-left: 40px;
-      margin-right: 40px;
-      max-width: calc(100% - 80px);
-    }
-  }
-  
-  /* Responsividade para produtos */
-  @media (max-width: 768px) {
-    .produto-tabela-container {
-      margin-left: 60px;
-      margin-right: 60px;
-      max-width: calc(100% - 120px);
-    }
-  
-    .produto-item {
-      grid-template-columns: 1fr;
-      gap: 12px;
-      padding: 16px;
-    }
-    
-    .produto-cabecalho {
-      display: none;
-    }
-    
-    .produto-item .produto-coluna-imagem {
-      justify-content: flex-start;
-    }
-    
-    .produto-item .produto-coluna-nome::before {
-      content: 'Nome: ';
-      font-weight: 500;
-      color: #666;
-    }
-    
-    .produto-item .produto-coluna-preco::before {
-      content: 'Preço: ';
-      font-weight: 500;
-      color: #666;
-    }
-    
-    .produto-item .produto-coluna-quantidade::before {
-      content: 'Quantidade: ';
-      font-weight: 500;
-      color: #666;
-    }
-  
-    .produto-coluna-nome,
-    .produto-coluna-preco,
-    .produto-coluna-quantidade {
-      justify-content: flex-start;
-    }
-  
-    .produto-coluna-acoes {
-      justify-content: flex-start;
-      margin-top: 8px;
-      padding-top: 8px;
-      border-top: 1px solid #f0f0f0;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .produto-tabela-container {
-      margin-left: 40px;
-      margin-right: 40px;
-      max-width: calc(100% - 80px);
-    }
-  }
+}

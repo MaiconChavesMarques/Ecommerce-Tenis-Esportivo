@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import './FormPerfil.css';
 
 function FormPerfil({
+  // Dados iniciais padrão para o formulário de perfil, incluindo tipo de usuário e informações pessoais
   dadosIniciais = {
     tipo: "cliente",
     nome: "",
@@ -14,16 +15,19 @@ function FormPerfil({
     cep: "",
     pais: ""
   },
-  onSubmit,
-  onSair,
-  tipoUsuario
+  onSubmit,  // Função chamada ao submeter o formulário
+  onSair,    // Função chamada ao clicar no botão sair
+  tipoUsuario // Tipo do usuário atual (cliente ou administrador)
 }) {
+  // Estado para armazenar os dados do formulário
   const [formData, setFormData] = useState(dadosIniciais);
 
+  // Atualiza o estado do formulário sempre que os dados iniciais mudam
   useEffect(() => {
     setFormData(dadosIniciais);
   }, [dadosIniciais]);
 
+  // Atualiza o estado local ao mudar qualquer campo do formulário
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -32,6 +36,7 @@ function FormPerfil({
     }));
   };
 
+  // Função para lidar com o envio do formulário, chama onSubmit com os dados atuais
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(formData);
@@ -49,11 +54,13 @@ function FormPerfil({
           <div className="cabecalho-card">
             <h2 className="titulo-secao-perfil">Informações do perfil</h2>
             <div className="tipo-usuario">
+              {/* Exibe o tipo do usuário de forma legível */}
               <strong>Tipo: {tipoUsuario === 'cliente' ? 'Cliente' : 'Administrador'}</strong>
             </div>
           </div>
 
           <form className="formulario-perfil" onSubmit={handleSubmit}>
+            {/* Campo para nome */}
             <div className="grupo-campo-perfil">
               <label className="label-campo-perfil" htmlFor="nome">
                 Nome
@@ -69,6 +76,7 @@ function FormPerfil({
               />
             </div>
 
+            {/* Campo para email */}
             <div className="grupo-campo-perfil">
               <label className="label-campo-perfil" htmlFor="email">
                 Email
@@ -84,6 +92,7 @@ function FormPerfil({
               />
             </div>
 
+            {/* Campo para telefone */}
             <div className="grupo-campo-perfil">
               <label className="label-campo-perfil" htmlFor="telefone">
                 Número de telefone
@@ -98,9 +107,11 @@ function FormPerfil({
               />
             </div>
 
+            {/* Seção de endereço */}
             <div className="secao-endereco-perfil">
               <h3 className="titulo-endereco">Endereço</h3>
               
+              {/* Campo para rua */}
               <div className="grupo-campo-perfil">
                 <label className="label-campo-perfil" htmlFor="rua">
                   Rua
@@ -115,6 +126,7 @@ function FormPerfil({
                 />
               </div>
 
+              {/* Linha com campos cidade e estado */}
               <div className="linha-campos-perfil">
                 <div className="grupo-campo-perfil">
                   <label className="label-campo-perfil" htmlFor="cidade">
@@ -145,6 +157,7 @@ function FormPerfil({
                 </div>
               </div>
 
+              {/* Linha com campos CEP e país */}
               <div className="linha-campos-perfil">
                 <div className="grupo-campo-perfil">
                   <label className="label-campo-perfil" htmlFor="cep">
@@ -176,10 +189,12 @@ function FormPerfil({
               </div>
             </div>
 
+            {/* Seção para alteração de senha */}
             <div className="secao-senha-perfil">
               <h3 className="titulo-senha">Senha</h3>
               
               <div className="linha-senha-dupla">
+                {/* Campo para senha atual */}
                 <div className="grupo-campo-perfil">
                   <label className="label-campo-perfil" htmlFor="senhaAtual">
                     Senha atual
@@ -193,6 +208,7 @@ function FormPerfil({
                   />
                 </div>
 
+                {/* Campo para nova senha */}
                 <div className="grupo-campo-perfil">
                   <label className="label-campo-perfil" htmlFor="novaSenha">
                     Nova senha
@@ -207,6 +223,7 @@ function FormPerfil({
                 </div>
               </div>
 
+              {/* Campo para confirmação da nova senha */}
               <div className="grupo-campo-perfil">
                 <label className="label-campo-perfil" htmlFor="confirmarSenha">
                   Confirmação de senha
@@ -221,6 +238,7 @@ function FormPerfil({
               </div>
             </div>
 
+            {/* Botões para salvar mudanças e sair */}
             <div className="acoes-perfil">
               <button type="submit" className="botao-salvar">
                 Salvar mudanças

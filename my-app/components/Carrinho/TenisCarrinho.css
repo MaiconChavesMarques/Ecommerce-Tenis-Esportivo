@@ -1,101 +1,137 @@
 .tenis {
+  /* Container flexível para o tênis, ocupa toda largura disponível */
   display: flex;
   width: 100%;
+  /* Bordas arredondadas para um visual mais suave */
   border-radius: 20px;
+  /* Borda cinza escura ao redor do componente */
   border: 2px solid #6B7280;
+  /* Esconde qualquer conteúdo que ultrapasse os limites do container */
   overflow: hidden;
+  /* Espaçamento inferior para separar de outros elementos */
   margin-bottom: 30px;
 }
 
 .tenis.estoque-insuficiente {
+  /* Tornar o componente semi-transparente para indicar indisponibilidade */
   opacity: 0.7;
+  /* Fundo vermelho claro para sinalizar estoque baixo */
   background-color: #FEF2F2;
+  /* Borda vermelha clara para reforçar o aviso */
   border: 2px solid #FCA5A5;
 }
 
 .infoBotoes {
+  /* Container flex para organizar os botões e informações em linha */
   display: flex;
+  /* Espaça os itens entre as extremidades */
   justify-content: space-between;
+  /* Espaçamento superior para separar do conteúdo acima */
   margin-top: 30px;
 }
 
 .botoes {
+  /* Container flex para alinhar os botões verticalmente no centro */
   display: flex;
   align-items: center;
 }
 
 .botoes > * {
+  /* Remove bordas padrão dos filhos (botões, imagens, etc.) */
   border: none;
+  /* Fundo cinza claro */
   background-color: #f5f5f5;
+  /* Margem à esquerda para separar os elementos */
   margin-left: 30px;
 }
 
 .botoes button:disabled {
+  /* Reduz opacidade para indicar que o botão está desabilitado */
   opacity: 0.6;
+  /* Cursor de não permitido para indicar desativação */
   cursor: not-allowed;
 }
 
 .tamanhoPreco {
+  /* Layout flex para separar tamanho e preço */
   display: flex;
   justify-content: space-between;
+  /* Alinha os itens na base para melhor alinhamento visual */
   align-items: flex-end;
+  /* Espaço superior para separar do conteúdo acima */
   margin-top: 40px;
 }
 
 .tamanhoInfo {
+  /* Container flex com orientação vertical para informações do tamanho */
   display: flex;
   flex-direction: column;
 }
 
 .tamanhoInfo p:first-child {
+  /* Remove margem superior do primeiro parágrafo para alinhamento */
   margin: 0;
 }
 
 .estoque {
+  /* Texto com peso médio e itálico para informação de estoque */
   font-weight: 500;
   font-style: italic;
 }
 
 .nome-produto.indisponivel {
+  /* Cor vermelha para indicar que o produto está indisponível */
   color: #DC2626;
 }
 
 .quantidade.indisponivel {
+  /* Cor vermelha e negrito para quantidade indisponível */
   color: #DC2626;
   font-weight: bold;
 }
 
 .preco.indisponivel {
+  /* Cor vermelha para o preço quando indisponível */
   color: #DC2626;
 }
 
 .aviso-estoque {
+  /* Texto vermelho para avisos relacionados ao estoque */
   color: #DC2626;
+  /* Fonte menor para o aviso */
   font-size: 14px;
+  /* Peso médio para destacar a mensagem */
   font-weight: 500;
+  /* Margem superior para separar do conteúdo anterior */
   margin: 5px 0 0 0;
 }
 
 .quantidade-loading {
+  /* Opacidade reduzida para indicar carregamento */
   opacity: 0.6;
+  /* Transição suave da opacidade ao mudar estado */
   transition: opacity 0.2s;
 }
 
 /* Responsividade para tablets */
 @media (max-width: 768px) {
   .tenis {
+    /* Diminui o espaçamento inferior em telas menores */
     margin-bottom: 20px;
   }
   
   .descricao {
+    /* Ajusta o padding para uma melhor apresentação em tablets */
     padding: 10px 15px;
   }
   
   .infoBotoes {
+    /* Reduz a margem superior para economizar espaço */
     margin-top: 20px;
   }
   
   .botoes > * {
+    /* Diminui a margem esquerda dos botões e elementos filhos */
     margin-left: 20px;
   }
 }
@@ -103,63 +139,86 @@
 /* Responsividade para telas menores que 450px - imitando TenisItem */
 @media (max-width: 449px) {
   .tenis {
+    /* Muda o layout para coluna para melhor uso em telas pequenas */
     flex-direction: column;
     width: 100%;
+    /* Limita a largura máxima para manter proporção */
     max-width: 350px;
+    /* Centraliza o componente com margens automáticas lateralmente */
     margin: 0 auto 20px auto;
+    /* Mantém bordas arredondadas */
     border-radius: 20px;
+    /* Esconde conteúdo que ultrapasse o limite */
     overflow: hidden;
   }
   
   .imgTenis {
+    /* Imagem ocupa toda a largura disponível */
     width: 100% !important;
+    /* Altura automática para manter proporção */
     height: auto;
+    /* Cobre a área da imagem mantendo o centro visível */
     object-fit: cover;
     object-position: center;
   }
   
   .descricao {
+    /* Padding reduzido para telas pequenas */
     padding: 8px;
+    /* Largura total para usar todo espaço */
     width: 100%;
   }
   
   .infoBotoes {
+    /* Margem superior menor para compactar layout */
     margin-top: 15px;
+    /* Organiza itens em coluna */
     flex-direction: column;
+    /* Espaçamento entre os itens */
     gap: 10px;
   }
   
   .botoes {
+    /* Alinha os botões à direita */
     align-self: flex-end;
+    /* Espaçamento entre botões */
     gap: 5px;
   }
   
   .botoes > * {
+    /* Margem menor entre os elementos filhos */
     margin-left: 15px;
   }
   
   .botoes button {
+    /* Padding menor para botões menores */
     padding: 6px 8px;
+    /* Bordas arredondadas para botões */
     border-radius: 5px;
   }
   
   .botoes img {
+    /* Define largura menor para imagens dentro dos botões */
     width: 18px;
   }
   
   .tamanhoPreco {
+    /* Menor margem superior para economizar espaço */
     margin-top: 15px;
   }
   
   .tamanhoInfo p {
+    /* Fonte menor para texto de tamanho */
     font-size: 14px;
   }
   
   .estoque {
+    /* Fonte muito pequena para estoque em telas pequenas */
     font-size: 11px !important;
   }
   
   .aviso-estoque {
+    /* Fonte menor para avisos em telas pequenas */
     font-size: 12px;
   }
 }

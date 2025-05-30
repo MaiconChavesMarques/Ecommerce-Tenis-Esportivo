@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Serif:wght@400;700&display=swap');
 
+/* Container principal do cartão, ocupa toda altura da tela e centraliza conteúdo */
 .cartao-container {
   min-height: 100vh;
   background-color: #f8f9fa;
@@ -11,6 +12,7 @@
   margin: 0;
 }
 
+/* Conteúdo do cartão com fundo branco, borda arredondada e sombra */
 .cartao-content {
   background-color: white;
   border-radius: 20px;
@@ -21,6 +23,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
+/* Cabeçalho do cartão com layout flex para ícone e título alinhados */
 .cartao-header {
   display: flex;
   align-items: center;
@@ -30,10 +33,12 @@
   border-bottom: 1px solid #e1e5e9;
 }
 
+/* Estilo do ícone no cabeçalho */
 .cartao-icon {
   font-size: 24px;
 }
 
+/* Título do cabeçalho com fonte maior e negrito */
 .cartao-header h2 {
   font-size: 20px;
   font-weight: 700;
@@ -42,6 +47,7 @@
   font-family: 'Roboto Serif', serif;
 }
 
+/* Subtítulo abaixo do cabeçalho com cor cinza e espaçamento */
 .cartao-subtitle {
   color: #6b7280;
   font-size: 16px;
@@ -51,18 +57,21 @@
   font-family: 'Roboto Serif', serif;
 }
 
+/* Formulário com layout vertical e espaçamento entre campos */
 .cartao-form {
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
+/* Grupo de campos do formulário, vertical com pequeno espaçamento */
 .form-group {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
+/* Estilo do label dos inputs */
 .form-group label {
   font-size: 16px;
   font-weight: 700;
@@ -71,6 +80,7 @@
   font-family: 'Roboto Serif', serif;
 }
 
+/* Estilo dos inputs, com padding, borda arredondada e transições */
 .form-group input {
   padding: 12px 16px;
   border: 1px solid #6b7280;
@@ -84,33 +94,39 @@
   font-family: 'Roboto Serif', serif;
 }
 
+/* Estilo do input quando está em foco */
 .form-group input:focus {
   border-color: #3b82f6;
   box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
 }
 
+/* Estilo do placeholder dos inputs */
 .form-group input::placeholder {
   color: #9ca3af;
   font-size: 16px;
   font-family: 'Roboto Serif', serif;
 }
 
+/* Estilo do input quando está desabilitado */
 .form-group input:disabled {
   background-color: #f8f8f8;
   color: #666;
   cursor: not-allowed;
 }
 
+/* Linha com dois campos lado a lado usando grid */
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
 
+/* Classe para grupos que ocupam metade do espaço disponível */
 .form-group.half {
   flex: 1;
 }
 
+/* Estilo para mensagens de erro em vermelho com fundo claro */
 .erro-message {
   color: #e74c3c;
   font-size: 14px;
@@ -121,6 +137,7 @@
   font-family: 'Roboto Serif', serif;
 }
 
+/* Botão de completar pagamento com estilo escuro e arredondado */
 .completar-pagamento-btn {
   padding: 12px 32px;
   background-color: #000;
@@ -141,20 +158,23 @@
   width: 100%;
 }
 
+/* Efeito hover no botão, alterando cor de fundo */
 .completar-pagamento-btn:hover:not(:disabled) {
   background-color: #1f2937;
 }
 
+/* Estilo do botão quando está desabilitado */
 .completar-pagamento-btn:disabled {
   background-color: #666;
   cursor: not-allowed;
 }
 
-/* Estilos para tela de conclusão */
+/* Container da tela de conclusão, centraliza texto */
 .concluido-container {
   text-align: center;
 }
 
+/* Cabeçalho da tela de conclusão com ícone e texto alinhados */
 .concluido-header {
   display: flex;
   align-items: center;
@@ -165,11 +185,13 @@
   border-bottom: 1px solid #e1e5e9;
 }
 
+/* Ícone da tela de conclusão com animação de bounce */
 .concluido-icon {
   font-size: 32px;
   animation: checkmark-bounce 0.6s ease-in-out;
 }
 
+/* Título do cabeçalho da tela de conclusão */
 .concluido-header h2 {
   font-size: 20px;
   font-weight: 700;
@@ -178,6 +200,7 @@
   font-family: 'Roboto Serif', serif;
 }
 
+/* Subtítulo da tela de conclusão com cor cinza */
 .concluido-subtitle {
   color: #6b7280;
   font-size: 16px;
@@ -187,6 +210,7 @@
   font-family: 'Roboto Serif', serif;
 }
 
+/* Box com detalhes da conclusão com borda verde à esquerda */
 .concluido-details {
   background-color: #f8f9fa;
   border-radius: 20px;
@@ -195,6 +219,7 @@
   border-left: 4px solid #27ae60;
 }
 
+/* Parágrafos dentro dos detalhes da conclusão */
 .concluido-details p {
   color: #6b7280;
   font-size: 16px;
@@ -203,6 +228,7 @@
   font-family: 'Roboto Serif', serif;
 }
 
+/* Botão para voltar à home com cor verde e arredondado */
 .voltar-home-btn {
   padding: 12px 32px;
   background-color: #27ae60;
@@ -222,10 +248,12 @@
   width: 100%;
 }
 
+/* Hover para botão de voltar home */
 .voltar-home-btn:hover {
   background-color: #219a52;
 }
 
+/* Animação de bounce para o ícone checkmark */
 @keyframes checkmark-bounce {
   0% {
     transform: scale(0);
@@ -238,7 +266,7 @@
   }
 }
 
-/* Responsividade */
+/* Responsividade para telas até 768px de largura */
 @media (max-width: 768px) {
   .cartao-container {
     padding: 20px 10px;
@@ -251,56 +279,68 @@
     max-width: 100%;
   }
   
+  /* Formulário muda para uma coluna apenas */
   .form-row {
     grid-template-columns: 1fr;
     gap: 24px;
   }
   
+  /* Remove flex grow em campos com half para caber no layout menor */
   .form-group.half {
     flex: none;
   }
   
+  /* Cabeçalho da tela de conclusão vira coluna com espaçamento menor */
   .concluido-header {
     flex-direction: column;
     gap: 8px;
   }
   
+  /* Aumenta tamanho do ícone no modo responsivo */
   .concluido-icon {
     font-size: 48px;
   }
   
+  /* Ajusta tamanho do título em telas menores */
   .cartao-header h2 {
     font-size: 18px;
   }
   
+  /* Diminui tamanho das labels do formulário */
   .form-group label {
     font-size: 14px;
   }
   
+  /* Diminui tamanho dos botões */
   .completar-pagamento-btn,
   .voltar-home-btn {
     font-size: 14px;
   }
 }
 
+/* Responsividade para telas muito pequenas (até 480px) */
 @media (max-width: 480px) {
   .cartao-content {
     padding: 24px 16px;
   }
   
+  /* Ajusta títulos para ficarem menores */
   .cartao-header h2 {
     font-size: 16px;
   }
   
+  /* Ajusta subtítulos para ficarem menores */
   .cartao-subtitle,
   .concluido-subtitle {
     font-size: 14px;
   }
   
+  /* Labels menores para caber melhor */
   .form-group label {
     font-size: 14px;
   }
   
+  /* Botões menores em telas muito pequenas */
   .completar-pagamento-btn,
   .voltar-home-btn {
     font-size: 14px;

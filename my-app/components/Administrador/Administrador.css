@@ -1,50 +1,58 @@
+/* Container principal do admin, com padding, largura máxima e centralizado */
 .container-admin {
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
-  flex-direction: column;
-  flex: 1;
+  flex-direction: column; /* Conteúdo em coluna */
+  flex: 1; /* Cresce para ocupar espaço disponível */
 }
 
+/* Estilo geral para o título principal */
 h1 {
   margin-bottom: 30px;
   font-size: 28px;
 }
 
+/* Container dos cards, usando flexbox com espaçamento e quebra de linha */
 .cards-container {
   display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  justify-content: center;
+  gap: 20px; /* Espaço entre cards */
+  flex-wrap: wrap; /* Permite quebra para próxima linha */
+  justify-content: center; /* Centraliza os cards */
 }
 
+/* Estilo de cada card administrativo */
 .card-admin {
-  border: 1px solid #e1e1e1;
-  border-radius: 8px;
+  border: 1px solid #e1e1e1; /* Borda cinza clara */
+  border-radius: 8px; /* Cantos arredondados */
   padding: 20px;
-  width: 300px;
+  width: 300px; /* Largura fixa */
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: column; /* Conteúdo em coluna */
+  align-items: center; /* Centraliza horizontalmente */
   background-color: white;
 }
 
+/* Espaçamento inferior do ícone no card */
 .card-icon {
   margin-bottom: 15px;
 }
 
+/* Título secundário dentro do card */
 .card-admin h2 {
   margin-bottom: 10px;
   font-size: 20px;
 }
 
+/* Parágrafo dentro do card, com centralização e cor cinza */
 .card-admin p {
   margin-bottom: 20px;
   text-align: center;
   color: #666;
 }
 
+/* Botão dentro do card, estilo básico com fundo preto e texto branco */
 .card-admin button {
   background-color: black;
   color: white;
@@ -53,20 +61,24 @@ h1 {
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
-  width: 100%;
-  transition: background-color 0.2s;
+  width: 100%; /* Botão ocupa toda largura do card */
+  transition: background-color 0.2s; /* Transição suave ao passar o mouse */
 }
 
+/* Efeito hover do botão, escurecendo o fundo */
 .card-admin button:hover {
   background-color: #333;
 }
 
+/* Responsividade para telas menores que 768px */
 @media (max-width: 768px) {
+  /* Container dos cards fica em coluna e centraliza os itens */
   .cards-container {
     flex-direction: column;
     align-items: center;
   }
   
+  /* Cards ocupam 100% da largura disponível, limitados a 300px */
   .card-admin {
     width: 100%;
     max-width: 300px;

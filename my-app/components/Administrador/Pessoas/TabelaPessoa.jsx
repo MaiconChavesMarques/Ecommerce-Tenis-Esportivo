@@ -9,6 +9,7 @@ function TabelaPessoa({
   onEnviarPessoa 
 }) {
 
+  // Função chamada ao clicar em editar, chama callback onEditar se existir
   function handleEditar(pessoa) {
     console.log('Editar:', pessoa);
     if (onEditar) {
@@ -16,17 +17,18 @@ function TabelaPessoa({
     }
   }
 
+  // Função chamada ao clicar em excluir, tenta chamar onExcluir ou onEnviarPessoa como fallback
   function handleExcluir(pessoa) {
     console.log('Excluir:', pessoa);
     if (onExcluir) {
       onExcluir(pessoa);
     } else if (onEnviarPessoa) {
-      // Fallback para a função de envio genérica
+      // Fallback para a função genérica de envio com ação 'excluir'
       onEnviarPessoa(pessoa, 'excluir');
     }
   }
 
-  // Determinar o título baseado no tipo
+  // Determina o título da tabela com base no tipo de pessoa
   const getTitulo = () => {
     switch(tipo) {
       case 'administradores':
@@ -38,9 +40,9 @@ function TabelaPessoa({
     }
   };
 
-  // Mostrar mensagem quando não há pessoas
+  // Caso não haja pessoas para mostrar, exibe mensagem informativa
   if (!pessoas || pessoas.length === 0) {
-    // Se há termo de busca, significa que não há resultados para a busca
+    // Mensagem varia conforme há termo de busca ou não
     const mensagem = termoBusca 
       ? `Nenhum resultado encontrado para "${termoBusca}".`
       : `Nenhum ${tipo === 'administradores' ? 'administrador' : 'cliente'} encontrado.`;
@@ -64,6 +66,7 @@ function TabelaPessoa({
     );
   }
 
+  // Renderiza a tabela com cabeçalho e linhas de pessoas
   return (
     <div className="pessoa-tabela-container">
       <div className="pessoa-tabela-header">
@@ -73,6 +76,7 @@ function TabelaPessoa({
         <h2>{getTitulo()}</h2>
       </div>
 
+      {/* Cabeçalho da tabela */}
       <div className="pessoa-cabecalho">
         <div className="pessoa-coluna-nome">Nome</div>
         <div className="pessoa-coluna-email">Email</div>
@@ -80,6 +84,7 @@ function TabelaPessoa({
         <div className="pessoa-coluna-acoes">Ações</div>
       </div>
 
+      {/* Corpo da tabela com pessoas mapeadas */}
       <div className="pessoa-tabela-corpo">
         {pessoas.map((pessoa, index) => (
           <div key={pessoa.email || index} className="pessoa-item">
@@ -90,11 +95,13 @@ function TabelaPessoa({
               <span className="pessoa-email">{pessoa.email || 'Email não informado'}</span>
             </div>
             <div className="pessoa-coluna-estado">
+              {/* Status com classe dinâmica conforme ativo/inativo */}
               <span className={`pessoa-status ${pessoa.estadoConta === 'ativo' ? 'ativo' : 'inativo'}`}>
                 {pessoa.estadoConta === 'ativo' ? 'Ativo' : 'Inativo'}
               </span>
             </div>
             <div className="pessoa-coluna-acoes">
+              {/* Botão editar */}
               <button 
                 className="pessoa-btn-acao editar" 
                 onClick={() => handleEditar(pessoa)}
@@ -102,6 +109,7 @@ function TabelaPessoa({
               >
                 ✏️
               </button>
+              {/* Botão excluir */}
               <button 
                 className="pessoa-btn-acao excluir" 
                 onClick={() => handleExcluir(pessoa)}

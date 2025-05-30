@@ -1,67 +1,69 @@
 /* Layout específico para pessoas com 4 colunas */
 .pessoa-item {
-  display: grid;
-  grid-template-columns: 2fr 2fr 1fr 1fr;
-  align-items: center;
-  padding: 12px 16px;
-  border-bottom: 1px solid #e1e1e1;
+  display: grid; /* Usa grid para layout das colunas */
+  grid-template-columns: 2fr 2fr 1fr 1fr; /* Define proporção das colunas */
+  align-items: center; /* Alinha verticalmente ao centro */
+  padding: 12px 16px; /* Espaçamento interno */
+  border-bottom: 1px solid #e1e1e1; /* Linha divisória inferior */
 }
 
 .pessoa-item .pessoa-cabecalho {
-  grid-template-columns: 2fr 2fr 1fr 1fr;
+  grid-template-columns: 2fr 2fr 1fr 1fr; /* Mantém mesmas colunas do item */
 }
 
 /* Configuração do cabeçalho da tabela */
 .pessoa-cabecalho {
-  display: grid;
-  grid-template-columns: 2fr 2fr 1fr 1fr;
-  background-color: #f8f9fa;
-  padding: 12px 16px;
-  border-bottom: 2px solid #dee2e6;
-  font-weight: 600;
-  color: #495057;
-  font-size: 14px;
+  display: grid; /* Grid para o cabeçalho */
+  grid-template-columns: 2fr 2fr 1fr 1fr; /* Proporção das colunas no cabeçalho */
+  background-color: #f8f9fa; /* Fundo claro */
+  padding: 12px 16px; /* Espaçamento interno */
+  border-bottom: 2px solid #dee2e6; /* Linha mais grossa para destaque */
+  font-weight: 600; /* Texto em negrito */
+  color: #495057; /* Cor do texto */
+  font-size: 14px; /* Tamanho da fonte */
 }
 
 /* Estilos para o conteúdo das colunas */
 .pessoa-nome {
-  font-weight: 500;
-  color: #333;
-  font-size: 14px;
+  font-weight: 500; /* Negrito médio */
+  color: #333; /* Cor escura para nome */
+  font-size: 14px; /* Tamanho da fonte */
 }
 
 .pessoa-email {
-  font-weight: 400;
-  color: #666;
+  font-weight: 400; /* Peso normal */
+  color: #666; /* Cor mais clara para email */
   font-size: 14px;
 }
 
 /* Status com mesmo padrão do estoque */
 .pessoa-status {
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  text-align: center;
-  display: inline-block;
-  min-width: 60px;
+  padding: 4px 8px; /* Espaçamento interno menor */
+  border-radius: 12px; /* Bordas arredondadas */
+  font-size: 0.8rem; /* Fonte menor */
+  font-weight: 500; /* Peso médio */
+  text-align: center; /* Centraliza texto */
+  display: inline-block; /* Mantém tamanho do conteúdo */
+  min-width: 60px; /* Largura mínima */
 }
 
+/* Status ativo: fundo verde claro e texto verde escuro */
 .pessoa-status.ativo {
   background-color: #e8f5e8;
   color: #2d7d32;
 }
 
+/* Status inativo: fundo vermelho claro e texto vermelho escuro */
 .pessoa-status.inativo {
   background-color: #ffebee;
   color: #d32f2f;
 }
 
-/* Alinhamento das colunas */
+/* Alinhamento das colunas específicas */
 .pessoa-coluna-nome {
-  display: flex;
+  display: flex; /* Flex para alinhar ícones ou textos */
   align-items: center;
-  padding-left: 8px;
+  padding-left: 8px; /* Espaço à esquerda */
 }
 
 .pessoa-coluna-email {
@@ -73,96 +75,104 @@
 .pessoa-coluna-estado {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; /* Centraliza horizontalmente */
 }
 
 .pessoa-coluna-acoes {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
+  justify-content: center; /* Centraliza horizontalmente */
+  gap: 8px; /* Espaço entre botões */
 }
 
 /* Estilos dos botões de ação */
 .pessoa-btn-acao {
-  background: none;
-  border: none;
-  padding: 6px;
-  cursor: pointer;
-  border-radius: 4px;
-  font-size: 16px;
-  transition: background-color 0.2s;
+  background: none; /* Fundo transparente */
+  border: none; /* Sem borda */
+  padding: 6px; /* Espaço interno */
+  cursor: pointer; /* Cursor de mãozinha */
+  border-radius: 4px; /* Bordas arredondadas */
+  font-size: 16px; /* Tamanho da fonte */
+  transition: background-color 0.2s; /* Transição suave para hover */
 }
 
+/* Fundo cinza claro no hover geral */
 .pessoa-btn-acao:hover {
   background-color: #f1f3f4;
 }
 
+/* Fundo azul claro no hover para botão editar */
 .pessoa-btn-acao.editar:hover {
   background-color: #e3f2fd;
 }
 
+/* Fundo vermelho claro no hover para botão excluir */
 .pessoa-btn-acao.excluir:hover {
   background-color: #ffebee;
 }
 
-/* Container da tabela - Ocupando menos espaço */
+/* Container da tabela - Ocupando menos espaço e centralizado */
 .pessoa-tabela-container {
   background: white;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  margin-left: clamp(60px, 25vw, 350px);
-  margin-right: clamp(60px, 25vw, 350px);
-  max-width: calc(100% - 2 * clamp(60px, 25vw, 350px));
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  overflow: hidden; /* Esconde conteúdo que ultrapasse */
+  margin-left: clamp(60px, 25vw, 350px); /* Margem responsiva à esquerda */
+  margin-right: clamp(60px, 25vw, 350px); /* Margem responsiva à direita */
+  max-width: calc(100% - 2 * clamp(60px, 25vw, 350px)); /* Largura máxima baseada nas margens */
 }
 
+/* Cabeçalho da tabela com ícone e título */
 .pessoa-tabela-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 20px 20px 16px 20px;
-  border-bottom: 1px solid #e1e1e1;
+  gap: 12px; /* Espaço entre elementos */
+  padding: 20px 20px 16px 20px; /* Espaçamento interno */
+  border-bottom: 1px solid #e1e1e1; /* Linha inferior */
 }
 
+/* Ícone da tabela com tamanho maior */
 .pessoa-icone-tabela {
   font-size: 24px;
 }
 
+/* Título da tabela */
 .pessoa-tabela-header h2 {
-  margin: 0;
+  margin: 0; /* Remove margem padrão */
   color: #333;
   font-size: 20px;
   font-weight: 600;
 }
 
-/* Hover effect para itens da tabela */
+/* Hover effect para itens da tabela - fundo claro */
 .pessoa-item:hover {
   background-color: #f8f9fa;
 }
 
+/* Remove a borda inferior do último item */
 .pessoa-item:last-child {
   border-bottom: none;
 }
 
-/* Responsividade para pessoas */
+/* Responsividade para telas menores que 768px */
 @media (max-width: 768px) {
   .pessoa-tabela-container {
-    margin-left: 60px;
+    margin-left: 60px; /* Margem fixa menor */
     margin-right: 60px;
     max-width: calc(100% - 120px);
   }
 
   .pessoa-item {
-    grid-template-columns: 1fr;
-    gap: 12px;
+    grid-template-columns: 1fr; /* Layout em uma única coluna */
+    gap: 12px; /* Espaçamento entre elementos */
     padding: 16px;
   }
   
   .pessoa-cabecalho {
-    display: none;
+    display: none; /* Esconde cabeçalho para layout simplificado */
   }
   
+  /* Labels para os campos em dispositivos móveis */
   .pessoa-item .pessoa-coluna-nome::before {
     content: 'Nome: ';
     font-weight: 500;
@@ -181,23 +191,26 @@
     color: #666;
   }
 
+  /* Ajusta alinhamento para começar da esquerda */
   .pessoa-coluna-nome,
   .pessoa-coluna-email,
   .pessoa-coluna-estado {
     justify-content: flex-start;
   }
 
+  /* Ajustes para ações no layout móvel */
   .pessoa-coluna-acoes {
     justify-content: flex-start;
-    margin-top: 8px;
-    padding-top: 8px;
-    border-top: 1px solid #f0f0f0;
+    margin-top: 8px; /* Espaço acima */
+    padding-top: 8px; /* Espaço interno no topo */
+    border-top: 1px solid #f0f0f0; /* Linha separadora */
   }
 }
 
+/* Responsividade para telas menores que 480px */
 @media (max-width: 480px) {
   .pessoa-tabela-container {
-    margin-left: 40px;
+    margin-left: 40px; /* Margem ainda menor */
     margin-right: 40px;
     max-width: calc(100% - 80px);
   }

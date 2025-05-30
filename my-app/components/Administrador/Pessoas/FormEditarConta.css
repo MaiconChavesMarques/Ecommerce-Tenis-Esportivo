@@ -1,116 +1,132 @@
+/* Importa a fonte Roboto Serif do Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Serif:wght@400;700&display=swap');
 
+/* Estiliza o formulário principal de edição de conta */
 .form-editar-conta {
-  max-width: 1037px;
-  margin: 0 auto;
-  background-color: #f5f5f5;
-  min-height: 100vh;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  max-width: 1037px; /* largura máxima do container */
+  margin: 0 auto; /* centraliza horizontalmente */
+  background-color: #f5f5f5; /* cor de fundo clara */
+  min-height: 100vh; /* altura mínima ocupando toda a tela */
+  padding: 20px; /* espaçamento interno */
+  display: flex; /* flex container */
+  flex-direction: column; /* organiza os filhos em coluna */
+  align-items: center; /* centraliza itens horizontalmente */
+  justify-content: center; /* centraliza itens verticalmente */
 }
 
+/* Estilo do título principal */
 .titulo-principal {
-  text-align: center;
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 30px;
-  color: #333;
-  font-family: 'Roboto Serif', serif;
+  text-align: center; /* centraliza o texto */
+  font-size: 1.5rem; /* tamanho da fonte */
+  font-weight: 600; /* peso da fonte */
+  margin-bottom: 30px; /* espaço abaixo do título */
+  color: #333; /* cor do texto */
+  font-family: 'Roboto Serif', serif; /* fonte importada */
 }
 
+/* Container do formulário com borda e fundo branco */
 .container-formulario {
-  border: 1px solid #6b7280;
-  border-radius: 20px;
-  padding: 48px;
-  width: 100%;
-  max-width: 1037px;
-  background-color: #fff;
-  font-family: 'Roboto Serif', serif;
-  position: relative;
+  border: 1px solid #6b7280; /* borda cinza */
+  border-radius: 20px; /* cantos arredondados */
+  padding: 48px; /* espaçamento interno */
+  width: 100%; /* ocupa toda largura do container pai */
+  max-width: 1037px; /* largura máxima */
+  background-color: #fff; /* fundo branco */
+  font-family: 'Roboto Serif', serif; /* fonte aplicada */
+  position: relative; /* posicionamento para possíveis elementos filhos */
 }
 
+/* Título dentro do formulário */
 .titulo-formulario {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 16px;
-  color: #000;
-  text-align: left;
+  font-size: 20px; /* tamanho da fonte */
+  font-weight: 700; /* negrito */
+  margin-bottom: 16px; /* espaço abaixo */
+  color: #000; /* texto preto */
+  text-align: left; /* alinhado à esquerda */
 }
 
+/* Texto para avisos importantes em vermelho */
 .aviso-importante {
-  color: red;
-  margin-bottom: 32px;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.4;
+  color: red; /* texto vermelho */
+  margin-bottom: 32px; /* espaço abaixo */
+  font-size: 16px; /* tamanho da fonte */
+  font-weight: 400; /* peso normal */
+  line-height: 1.4; /* altura da linha para legibilidade */
 }
 
+/* Formulário com organização vertical e espaçamento entre campos */
 .formulario-editar {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 24px; /* espaço entre campos */
 }
 
+/* Grupo de campo, label e input organizados em coluna com espaçamento */
 .grupo-campo {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 8px; /* espaço entre label e input */
 }
 
+/* Estilo do label dos campos */
 .label-campo {
   font-size: 16px;
   font-weight: 700;
   color: #000;
 }
 
+/* Adiciona asterisco vermelho para labels obrigatórios */
 .label-campo.obrigatorio::after {
   content: " *";
-  color: #d32f2f;
+  color: #d32f2f; /* vermelho */
 }
 
+/* Estilo dos inputs de texto */
 .input-campo {
-  padding: 12px 16px;
-  border: 1px solid #6b7280;
-  border-radius: 20px;
+  padding: 12px 16px; /* espaçamento interno */
+  border: 1px solid #6b7280; /* borda cinza */
+  border-radius: 20px; /* cantos arredondados */
   font-size: 16px;
   background-color: #fff;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  outline: none;
-  height: 44px;
+  transition: border-color 0.2s, box-shadow 0.2s; /* animação suave ao focar */
+  outline: none; /* remove contorno padrão do navegador */
+  height: 44px; /* altura fixa */
   font-family: 'Roboto Serif', serif;
 }
 
+/* Estilo do input quando está em foco */
 .input-campo:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+  border-color: #3b82f6; /* borda azul */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1); /* sombra suave azul */
 }
 
+/* Cor e fonte do placeholder */
 .input-campo::placeholder {
-  color: #9ca3af;
+  color: #9ca3af; /* cinza claro */
   font-family: 'Roboto Serif', serif;
 }
 
+/* Estilo do select semelhante ao input */
 .select-campo {
   padding: 12px 16px;
   border: 1px solid #6b7280;
   border-radius: 20px;
   font-size: 16px;
   background-color: #fff;
-  cursor: pointer;
+  cursor: pointer; /* cursor de mãozinha */
   transition: border-color 0.2s, box-shadow 0.2s;
   outline: none;
   height: 44px;
   font-family: 'Roboto Serif', serif;
 }
 
+/* Estilo do select em foco */
 .select-campo:focus {
   border-color: #3b82f6;
   box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
 }
 
+/* Seção do endereço com espaçamento entre campos */
 .secao-endereco {
   margin-top: 16px;
   display: flex;
@@ -118,6 +134,7 @@
   gap: 24px;
 }
 
+/* Título das seções dentro do formulário */
 .titulo-secao {
   font-size: 20px;
   font-weight: 700;
@@ -125,27 +142,30 @@
   color: #000;
 }
 
+/* Linha que agrupa vários campos lado a lado */
 .linha-campos {
   display: flex;
-  gap: 20px;
+  gap: 20px; /* espaçamento horizontal entre campos */
 }
 
+/* Cada grupo de campo na linha ocupa espaço proporcional */
 .linha-campos .grupo-campo {
   flex: 1;
 }
 
+/* Botão principal para salvar/editar */
 .botao-editar {
   margin-top: 32px;
   padding: 12px 24px;
-  background-color: #000;
-  color: white;
-  border: 1px solid #6b7280;
+  background-color: #000; /* preto */
+  color: white; /* texto branco */
+  border: 1px solid #6b7280; /* borda cinza */
   border-radius: 20px;
   font-size: 16px;
   font-weight: 700;
-  cursor: pointer;
+  cursor: pointer; /* cursor de mão */
   transition: background-color 0.2s;
-  width: 100%;
+  width: 100%; /* ocupa toda a largura disponível */
   height: 44px;
   font-family: 'Roboto Serif', serif;
   display: flex;
@@ -153,65 +173,69 @@
   justify-content: center;
 }
 
+/* Cor do botão ao passar o mouse */
 .botao-editar:hover {
-  background-color: #1f2937;
+  background-color: #1f2937; /* tom mais claro de preto */
 }
 
+/* Cor do botão ao clicar */
 .botao-editar:active {
-  background-color: #111827;
+  background-color: #111827; /* tom escuro */
 }
 
+/* Responsivo: telas até 768px */
 @media (max-width: 768px) {
   .form-editar-conta {
-    padding: 15px;
+    padding: 15px; /* reduz padding para telas menores */
   }
   
   .container-formulario {
-    padding: 32px 24px;
-    max-width: 100%;
+    padding: 32px 24px; /* reduz padding lateral */
+    max-width: 100%; /* ocupa toda a largura disponível */
   }
   
   .titulo-formulario {
-    font-size: 18px;
+    font-size: 18px; /* reduz tamanho da fonte */
   }
   
   .aviso-importante {
-    font-size: 14px;
+    font-size: 14px; /* reduz tamanho da fonte */
   }
   
   .label-campo {
-    font-size: 14px;
+    font-size: 14px; /* reduz tamanho da fonte */
   }
   
   .titulo-secao {
-    font-size: 18px;
+    font-size: 18px; /* reduz tamanho da fonte */
   }
   
   .botao-editar {
-    font-size: 14px;
+    font-size: 14px; /* reduz tamanho da fonte */
   }
   
   .linha-campos {
-    flex-direction: column;
-    gap: 24px;
+    flex-direction: column; /* empilha os campos verticalmente */
+    gap: 24px; /* espaço maior entre campos */
   }
   
   .titulo-principal {
-    font-size: 1.3rem;
+    font-size: 1.3rem; /* reduz tamanho do título principal */
   }
 }
 
+/* Responsivo: telas até 480px */
 @media (max-width: 480px) {
   .container-formulario {
-    padding: 24px 16px;
+    padding: 24px 16px; /* padding ainda menor para telas pequenas */
   }
   
   .titulo-formulario {
-    font-size: 16px;
+    font-size: 16px; /* reduz fonte */
   }
   
   .aviso-importante {
-    font-size: 14px;
+    font-size: 14px; /* mantém fonte pequena */
   }
   
   .label-campo {

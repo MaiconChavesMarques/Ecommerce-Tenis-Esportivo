@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import './FormUsuario.css';
 
 function FormUsuario({
+  // Dados iniciais do formulário com valores padrão vazios
   dadosIniciais = {
     nome: "",
     email: "",
@@ -13,38 +14,50 @@ function FormUsuario({
     cep: "",
     pais: ""
   },
+  // Título do formulário
   titulo = "Registre-se",
+  // Subtítulo do formulário
   subtitulo = "Preencha suas informações para criar uma conta",
+  // Texto do botão de envio
   textoBotao = "Registrar-se",
+  // Função que será chamada ao enviar o formulário
   onSubmit,
+  // Booleano para controlar se o campo senha deve ser exibido e obrigatório
   mostrarSenha = true
 }) {
+  // Estado local para armazenar os dados do formulário
   const [formData, setFormData] = useState(dadosIniciais);
 
+  // Atualiza o estado do formulário quando os dados iniciais mudam
   useEffect(() => {
     setFormData(dadosIniciais);
     console.log("Dados Iniciais mudou");
   }, [dadosIniciais]);
 
+  // Função para atualizar o estado do formulário conforme o usuário digita
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [id]: value,
+      [id]: value, // Atualiza o campo específico pelo id do input
     }));
   };
 
+  // Função para tratar o envio do formulário
   const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(formData);
+    e.preventDefault(); // Previne o comportamento padrão de reload da página
+    onSubmit(formData); // Chama a função onSubmit passando os dados do formulário
   };
 
   return (
     <div className="caixa-formulario">
+      {/* Título do formulário */}
       <h2>{titulo}</h2>
+      {/* Subtítulo do formulário */}
       <p>{subtitulo}</p>
 
       <form onSubmit={handleSubmit}>
+        {/* Campo para o nome, obrigatório se mostrar senha */}
         <div className="campo">
           <label htmlFor="nome">Nome {mostrarSenha && '*'}</label>
           <input
@@ -56,6 +69,7 @@ function FormUsuario({
           />
         </div>
 
+        {/* Campo para o email, obrigatório se mostrar senha */}
         <div className="campo">
           <label htmlFor="email">Email {mostrarSenha && '*'}</label>
           <input
@@ -67,6 +81,7 @@ function FormUsuario({
           />
         </div>
 
+        {/* Campo para senha, exibido somente se mostrarSenha for true */}
         {mostrarSenha && (
           <div className="campo">
             <label htmlFor="senha">Senha *</label>
@@ -80,6 +95,7 @@ function FormUsuario({
           </div>
         )}
 
+        {/* Campo para telefone, opcional */}
         <div className="campo">
           <label htmlFor="telefone">Número de telefone</label>
           <input
@@ -90,9 +106,11 @@ function FormUsuario({
           />
         </div>
 
+        {/* Seção de endereço */}
         <div className="endereco-section">
           <h3>Endereço</h3>
 
+          {/* Campo rua */}
           <div className="campo">
             <label htmlFor="rua">Rua</label>
             <input
@@ -103,6 +121,7 @@ function FormUsuario({
             />
           </div>
 
+          {/* Linha com campos cidade e estado lado a lado */}
           <div className="campos-linha">
             <div className="campo meio">
               <label htmlFor="cidade">Cidade</label>
@@ -125,6 +144,7 @@ function FormUsuario({
             </div>
           </div>
 
+          {/* Linha com campos CEP e país lado a lado */}
           <div className="campos-linha">
             <div className="campo meio">
               <label htmlFor="cep">CEP</label>
@@ -148,6 +168,7 @@ function FormUsuario({
           </div>
         </div>
 
+        {/* Botão para enviar o formulário com texto customizável */}
         <button type="submit" className="btn-formulario">
           {textoBotao}
         </button>
