@@ -38,23 +38,263 @@ Todos os Mockups estão também no figma com nomes iguais aqueles encontrados no
 
 ## 3. Comentários sobre o Código
 <!-- Insira comentários que ajudem a entender melhor a estrutura e as decisões do código. -->
+O carrinho é o único componente que usa um servidor de verdade. Usamos um serviço gratuito que mantém o servidor online. Contudo após 5 minutos sem requisições ele entra no modo (sleep). Para ser acordado é necessário uma requisição, então a primeira requisição sempre demora um tempo considerável. Caso as requisições seguintes sejam feitas antes de passar 5 minutos terão tempo de resposta normal.
+
+Como não podemos escrever em um servidor local, tudo sem ser o carrinho atualiza temporariamente, caso haja uma troca de páginas, algumas páginas buscam novamente as informações do servidor local (não alteradas). Por isso, as mudanças realizadas só são persistentes enquanto se está na página. Isso não é um problema de fato, já que enviam as mudanças ao servidor, que futuramente devolverá os dados atualizados.
+
+O registro envia dados para o servidor, contudo, como não recebo um token que representa esse usuário de volta por não haver um servidor, uso um token de usuário qualquer. Por isso, seu usuário registrado não é o mesmo do seu perfil. Atualizar perfil também envia as mudanças ao servidor, mas não tem efeito aparente justamente por trocar de página.
 
 ## 4. Plano de Testes
-<!-- Descreva os testes planejados, incluindo testes manuais e/ou automatizados. -->
+
+Este projeto implementa o **Método 3** descrito no documento de especificação, utilizando **Armazenamento Local**.
+
+## Visão Geral
+
+Utilizamos um objeto JavaScript para salvar dados no formato **JSON**, que futuramente será lido e gravado no servidor na versão final. Atualmente, simulamos chamadas de servidor com uso de `fetch` assíncrono (`await fetch(...)`).
+
+**Importante:** Muitas funcionalidades do site ainda rodam localmente de forma proposital, para melhor visualização e teste. Na versão final, o tratamento de buscas e a renderização de páginas será migrado para o servidor, deixando de fazer parte do código React.
+
+## Testes
+
+Todos os testes foram realizados manualmente, verificando o funcionamento completo de todas as páginas. Estes testes são **facilmente reprodutíveis** na versão atual.
+
+Abaixo está a distribuição das páginas e os respectivos `fetch` utilizados:
+
+## Estrutura e Chamadas
+
+### Raiz
+**Arquivo:** `App.jsx`  
+```js
+await fetch('/usuarios.json')
+```
+- Carrega dados do carrinho utilizando o token do usuário.
+
+### Gerenciar Estoque
+**Arquivo:** `DashEstoque.jsx`  
+```js
+await fetch(config.arquivo)
+```
+- Busca os produtos que estão no estoque.
+
+### Gerenciar Clientes
+**Arquivo:** `DashAdmin.jsx`  
+```js
+await fetch(currentConfig.arquivo)
+```
+- Busca usuários e verifica quais são clientes.
+
+### Gerenciar Administradores
+**Arquivo:** `DashAdmin.jsx`  
+```js
+await fetch(currentConfig.arquivo)
+```
+- Busca usuários e verifica quais são administradores.
+
+### Editar Cliente
+**Arquivo:** `EditarPessoa.jsx`  
+```js
+await fetch(config.arquivo);
+```
+- Envia para o servidor o cliente editado.
+- Também envia objetos novos, editados ou excluídos.
+
+### Editar Administrador
+**Arquivo:** `EditarPessoa.jsx`  
+```js
+await fetch(config.arquivo);
+```
+- Envia para o servidor o administrador editado.
+- Também envia objetos novos, editados ou excluídos.
+
+### Carrinho
+**Arquivo:** `Carrinho.jsx`  
+```js
+await fetch('bd.json')
+```
+- Busca os IDs do carrinho e carrega informações dos produtos.
+
+**Arquivo:** `FormCartao.jsx`  
+```js
+await fetch('/api/comprar')
+```
+- Envia as compras com os respectivos valores para o servidor.
+
+### Chat
+**Arquivo:** `Chat.jsx`  
+```js
+await fetch('bd.json')
+await fetch("https://openrouter.ai/api/v1/chat/completions")
+```
+- Usa o banco de dados para enviar dados à API do DeepSeek.
+- Envia dados solicitando uma recomendação.
+
+### Home
+**Arquivo:** `Home.jsx`  
+```js
+await fetch('/bd.json');
+```
+- Busca os tênis do servidor para exibição na página inicial.
+
+### Página de Login
+**Arquivo:** `Login.jsx`  
+```js
+await fetch('/usuarios.json')
+```
+- Busca os dados do usuário e retorna um token.
+- Preenche os IDs dos produtos que estão no carrinho.
+
+### Página de Registro
+**Arquivo:** `Registro.jsx`  
+```js
+await fetch('/api/usuarios')
+```
+- Envia os dados do novo usuário e recebe o token correspondente.
+
+### Perfil
+**Arquivo:** `Perfil.jsx`  
+```js
+await fetch('/usuarios.json');
+```
+- Busca as informações do usuário correspondente ao token.
+- Também envia as atualizações ao servidor.
+
+### Produto Detalhe
+**Arquivo:** `ProdutoDetalhe.jsx`  
+```js
+await fetch('/bd.json');
+```
+- Busca as informações do produto selecionado.
+- Também carrega produtos para recomendação relacionada.
+
 
 ## 5. Resultados dos Testes
-<!-- Insira os resultados obtidos nos testes realizados. -->
+### Resultados dos Testes
+
+### Gerenciar Estoque
+**Arquivo:** `DashEstoque.jsx`  
+- Busca-se os produtos que estão no estoque.
+
+![Gerenciar Estoque](https://link-para-imagem-exemplo.com/gerenciar-estoque.png)
+
+---
+
+### Editar Produto
+**Arquivo:** `EditarProduto.jsx`  
+
+![Editar Produto](https://link-para-imagem-exemplo.com/editar-produto.png)
+
+---
+
+### Gerenciar Administradores e Clientes
+**Arquivo:** `DashAdmin.jsx`  
+- Busca-se os usuários e verifica-se quais deles são Administradores ou Clientes.
+
+![Dash Admin](https://link-para-imagem-exemplo.com/dash-admin.png)
+
+---
+
+### Editar Administrador ou Cliente
+**Arquivo:** `EditarPessoa.jsx`  
+- Envia para o servidor o administrador ou cliente editado.  
+- Também há um `fetch` para o mesmo destino que envia o objeto Novo, Editado ou Excluído.
+
+![Editar Pessoa](https://link-para-imagem-exemplo.com/editar-pessoa.png)
+
+---
+
+### Carrinho
+**Arquivo:** `Carrinho.jsx`  
+- Pega os IDs que estão no carrinho do usuário e busca mais informações do servidor.
+
+![Carrinho](https://link-para-imagem-exemplo.com/carrinho.png)
+
+---
+
+### Chat
+**Arquivo:** `Chat.jsx`  
+- Busca-se o banco de dados para enviar para a API do DeepSeek.  
+- Envia-se os dados para o DeepSeek pedindo a recomendação.
+
+![Chat](https://link-para-imagem-exemplo.com/chat.png)
+
+---
+
+### Home
+**Arquivo:** `Home.jsx`  
+- Busca os tênis do servidor para mostrar na página inicial.
+
+![Home](https://link-para-imagem-exemplo.com/home.png)
+
+---
+
+### Página de Login
+**Arquivo:** `Login.jsx`  
+- Busca-se os dados dos usuários, verifica o e-mail e a senha e retorna um token que representa o usuário.  
+- Também preenche os IDs dos produtos que estão no carrinho do usuário.
+
+![Login](https://link-para-imagem-exemplo.com/login.png)
+
+---
+
+### Perfil
+**Arquivo:** `Perfil.jsx`  
+- Busca as informações do usuário com o token em uso.  
+- Também há um `fetch` para enviar as atualizações ao servidor.
+
+![Perfil](https://link-para-imagem-exemplo.com/perfil.png)
+
+---
+
+### Produto Detalhe
+**Arquivo:** `ProdutoDetalhe.jsx`  
+- Busca as informações tanto do produto desejado quanto dos produtos relacionados.
+
+![Produto Detalhe](https://link-para-imagem-exemplo.com/produto-detalhe.png)
+
 
 ## 6. Procedimentos de Build
-Para a Milestone 1 bastava apresentar 3 páginas ao menos, em HTML/CSS.
+### Como Rodar o Projeto (React + Vite)
 
-As páginas estão dentro do zip chamada web.zip.
+Siga os passos abaixo para rodar o projeto localmente:
 
-Também é possível clonar esse github ao invés de baixar o zip.
+### 1. Instale o Node.js (caso ainda não tenha)
 
-É necessário extrair o zip para que o estilo seja aplicado a página.
+```bash
+sudo apt update
+sudo apt install nodejs npm
+```
 
-As páginas estão dentro da pasta "Web", bastar clicar sobre o HTML e abrir em qualquer navegador.
+> Recomendado: use o [nvm](https://github.com/nvm-sh/nvm) para instalar a versão mais recente do Node.js.
+
+---
+
+### 2. Clone o repositório
+
+```bash
+git clone https://github.com/seu-usuario/seu-repositorio.git
+cd seu-repositorio
+```
+
+---
+
+### 3. Instale as dependências
+
+```bash
+npm install
+```
+
+---
+
+### 4. Rode o projeto localmente
+
+```bash
+npm run dev
+```
+
+Abra no navegador: [http://localhost:5173](http://localhost:5173)
+
+---
+
 
 ## 7. Problemas Encontrados
 Não foram encontrados problemas até o momento.
