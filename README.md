@@ -174,14 +174,15 @@ await fetch('/bd.json');
 **Arquivo:** `DashEstoque.jsx`  
 - Busca-se os produtos que estão no estoque.
 
-![Gerenciar Estoque](https://link-para-imagem-exemplo.com/gerenciar-estoque.png)
+![Gerenciar Estoque](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/Captura%20de%20tela%20de%202025-05-30%2020-06-24.png)
 
 ---
 
 ### Editar Produto
 **Arquivo:** `EditarProduto.jsx`  
 
-![Editar Produto](https://link-para-imagem-exemplo.com/editar-produto.png)
+![Editar Produto](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/Captura%20de%20tela%20de%202025-05-30%2016-46-47.png)
+![Editar Produto](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/Captura%20de%20tela%20de%202025-05-30%2016-47-10.png)
 
 ---
 
@@ -189,7 +190,7 @@ await fetch('/bd.json');
 **Arquivo:** `DashAdmin.jsx`  
 - Busca-se os usuários e verifica-se quais deles são Administradores ou Clientes.
 
-![Dash Admin](https://link-para-imagem-exemplo.com/dash-admin.png)
+![Dash Admin](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/Captura%20de%20tela%20de%202025-05-30%2016-57-05.png)
 
 ---
 
@@ -198,7 +199,7 @@ await fetch('/bd.json');
 - Envia para o servidor o administrador ou cliente editado.  
 - Também há um `fetch` para o mesmo destino que envia o objeto Novo, Editado ou Excluído.
 
-![Editar Pessoa](https://link-para-imagem-exemplo.com/editar-pessoa.png)
+![Editar Pessoa](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/Captura%20de%20tela%20de%202025-05-30%2016-57-56.png)
 
 ---
 
@@ -206,7 +207,9 @@ await fetch('/bd.json');
 **Arquivo:** `Carrinho.jsx`  
 - Pega os IDs que estão no carrinho do usuário e busca mais informações do servidor.
 
-![Carrinho](https://link-para-imagem-exemplo.com/carrinho.png)
+![Carrinho](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/Captura%20de%20tela%20de%202025-05-30%2016-18-42.png)
+![Carrinho](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/Captura%20de%20tela%20de%202025-05-30%2016-19-21.png)
+![Carrinho](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/Captura%20de%20tela%20de%202025-05-30%2016-14-03.png)
 
 ---
 
@@ -215,7 +218,7 @@ await fetch('/bd.json');
 - Busca-se o banco de dados para enviar para a API do DeepSeek.  
 - Envia-se os dados para o DeepSeek pedindo a recomendação.
 
-![Chat](https://link-para-imagem-exemplo.com/chat.png)
+![Chat](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/Captura%20de%20tela%20de%202025-05-30%2016-33-21.png)
 
 ---
 
@@ -223,7 +226,7 @@ await fetch('/bd.json');
 **Arquivo:** `Home.jsx`  
 - Busca os tênis do servidor para mostrar na página inicial.
 
-![Home](https://link-para-imagem-exemplo.com/home.png)
+![Home](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/Captura%20de%20tela%20de%202025-05-30%2016-24-28.png)
 
 ---
 
@@ -232,7 +235,7 @@ await fetch('/bd.json');
 - Busca-se os dados dos usuários, verifica o e-mail e a senha e retorna um token que representa o usuário.  
 - Também preenche os IDs dos produtos que estão no carrinho do usuário.
 
-![Login](https://link-para-imagem-exemplo.com/login.png)
+![Login](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/Captura%20de%20tela%20de%202025-05-30%2016-01-47.png)
 
 ---
 
@@ -241,7 +244,7 @@ await fetch('/bd.json');
 - Busca as informações do usuário com o token em uso.  
 - Também há um `fetch` para enviar as atualizações ao servidor.
 
-![Perfil](https://link-para-imagem-exemplo.com/perfil.png)
+![Perfil](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/Captura%20de%20tela%20de%202025-05-30%2016-26-20.png)
 
 ---
 
@@ -249,7 +252,7 @@ await fetch('/bd.json');
 **Arquivo:** `ProdutoDetalhe.jsx`  
 - Busca as informações tanto do produto desejado quanto dos produtos relacionados.
 
-![Produto Detalhe](https://link-para-imagem-exemplo.com/produto-detalhe.png)
+![Produto Detalhe](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/Captura%20de%20tela%20de%202025-05-30%2017-05-53.png)
 
 
 ## 6. Procedimentos de Build
