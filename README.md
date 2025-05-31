@@ -288,10 +288,10 @@ npm run dev
 Abra no navegador: [http://localhost:5173](http://localhost:5173)
 
 ---
-Email Administrador: a@gmail.com
+Email Administrador: a@gmail.com<br>
 Senha: 1
 
-Email Cliente: b@gmail.com
+Email Cliente: b@gmail.com<br>
 Senha: 2
 
 ## 7. Problemas Encontrados
