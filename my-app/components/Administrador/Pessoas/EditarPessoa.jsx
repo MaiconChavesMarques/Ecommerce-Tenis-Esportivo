@@ -15,6 +15,64 @@ function EditarPessoa({
   // Hook para navegar entre páginas
   const navigate = useNavigate();
 
+  // FETCH POST - Função para criar nova pessoa
+  async function criarPessoa(dadosPessoa) {
+    try {
+      const response = await fetch('http://localhost:3000/users/administrador/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...dadosPessoa,
+          tipo: dadosPessoa.tipo
+        })
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Erro ao criar usuário');
+      }
+
+      const data = await response.json();
+      console.log(`${dadosPessoa.tipo} criado com sucesso:`, data);
+      
+      return { sucesso: true, data };
+      
+    } catch (error) {
+      console.error('Erro ao criar pessoa:', error);
+      return { sucesso: false, erro: error.message };
+    }
+  }
+
+  // FETCH PUT - Função para atualizar pessoa existente
+  async function atualizarPessoa(dadosPessoa) {
+    console.log(dadosPessoa);
+    try {
+      const response = await fetch(`http://localhost:3000/users/administrador/users/${dadosPessoa.token}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dadosPessoa)
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Erro ao atualizar usuário');
+      }
+
+      const data = await response.json();
+      console.log(`${dadosPessoa.tipo} atualizado com sucesso:`, data);
+      
+      return { sucesso: true, data };
+      
+    } catch (error) {
+      console.error('Erro ao atualizar pessoa:', error);
+      return { sucesso: false, erro: error.message };
+    }
+  }
+
   // Função para salvar os dados do formulário
   const handleSalvar = async (dadosFormulario) => {
     // Se não houver dados da pessoa, não faz nada
@@ -35,52 +93,43 @@ function EditarPessoa({
       delete pessoaParaSalvar.senha;
     }
 
-    // Define o endpoint da API baseado no tipo da pessoa
-    const endpoint = pessoaParaSalvar.tipo === 'administrador' ? '/api/administradores' : '/api/clientes';
-
-    // Atualiza a lista no componente pai dependendo da ação
-    if (acao === 'adicionar') {
-      // Gera um token temporário para a nova pessoa (normalmente backend faz isso)
-      const tokenTemporario = Date.now().toString() + Math.random().toString(36).substr(2, 9);
-      const pessoaComToken = { ...pessoaParaSalvar, token: tokenTemporario };
-      onAdicionarPessoa(pessoaComToken);
-    } else {
-      // Atualiza pessoa existente
-      onAtualizarPessoa(pessoaParaSalvar);
-    }
+    let resultado;
 
     try {
-      // Envia os dados para o backend via fetch com método POST
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...pessoaParaSalvar,
-          acao: acao
-        })
-      });
-
-      // Se a resposta for OK, sucesso
-      if (response.ok) {
-        console.log(`Pessoa ${acao === 'adicionar' ? 'adicionada' : 'editada'} com sucesso`);
+      if (acao === 'adicionar') {
+        // Cria nova pessoa
+        resultado = await criarPessoa(pessoaParaSalvar);
         
+        if (resultado.sucesso) {
+          // Atualiza estado local do componente pai com dados retornados do servidor
+          onAdicionarPessoa(resultado.data);
+          alert(`${pessoaParaSalvar.tipo} adicionado com sucesso!`);
+        }
+      } else {
+        // Atualiza pessoa existente
+        resultado = await atualizarPessoa(pessoaParaSalvar);
+        
+        if (resultado.sucesso) {
+          // Atualiza estado local do componente pai com dados atualizados
+          onAtualizarPessoa(resultado.data);
+          alert(`${pessoaParaSalvar.tipo} atualizado com sucesso!`);
+        }
+      }
+
+      if (resultado.sucesso) {
         // Limpa dados de edição no estado pai
         onLimparEdicao();
-        
         // Navega para a página anterior
         navigate(-1);
       } else {
-        // Caso erro, limpa dados e volta (comentado alerta)
-        //alert('Erro ao salvar. Tente novamente.');
-        onLimparEdicao();
-        navigate(-1);
+        // Mostra erro específico retornado pela API
+        alert(`Erro ao ${acao === 'adicionar' ? 'adicionar' : 'atualizar'}: ${resultado.erro}`);
       }
+
     } catch (error) {
-      // Em caso de erro na requisição, loga no console e trata igual ao erro acima
-      console.error('Erro:', error);
-      //alert('Erro ao salvar. Verifique sua conexão.');
-      onLimparEdicao();
-      navigate(-1);
+      // Em caso de erro na requisição, loga no console
+      console.error('Erro inesperado:', error);
+      alert('Erro inesperado. Verifique sua conexão e tente novamente.');
     }
   };
 

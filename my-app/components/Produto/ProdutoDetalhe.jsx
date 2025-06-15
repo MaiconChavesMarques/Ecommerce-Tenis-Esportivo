@@ -12,24 +12,21 @@ const ProdutoDetalhe = ({ onAddToCart }) => {
   const [tamanhoSelecionado, setTamanhoSelecionado] = useState(null);
   // Estado para armazenar os produtos semelhantes ao atual
   const [produtosSemelhantes, setProdutosSemelhantes] = useState([]);
-  let destino;
   const navigate = useNavigate();
 
   // useEffect para buscar os dados do produto sempre que o id mudar
   useEffect(() => {
     async function buscarProduto() {
       try {
-        // Requisição para obter todos os produtos do banco local (bd.json)
-        const response = await fetch('/bd.json');
-        const produtos = await response.json();
-        // Busca o produto cujo id corresponde ao parâmetro da URL
-        const produtoEncontrado = produtos.find(p => String(p.id) === String(id));
+        // Requisição para o endpoint do backend que retorna produto e produtos semelhantes
+        const response = await fetch(`http://localhost:3000/products/productPage/${id}`);
+        const data = await response.json();
         
-        if (produtoEncontrado) {
-          setProduto(produtoEncontrado);
-          
-          // NOTA: Esta busca local é custosa, idealmente o servidor deve enviar produtos semelhantes já processados
-          buscarProdutosSemelhantes(produtos, produtoEncontrado);
+        if (response.ok) {
+          setProduto(data.produto);
+          setProdutosSemelhantes(data.produtosSemelhantes);
+        } else {
+          console.error("Erro ao buscar produto:", data.message);
         }
       } catch (error) {
         console.error("Erro ao buscar produto:", error);
@@ -39,59 +36,6 @@ const ProdutoDetalhe = ({ onAddToCart }) => {
     buscarProduto();
   }, [id]);
 
-  // Função para buscar produtos com preço semelhante ao produto atual
-  const buscarProdutosSemelhantes = (todosProdutos, produtoAtual) => {
-    // AVISO: Algoritmo local de complexidade O(n log n), substituído futuramente por endpoint otimizado
-    
-    // 1. Ordenar produtos pelo preço, excluindo o produto atual
-    const produtosOrdenados = todosProdutos
-      .filter(p => String(p.id) !== String(produtoAtual.id))
-      .sort((a, b) => a.preco - b.preco);
-    
-    // 2. Encontrar a posição do preço do produto atual na lista ordenada
-    const precoAtual = produtoAtual.preco;
-    let posicaoAtual = produtosOrdenados.findIndex(p => p.preco >= precoAtual);
-    
-    // Se preço do produto atual for maior que todos os produtos, coloca no final da lista
-    if (posicaoAtual === -1) {
-      posicaoAtual = produtosOrdenados.length;
-    }
-    
-    // 3. Estratégia para coletar produtos semelhantes: tenta balancear antes e depois da posição atual
-    const semelhantes = [];
-    const totalDesejado = 6;
-    
-    // Calcula quantos produtos estão disponíveis antes e depois da posição atual
-    const disponivelAntes = posicaoAtual;
-    const disponivelDepois = produtosOrdenados.length - posicaoAtual;
-    
-    // Inicialmente tenta pegar 3 elementos antes e 3 depois, se possível
-    let elementosAntes = Math.min(3, disponivelAntes);
-    let elementosDepois = Math.min(3, disponivelDepois);
-    
-    // Se algum lado não tem elementos suficientes, completa do outro lado
-    if (elementosAntes < 3 && disponivelDepois > 3) {
-      elementosDepois = Math.min(totalDesejado - elementosAntes, disponivelDepois);
-    } else if (elementosDepois < 3 && disponivelAntes > 3) {
-      elementosAntes = Math.min(totalDesejado - elementosDepois, disponivelAntes);
-    }
-    
-    // Adiciona elementos antes da posição atual (preços menores)
-    const inicioAntes = Math.max(0, posicaoAtual - elementosAntes);
-    for (let i = inicioAntes; i < posicaoAtual; i++) {
-      semelhantes.push(produtosOrdenados[i]);
-    }
-    
-    // Adiciona elementos depois da posição atual (preços maiores)
-    const fimDepois = Math.min(produtosOrdenados.length, posicaoAtual + elementosDepois);
-    for (let i = posicaoAtual; i < fimDepois; i++) {
-      semelhantes.push(produtosOrdenados[i]);
-    }
-    
-    // Define os produtos semelhantes no estado, limitando a 6 itens
-    setProdutosSemelhantes(semelhantes.slice(0, 6));
-  };
-
   // Função para adicionar produto ao carrinho, validando seleção do tamanho
   const handleAddToCart = () => {
     if (!tamanhoSelecionado) {
@@ -99,7 +43,7 @@ const ProdutoDetalhe = ({ onAddToCart }) => {
       return;
     }
     
-    onAddToCart(parseInt(id), parseInt(tamanhoSelecionado));
+    onAddToCart(produto.id_interno, parseInt(tamanhoSelecionado));
   };
 
   // Exibe mensagem enquanto o produto está carregando
@@ -133,16 +77,30 @@ const ProdutoDetalhe = ({ onAddToCart }) => {
           <div className="pd-tamanhos-container">
             <p>Tamanhos disponíveis:</p>
             <div className="pd-tamanhos-grid">
-              {/* Botões para seleção de tamanho */}
-              {["38", "39", "40", "41", "42", "43", "44"].map(tamanho => (
-                <button 
-                  key={tamanho}
-                  className={`pd-btn-tamanho ${tamanhoSelecionado === tamanho ? 'pd-selecionado' : ''}`}
-                  onClick={() => setTamanhoSelecionado(tamanho)}
-                >
-                  {tamanho}
-                </button>
-              ))}
+              {/* Renderiza os tamanhos disponíveis do produto */}
+              {produto.tamanhos && produto.tamanhos.length > 0 ? (
+                produto.tamanhos.map((tamanho, index) => (
+                  <button 
+                    key={tamanho}
+                    className={`pd-btn-tamanho ${tamanhoSelecionado === tamanho ? 'pd-selecionado' : ''}`}
+                    onClick={() => setTamanhoSelecionado(tamanho)}
+                    disabled={produto.quantidade && produto.quantidade[index] === 0}
+                  >
+                    {tamanho}
+                  </button>
+                ))
+              ) : (
+                // Fallback para tamanhos padrão se não houver tamanhos no produto
+                ["38", "39", "40", "41", "42", "43", "44"].map(tamanho => (
+                  <button 
+                    key={tamanho}
+                    className={`pd-btn-tamanho ${tamanhoSelecionado === tamanho ? 'pd-selecionado' : ''}`}
+                    onClick={() => setTamanhoSelecionado(tamanho)}
+                  >
+                    {tamanho}
+                  </button>
+                ))
+              )}
             </div>
           </div>
           
@@ -162,7 +120,7 @@ const ProdutoDetalhe = ({ onAddToCart }) => {
           <div className="pd-grid-semelhantes">
             {/* Lista de produtos semelhantes, clicáveis para navegar para seu detalhe */}
             {produtosSemelhantes.map((item) => (
-              <div key={item.id} className="pd-produto-semelhante" onClick={() => handleNavigateToProduct(item.id)}>
+              <div key={item.id_interno} className="pd-produto-semelhante" onClick={() => handleNavigateToProduct(item.id_interno)}>
                 <div className="pd-produto-semelhante-imagem">
                   <img src={item.imagem} alt={item.nome}/>
                 </div>

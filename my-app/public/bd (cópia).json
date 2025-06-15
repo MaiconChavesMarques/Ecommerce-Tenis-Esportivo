@@ -1,0 +1,272 @@
+[
+  {
+    "id_interno": 1,
+    "imagem": "/imagens/1.png",
+    "nome": "Velox StrideX",
+    "preco": 149.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [5, 3, 0, 7, 2, 4, 8],
+    "descricao": "Desenvolvido para o corredor urbano, o StrideX combina amortecimento leve com sola flexível, garantindo conforto e estabilidade para treinos diários e caminhadas longas."
+  },
+  {
+    "id_interno": 2,
+    "imagem": "/imagens/2.png",
+    "nome": "Velox AeroPulse",
+    "preco": 159.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [1, 0, 6, 3, 9, 2, 5],
+    "descricao": "Com estrutura respirável e design aerodinâmico, o AeroPulse maximiza a ventilação e reduz o atrito, perfeito para quem busca velocidade em corridas de média distância."
+  },
+  {
+    "id_interno": 3,
+    "imagem": "/imagens/3.png",
+    "nome": "Velox NitroRun",
+    "preco": 169.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [4, 7, 2, 0, 5, 1, 3],
+    "descricao": "Projetado para explosões rápidas, o NitroRun oferece entressola com resposta ultrarrápida e borracha de alta aderência, ideal para quem precisa de potência e agilidade."
+  },
+  {
+    "id_interno": 4,
+    "imagem": "/imagens/4.png",
+    "nome": "Velox Tempest 300",
+    "preco": 179.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [8, 2, 0, 4, 6, 3, 1],
+    "descricao": "Robusto e resistente, o Tempest 300 foi feito para suportar treinos intensos e terrenos difíceis, sem abrir mão do conforto durante longos percursos."
+  },
+  {
+    "id_interno": 5,
+    "imagem": "/imagens/5.png",
+    "nome": "Velox Flytrail",
+    "preco": 189.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [3, 5, 7, 0, 2, 4, 6],
+    "descricao": "A escolha ideal para aventuras off-road, o Flytrail combina solado tratorado com estrutura impermeável, proporcionando segurança e tração em trilhas e terrenos irregulares."
+  },
+  {
+    "id_interno": 6,
+    "imagem": "/imagens/6.png",
+    "nome": "Velox HyperTrack",
+    "preco": 199.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [0, 4, 6, 2, 8, 1, 3],
+    "descricao": "Pensado para atletas de alta performance, o HyperTrack traz espuma de alta densidade e suporte anatômico, entregando eficiência máxima em corridas de longa duração."
+  },
+  {
+    "id_interno": 7,
+    "imagem": "/imagens/7.png",
+    "nome": "Velox Sprint Core",
+    "preco": 209.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [5, 0, 3, 7, 2, 4, 6],
+    "descricao": "Leve e reativo, o Sprint Core impulsiona cada passada com tecnologia de retorno de energia, perfeito para sprints e treinos intervalados."
+  },
+  {
+    "id_interno": 8,
+    "imagem": "/imagens/8.png",
+    "nome": "Velox JetRush",
+    "preco": 219.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [2, 4, 0, 6, 1, 3, 5],
+    "descricao": "Sinta a leveza com o JetRush, que combina malha tecnológica e estrutura reforçada no calcanhar para estabilidade sem perder a sensação de liberdade nos pés."
+  },
+  {
+    "id_interno": 9,
+    "imagem": "/imagens/9.png",
+    "nome": "Velox Vortex Pro",
+    "preco": 229.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [7, 3, 5, 0, 2, 4, 1],
+    "descricao": "O tênis para quem busca performance de elite: com entressola de carbono e ajuste de precisão, o Vortex Pro transforma cada corrida em uma superação."
+  },
+  {
+    "id_interno": 10,
+    "imagem": "/imagens/10.png",
+    "nome": "Velox UltraSwift",
+    "preco": 239.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [0, 5, 2, 6, 3, 7, 4],
+    "descricao": "Ultra leve e ultra rápido, o UltraSwift foi projetado para corredores que querem bater seus recordes pessoais com conforto e suporte adequados para altas velocidades."
+  },
+  {
+    "id_interno": 11,
+    "imagem": "/imagens/11.png",
+    "nome": "Velox Pulse One",
+    "preco": 249.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [4, 0, 6, 2, 5, 1, 3],
+    "descricao": "O Pulse One oferece um equilíbrio perfeito entre absorção de impacto e flexibilidade, adaptando-se aos movimentos naturais do seu corpo durante a corrida."
+  },
+  {
+    "id_interno": 12,
+    "imagem": "/imagens/12.png",
+    "nome": "Velox DriftZone",
+    "preco": 259.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [3, 5, 0, 7, 2, 4, 6],
+    "descricao": "Estabilidade e aderência são os pontos fortes do DriftZone, que possui solado adaptativo para mudanças rápidas de direção em qualquer tipo de solo."
+  },
+  {
+    "id_interno": 13,
+    "imagem": "/imagens/13.png",
+    "nome": "Velox UrbanFlow",
+    "preco": 269.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [6, 2, 4, 0, 3, 5, 1],
+    "descricao": "Para quem vive no ritmo da cidade, o UrbanFlow combina estilo contemporâneo com tecnologia de amortecimento, proporcionando conforto do treino à rotina diária."
+  },
+  {
+    "id_interno": 14,
+    "imagem": "/imagens/14.png",
+    "nome": "Velox StreetForm",
+    "preco": 279.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [0, 4, 1, 5, 2, 6, 3],
+    "descricao": "O StreetForm é a união perfeita entre casual e esportivo, oferecendo suporte ergonômico em um design versátil para quem busca estilo e performance no mesmo produto."
+  },
+  {
+    "id_interno": 15,
+    "imagem": "/imagens/15.png",
+    "nome": "Velox NovaSet",
+    "preco": 289.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [5, 0, 3, 6, 2, 4, 7],
+    "descricao": "Inovador em cada detalhe, o NovaSet traz tecnologia de estabilidade dinâmica e tecido respirável, ideal para quem está em constante evolução nos treinos."
+  },
+  {
+    "id_interno": 16,
+    "imagem": "/imagens/16.png",
+    "nome": "Velox GridFlex",
+    "preco": 299.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [2, 4, 6, 0, 3, 5, 1],
+    "descricao": "Pensado para a liberdade de movimento, o GridFlex possui sulcos de flexão estratégicos e entressola amortecida, adaptando-se perfeitamente a treinos versáteis."
+  },
+  {
+    "id_interno": 17,
+    "imagem": "/imagens/17.png",
+    "nome": "Velox Prime Beat",
+    "preco": 309.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [0, 3, 5, 2, 6, 1, 4],
+    "descricao": "Sinta a batida da performance com o Prime Beat, um modelo com suporte reforçado na região do arco e amortecimento otimizado para treinos de alta intensidade."
+  },
+  {
+    "id_interno": 18,
+    "imagem": "/imagens/18.png",
+    "nome": "Velox MetroRush",
+    "preco": 319.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [4, 6, 0, 3, 5, 2, 7],
+    "descricao": "Dinâmico e moderno, o MetroRush oferece tração urbana aprimorada e respirabilidade para quem precisa de performance tanto nos treinos quanto na rotina agitada da cidade."
+  },
+  {
+    "id_interno": 19,
+    "imagem": "/imagens/19.png",
+    "nome": "Velox EdgeStep",
+    "preco": 329.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [3, 0, 5, 2, 6, 1, 4],
+    "descricao": "Estilo, suporte e segurança se encontram no EdgeStep, que oferece entressola estável e solado de alta aderência para movimentos firmes e controlados."
+  },
+  {
+    "id_interno": 20,
+    "imagem": "/imagens/20.png",
+    "nome": "Velox Flux Rise",
+    "preco": 339.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [5, 2, 4, 0, 3, 6, 1],
+    "descricao": "Com cabedal minimalista e estrutura interna reforçada, o Flux Rise traz leveza extrema e suporte eficiente para quem busca melhorar sua velocidade natural."
+  },
+  {
+    "id_interno": 21,
+    "imagem": "/imagens/21.png",
+    "nome": "Velox QuantumStep",
+    "preco": 349.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [0, 4, 2, 5, 1, 3, 6],
+    "descricao": "Tecnologia quântica aplicada à performance: o QuantumStep combina amortecimento responsivo e estabilidade inteligente para corridas mais longas e desafiadoras."
+  },
+  {
+    "id_interno": 22,
+    "imagem": "/imagens/22.png",
+    "nome": "Velox NeuroRun",
+    "preco": 359.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [3, 5, 0, 2, 4, 1, 6],
+    "descricao": "Com foco na eficiência biomecânica, o NeuroRun analisa o movimento natural do corredor, oferecendo suporte direcionado para reduzir o risco de lesões."
+  },
+  {
+    "id_interno": 23,
+    "imagem": "/imagens/23.png",
+    "nome": "Velox XenonDrive",
+    "preco": 369.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [4, 0, 3, 5, 2, 6, 1],
+    "descricao": "Potência e conforto de última geração, o XenonDrive traz estrutura reforçada com espuma adaptativa, ideal para corridas intensas e treinos de longa duração."
+  },
+  {
+    "id_interno": 24,
+    "imagem": "/imagens/24.png",
+    "nome": "Velox ZeroG",
+    "preco": 379.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [2, 4, 6, 0, 3, 5, 1],
+    "descricao": "Experimente a sensação de leveza absoluta com o ZeroG, que utiliza tecnologias ultraleves para proporcionar conforto e amortecimento superior."
+  },
+  {
+    "id_interno": 25,
+    "imagem": "/imagens/25.png",
+    "nome": "Velox Synapse Boost",
+    "preco": 389.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [0, 3, 5, 2, 4, 1, 6],
+    "descricao": "Impulsione sua energia com o Synapse Boost, que combina placa propulsora e amortecimento responsivo para um desempenho inigualável."
+  },
+  {
+    "id_interno": 26,
+    "imagem": "/imagens/26.png",
+    "nome": "Velox ChronoShift",
+    "preco": 399.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [4, 2, 0, 5, 3, 6, 1],
+    "descricao": "Quebre seus limites de tempo com o ChronoShift, desenvolvido com materiais de última geração e geometria otimizada para máxima velocidade."
+  },
+  {
+    "id_interno": 27,
+    "imagem": "/imagens/27.png",
+    "nome": "Velox Helix Motion",
+    "preco": 399.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [3, 5, 0, 2, 4, 1, 6],
+    "descricao": "O Helix Motion adapta-se perfeitamente ao seu movimento, trazendo flexibilidade, ajuste anatômico e suporte para corridas de todos os níveis."
+  },
+  {
+    "id_interno": 28,
+    "imagem": "/imagens/28.png",
+    "nome": "Velox CoreDynamics",
+    "preco": 389.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [0, 4, 2, 5, 3, 6, 1],
+    "descricao": "Força, equilíbrio e alta resposta: o CoreDynamics oferece estrutura reforçada para quem exige desempenho consistente em treinos variados."
+  },
+  {
+    "id_interno": 29,
+    "imagem": "/imagens/29.png",
+    "nome": "Velox BioStep",
+    "preco": 379.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [5, 3, 0, 2, 4, 1, 6],
+    "descricao": "Inspirado na natureza, o BioStep respeita o movimento do corpo com design ergonômico e amortecimento que protege as articulações."
+  },
+  {
+    "id_interno": 30,
+    "imagem": "/imagens/30.png",
+    "nome": "Velox Orion Prime",
+    "preco": 369.99,
+    "tamanhos": [38, 39, 40, 41, 42, 43, 44],
+    "quantidade": [2, 4, 6, 0, 3, 5, 1],
+    "descricao": "Explore novos patamares de performance com o Orion Prime, que combina tecnologias de ponta para entregar máxima eficiência e conforto em qualquer distância."
+  }
+]

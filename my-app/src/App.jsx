@@ -46,14 +46,13 @@ function App() {
       });
 
       // Envia dados para a API do servidor para atualizar o carrinho
-      const response = await fetch('http://localhost:3001/atualizar-carrinho', {
-        method: 'POST',
+      const response = await fetch(`http://localhost:3000/users/user/carrinho/${token}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
-          token: token,
           carrinho: carrinhoProdutos,
           tamanhoCarrinho: tamanhos,
           quantiaCarrinho: quantidades
@@ -71,31 +70,32 @@ function App() {
   }
 
   // Função para carregar o carrinho do servidor quando o usuário faz login
+// Função para carregar o carrinho do servidor quando o usuário faz login
   async function carregarCarrinhoServidor(tokenUsuario) {
     try {
-      // Busca arquivo JSON com dados dos usuários (mock local)
-      const response = await fetch('/usuarios.json');
+      // Busca dados do carrinho do usuário através da API
+      const response = await fetch(`http://localhost:3000/users/user/carrinho/${tokenUsuario}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+      });
       
       if (!response.ok) {
-        throw new Error('Erro ao buscar dados dos usuários');
+        throw new Error('Erro ao buscar carrinho do usuário');
       }
-  
-      const usuarios = await response.json();
-      const usuario = usuarios.find(u => u.token === tokenUsuario); // Encontra usuário pelo token
+
+      const data = await response.json();
       
-      if (!usuario) {
-        throw new Error('Usuário não encontrado');
-      }
-  
-      console.log('Usuário encontrado:', usuario);
+      console.log('Dados do carrinho:', data);
       
-      if (usuario.carrinho && usuario.carrinho.length > 0) {
-        // Reconstruir o carrinho local baseado nos dados do usuário
+      if (data.carrinho && data.carrinho.length > 0) {
+        // Reconstruir o carrinho local baseado nos dados do servidor
         const carrinhoLocal = {};
         
-        usuario.carrinho.forEach((produtoId, index) => {
-          const tamanho = usuario.tamanhoCarrinho[index];
-          const quantidade = usuario.quantiaCarrinho[index];
+        data.carrinho.forEach((produtoId, index) => {
+          const tamanho = data.tamanhoCarrinho[index];
+          const quantidade = data.quantiaCarrinho[index];
           const chave = `${produtoId}_${tamanho}`;
           
           carrinhoLocal[chave] = {
@@ -104,14 +104,14 @@ function App() {
             quantidade: quantidade
           };
         });
-  
+
         setCarrinho(carrinhoLocal); // Atualiza o estado do carrinho
       } else {
         console.log('Usuário não possui itens no carrinho');
         setCarrinho({}); // Carrinho vazio se não houver itens
       }
     } catch (error) {
-      console.error('Erro ao carregar carrinho do servidor:', error); // Log de erro
+      console.error('Erro ao carregar carrinho do servidor:', error);
     }
   }
 

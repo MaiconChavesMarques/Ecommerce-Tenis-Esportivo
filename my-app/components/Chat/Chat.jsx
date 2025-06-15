@@ -101,7 +101,7 @@ const Chat = ({ messages, onSendMessage }) => {
       const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
         headers: {
-          "Authorization": "Bearer ...",  // Token omitido para segurança
+          "Authorization": "Bearer sk-or-v1-6372fad40084a1e7d80f064c dilvan moreira 871147e1a373cb91b620550fd0cc9693e6a2a787",  // Token omitido para segurança
           "HTTP-Referer": "http://localhost",
           "X-Title": "Exemplo React OpenRouter",
           "Content-Type": "application/json"

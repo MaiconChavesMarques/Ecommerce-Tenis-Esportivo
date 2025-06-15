@@ -13,7 +13,7 @@ function RoteadorPessoas({ token, onLogout }) {
   // Estado que armazena os dados da pessoa que está sendo editada ou adicionada
   const [dadosEdicao, setDadosEdicao] = useState(null);
   // Estado que mantém a lista atual de pessoas (clientes ou administradores)
-  const [pessoas, setPessoas] = useState(null);
+  const [pessoas, setPessoas] = useState([]);
   // Estado que guarda o tipo atual selecionado, padrão 'cliente'
   const [tipoAtual, setTipoAtual] = useState('cliente');
 
@@ -38,10 +38,18 @@ function RoteadorPessoas({ token, onLogout }) {
         _acao: acao           // Marca ação para controle interno (adicionar)
       });
     } else {
-      // Se for edição, preenche com dados existentes e garante estadoConta definido
+      // Se for edição, preenche com dados existentes e garante que todos os campos estejam presentes
       setDadosEdicao({
-        ...pessoa,
         tipo: tipo,
+        nome: pessoa.nome || '',
+        email: pessoa.email || '',
+        telefone: pessoa.telefone || '',
+        rua: pessoa.rua || '',
+        cidade: pessoa.cidade || '',
+        estado: pessoa.estado || '',
+        cep: pessoa.cep || '',
+        pais: pessoa.pais || '',
+        token: pessoa.token, // IMPORTANTE: Sempre incluir o token para edição
         estadoConta: pessoa.estadoConta || 'ativo', // Garante campo estadoConta válido
         _acao: acao  // Marca ação para controle interno (editar)
       });
@@ -60,21 +68,40 @@ function RoteadorPessoas({ token, onLogout }) {
 
   // Adiciona uma nova pessoa à lista existente
   const handleAdicionarPessoa = (novaPessoa) => {
-    setPessoas(prev => [...prev, novaPessoa]);
+    setPessoas(prev => {
+      // Se prev for null, cria um novo array com a nova pessoa
+      if (!prev || !Array.isArray(prev)) {
+        return [novaPessoa];
+      }
+      return [...prev, novaPessoa];
+    });
   };
 
   // Atualiza uma pessoa existente na lista com dados atualizados
   const handleAtualizarPessoa = (pessoaAtualizada) => {
-    setPessoas(prev => 
-      prev.map(p => 
+    setPessoas(prev => {
+      // Verifica se prev existe e é um array antes de fazer o map
+      if (!prev || !Array.isArray(prev)) {
+        console.warn('Lista de pessoas não está disponível para atualização');
+        return prev;
+      }
+      
+      return prev.map(p => 
         p.token === pessoaAtualizada.token ? pessoaAtualizada : p
-      )
-    );
+      );
+    });
   };
 
   // Remove uma pessoa da lista pelo seu token único
   const handleRemoverPessoa = (tokenPessoa) => {
-    setPessoas(prev => prev.filter(p => p.token !== tokenPessoa));
+    setPessoas(prev => {
+      // Verifica se prev existe e é um array antes de fazer o filter
+      if (!prev || !Array.isArray(prev)) {
+        console.warn('Lista de pessoas não está disponível para remoção');
+        return prev;
+      }
+      return prev.filter(p => p.token !== tokenPessoa);
+    });
   };
 
   return (
@@ -94,6 +121,7 @@ function RoteadorPessoas({ token, onLogout }) {
           element={
             <DashAdmin 
               tipo="administrador" 
+              token={token} // Passa o token do usuário logado
               pessoas={pessoas}
               onIniciarEdicao={handleIniciarEdicao}
               onAtualizarPessoas={handleAtualizarPessoas}
@@ -110,6 +138,7 @@ function RoteadorPessoas({ token, onLogout }) {
           element={
             <DashAdmin 
               tipo="cliente" 
+              token={token} // Passa o token do usuário logado
               pessoas={pessoas}
               onIniciarEdicao={handleIniciarEdicao}
               onAtualizarPessoas={handleAtualizarPessoas}

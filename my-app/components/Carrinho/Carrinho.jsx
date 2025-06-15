@@ -12,16 +12,26 @@ const Carrinho = ({ carrinho, onRemover, onAumentar, onDiminuir }) => {
   const [possivelComprar, setPossivelComprar] = useState(true);
 
   useEffect(() => {
-    console.log("impresso");
     // Função assíncrona para buscar detalhes dos produtos do carrinho
     async function buscarDetalhes() {
       try {
-        // Requisição GET para buscar dados dos produtos
-        const response = await fetch('https://button-discreet-talk.glitch.me/api/bd', {
-          method: 'GET',
+        // Extrai apenas os IDs únicos dos produtos no carrinho
+        const idsUnicos = [...new Set(Object.values(carrinho).map(item => item.id))];
+        
+        // Se não há itens no carrinho, define como array vazio
+        if (idsUnicos.length === 0) {
+          setDetalhesCarrinho([]);
+          setPossivelComprar(true);
+          return;
+        }
+
+        // Requisição POST para buscar dados dos produtos usando os IDs
+        const response = await fetch('http://localhost:3000/products/carrinho', {
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json'
-          }
+          },
+          body: JSON.stringify({ ids: idsUnicos })
         });
 
         if (!response.ok) {
@@ -29,20 +39,26 @@ const Carrinho = ({ carrinho, onRemover, onAumentar, onDiminuir }) => {
           throw new Error('Erro ao buscar dados');
         }
 
-        const produtos = await response.json();
+        const { produtos } = await response.json();
+        
         // Transformar o objeto do carrinho em lista detalhada com dados do produto
         const listaDetalhada = Object.entries(carrinho)
           .map(([chave, item]) => {
             // Busca o produto correspondente no array retornado da API
-            const produto = produtos.find(p => p.id === item.id);
+            const produto = produtos.find(p => p.id_interno === item.id);
             if (!produto) return null; // Ignora itens inválidos que não existem na base
+            
+            // Encontra o índice do tamanho no array de tamanhos
+            const indiceTamanho = produto.tamanhos.indexOf(item.tamanho);
+            const quantidadeEstoque = indiceTamanho !== -1 ? produto.quantidade[indiceTamanho] : 0;
+            
             // Retorna objeto com dados mesclados do item do carrinho e detalhes do produto
             return {
               ...item,
               nome: produto.nome,
               imagem: produto.imagem,
               preco: produto.preco,
-              quantidadeEstoque: produto.quantidade[item.tamanho-38] // Ajuste pelo tamanho
+              quantidadeEstoque: quantidadeEstoque
             };
           })
           .filter(item => item !== null); // Remove itens inválidos da lista final
@@ -65,7 +81,6 @@ const Carrinho = ({ carrinho, onRemover, onAumentar, onDiminuir }) => {
 
     // Só busca os detalhes se ainda não tiver detalhes carregados (null)
     if(detalhesCarrinho === null){
-      console.log("carrinho era nulo");
       buscarDetalhes();
     }
   }, [carrinho]); // Reexecuta quando o carrinho muda

@@ -14,14 +14,21 @@ function EditarProduto({
 }) {
   const navigate = useNavigate();
   
+  // Array com os tamanhos disponíveis (movido para o escopo global do componente)
+  const tamanhos = [38, 39, 40, 41, 42, 43, 44];
+  
   // Estado para armazenar dados do formulário
   const [formData, setFormData] = useState({
     nome: '',
     imagem: '',
     descricao: '',
     preco: '',
+    tamanhos: tamanhos, // Adiciona o array de tamanhos
     quantidade: [0, 0, 0, 0, 0, 0, 0] // Array de quantidades por tamanho
   });
+
+  // Estado para controle de carregamento
+  const [salvando, setSalvando] = useState(false);
 
   // Atualiza o estado formData ao receber dadosProduto por props
   useEffect(() => {
@@ -31,6 +38,7 @@ function EditarProduto({
         imagem: dadosProduto.imagem || '',
         descricao: dadosProduto.descricao || '',
         preco: dadosProduto.preco || '',
+        tamanhos: dadosProduto.tamanhos || tamanhos, // Usa tamanhos do produto ou padrão
         quantidade: dadosProduto.quantidade || [0, 0, 0, 0, 0, 0, 0]
       });
     }
@@ -57,6 +65,66 @@ function EditarProduto({
     });
   };
 
+  // Função para criar novo produto via API
+  const criarProduto = async (dadosProduto) => {
+    console.log(dadosProduto);
+    try {
+      const response = await fetch('http://localhost:3000/products/administrador/products', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dadosProduto)
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Erro ao criar produto');
+      }
+
+      const data = await response.json();
+      console.log('Produto criado com sucesso:', data);
+      return { sucesso: true, data };
+      
+    } catch (error) {
+      console.error('Erro ao criar produto:', error);
+      return { sucesso: false, erro: error.message };
+    }
+  };
+
+  // Função para atualizar produto existente via API
+  const atualizarProduto = async (dadosProduto) => {
+    try {
+      // Corrigido: usar id_interno dos dadosProduto originais
+      const idInterno = dadosProduto.id_interno;
+      
+      if (!idInterno) {
+        throw new Error('ID interno do produto não encontrado');
+      }
+
+      const response = await fetch(`http://localhost:3000/products/administrador/products/${idInterno}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dadosProduto)
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Erro ao atualizar produto');
+      }
+
+      const data = await response.json();
+      console.log('Produto atualizado com sucesso:', data);
+      return { sucesso: true, data };
+      
+    } catch (error) {
+      console.error('Erro ao atualizar produto:', error);
+      return { sucesso: false, erro: error.message };
+    }
+  };
+
   // Função para salvar produto (adicionar ou atualizar)
   const handleSalvar = async (e) => {
     e.preventDefault();
@@ -76,56 +144,65 @@ function EditarProduto({
       return;
     }
 
+    setSalvando(true);
+
     // Monta objeto com dados para envio
     const produtoParaSalvar = {
       nome: formData.nome.trim(),
       imagem: formData.imagem.trim(),
       descricao: formData.descricao.trim(),
       preco: parseFloat(formData.preco),
+      tamanhos: formData.tamanhos, // Inclui o array de tamanhos
       quantidade: formData.quantidade
     };
 
-    // Se for edição, mantém o ID original
-    if (acao === 'editar' && dadosProduto.id) {
-      produtoParaSalvar.id = dadosProduto.id;
-    }
-
-    // Chama função de adicionar ou atualizar no componente pai
-    if (acao === 'adicionar') {
-      onAdicionarProduto(produtoParaSalvar);
-    } else {
-      onAtualizarProduto(produtoParaSalvar);
+    // Se for edição, mantém todos os IDs originais
+    if (acao === 'editar') {
+      if (dadosProduto.id) {
+        produtoParaSalvar.id = dadosProduto.id;
+      }
+      if (dadosProduto.id_interno) {
+        produtoParaSalvar.id_interno = dadosProduto.id_interno;
+      }
     }
 
     try {
-      // Envia os dados para a API
-      const response = await fetch('/api/produtos', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...produtoParaSalvar,
-          acao: acao
-        })
-      });
-
-      if (response.ok) {
-        // Log de sucesso no console
-        console.log(`Produto ${acao === 'adicionar' ? 'adicionado' : 'editado'} com sucesso`);
-        // Limpa os dados de edição
-        onLimparEdicao();
-        // Volta para a página anterior
-        navigate(-1);
+      let resultado;
+      
+      if (acao === 'adicionar') {
+        resultado = await criarProduto(produtoParaSalvar);
+        
+        if (resultado.sucesso) {
+          // Notifica o componente pai sobre o novo produto
+          onAdicionarProduto(resultado.data);
+          alert('Produto adicionado com sucesso!');
+        } else {
+          alert(`Erro ao adicionar produto: ${resultado.erro}`);
+        }
       } else {
-        // Caso de erro — ainda assim limpa e volta
+        // Para atualização, passa o produtoParaSalvar mas usa dadosProduto.id_interno na URL
+        resultado = await atualizarProduto(produtoParaSalvar);
+        
+        if (resultado.sucesso) {
+          // Notifica o componente pai sobre a atualização
+          onAtualizarProduto(resultado.data);
+          alert('Produto atualizado com sucesso!');
+        } else {
+          alert(`Erro ao atualizar produto: ${resultado.erro}`);
+        }
+      }
+
+      // Se a operação foi bem-sucedida, volta para a lista
+      if (resultado.sucesso) {
         onLimparEdicao();
         navigate(-1);
       }
+
     } catch (error) {
-      // Log de erro
-      console.error('Erro:', error);
-      // Em caso de exceção, limpa e volta
-      onLimparEdicao();
-      navigate(-1);
+      console.error('Erro inesperado:', error);
+      alert('Erro inesperado. Tente novamente.');
+    } finally {
+      setSalvando(false);
     }
   };
 
@@ -155,8 +232,6 @@ function EditarProduto({
     );
   }
 
-  // Array com os tamanhos disponíveis
-  const tamanhos = [38, 39, 40, 41, 42, 43, 44];
   // Determina ação (editar ou adicionar)
   const acao = dadosProduto._acao;
   
@@ -208,6 +283,7 @@ function EditarProduto({
                   value={formData.nome}
                   onChange={handleInputChange}
                   className="input-campo"
+                  disabled={salvando}
                   required
                 />
               </div>
@@ -221,6 +297,7 @@ function EditarProduto({
                   value={formData.imagem}
                   onChange={handleInputChange}
                   className="input-campo"
+                  disabled={salvando}
                 />
               </div>
 
@@ -233,6 +310,7 @@ function EditarProduto({
                   onChange={handleInputChange}
                   rows={4}
                   className="textarea-campo"
+                  disabled={salvando}
                 />
               </div>
 
@@ -247,6 +325,7 @@ function EditarProduto({
                   min="0"
                   step="0.01"
                   className="input-campo"
+                  disabled={salvando}
                   required
                 />
               </div>
@@ -255,7 +334,7 @@ function EditarProduto({
               <div className="secao-tamanhos">
                 <h3 className="titulo-tamanhos">Estoque por Tamanho</h3>
                 <div className="grid-tamanhos">
-                  {tamanhos.map((tamanho, index) => (
+                  {formData.tamanhos.map((tamanho, index) => (
                     <div key={tamanho} className="item-tamanho">
                       <span className="numero-tamanho">{tamanho}</span>
                       <input
@@ -265,6 +344,7 @@ function EditarProduto({
                         onChange={(e) => handleQuantidadeChange(index, e.target.value)}
                         placeholder="0"
                         className="input-tamanho"
+                        disabled={salvando}
                       />
                     </div>
                   ))}
@@ -275,10 +355,14 @@ function EditarProduto({
                 </div>
               </div>
 
-              {/* Botão de ação */}
+              {/* Botões de ação */}
               <div className="acoes-formulario">
-                <button type="submit" className="btn-atualizar-produto">
-                  {textosAtivos.botao}
+                <button 
+                  type="submit" 
+                  className="btn-atualizar-produto"
+                  disabled={salvando}
+                >
+                  {salvando ? 'Salvando...' : textosAtivos.botao}
                 </button>
               </div>
             </form>

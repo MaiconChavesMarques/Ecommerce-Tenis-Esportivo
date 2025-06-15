@@ -1,5 +1,5 @@
 // Importação de hooks do React e ferramentas de navegação
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Importação de estilos e componentes customizados
@@ -9,11 +9,7 @@ import TabelaEstoque from './TabelaEstoque';
 
 // Componente principal para o dashboard de estoque
 function DashEstoque({ 
-  produtos,               // Lista de produtos passada como prop
   onIniciarEdicao,        // Função callback para iniciar a edição de um produto
-  onAtualizarProdutos,    // Função callback para atualizar lista de produtos
-  onAdicionarProduto,     // (Não utilizado nesse trecho)
-  onAtualizarProduto,     // (Não utilizado nesse trecho)
   onRemoverProduto        // Função callback para remover um produto
 }) {
   const navigate = useNavigate(); // Hook para navegação programada via React Router
@@ -22,100 +18,118 @@ function DashEstoque({
   const [termoBusca, setTermoBusca] = useState('');
   // Estado para controle da página atual na paginação
   const [paginaAtual, setPaginaAtual] = useState(1);
-  // Estado para total de páginas disponíveis baseado no filtro
-  const [totalPaginas, setTotalPaginas] = useState(1);
-  // Definição de itens por página
-  const itensPorPagina = 6;
+  // Estado para lista de produtos
+  const [produtos, setProdutos] = useState([]);
+  // Estado para informações de paginação
+  const [paginacao, setPaginacao] = useState({
+    totalPaginas: 1,
+    totalItens: 0,
+    temProximaPagina: false,
+    temPaginaAnterior: false
+  });
+  // Estado para controle de carregamento
+  const [carregando, setCarregando] = useState(false);
 
   // Configuração básica para labels e endpoints
   const config = {
     titulo: ['Gerenciador de ', 'Produtos'],
     placeholder: 'Buscar produtos...',
-    botaoTexto: '+ Adicionar produto',
-    arquivo: '/bd.json', // Fonte de dados local para simular consulta
-    endpoint: '/api/produtos' // Endpoint para enviar alterações
+    botaoTexto: '+ Adicionar produto'
   };
 
-  // Memoização da lista de produtos filtrados para otimizar performance
-  const produtosFiltrados = useMemo(() => {
-    if (!produtos || produtos.length === 0) return [];
-
-    if (!termoBusca) return produtos;
-
-    // Filtra por nome ou preço que contenha o termo de busca
-    return produtos.filter(produto => {
-      const nomeMatch = produto.nome?.toLowerCase().includes(termoBusca.toLowerCase());
-      const precoMatch = produto.preco?.toString().includes(termoBusca);
-      return nomeMatch || precoMatch;
-    });
-  }, [produtos, termoBusca]);
-
-  // Memoização da lista paginada baseada nos produtos filtrados
-  const produtosPaginados = useMemo(() => {
-    // Calcula total de páginas baseado na lista filtrada
-    const paginas = Math.ceil(produtosFiltrados.length / itensPorPagina);
-    setTotalPaginas(paginas);
-
-    // Determina os produtos da página atual
-    const inicio = (paginaAtual - 1) * itensPorPagina;
-    const fim = inicio + itensPorPagina;
-    return produtosFiltrados.slice(inicio, fim);
-  }, [produtosFiltrados, paginaAtual, itensPorPagina]);
-
-  // Sempre que termo de busca mudar, reseta para página 1
-  useEffect(() => {
-    setPaginaAtual(1);
-  }, [termoBusca]);
-
-  // Carregamento inicial dos produtos se ainda não houver dados
-  useEffect(() => {
-    async function buscarProdutos() {
-      try {
-        const response = await fetch(config.arquivo);
-        const data = await response.json();
-
-        // Atualiza os produtos no componente pai
-        onAtualizarProdutos(data || []);
-      } catch (error) {
-        console.error('Erro ao buscar produtos:', error);
-        onAtualizarProdutos([]);
-      }
-    }
-
-    // Só executa se produtos for nulo ou undefined
-    if (!produtos) {
-      buscarProdutos();
-    }
-  }, [config.arquivo, onAtualizarProdutos]);
-
-  // Função para enviar informações de produto (adicionar/editar/excluir)
-  async function enviarProduto(produto, acao = 'adicionar') {
+  // FETCH GET - Função para buscar dados do servidor
+  async function buscarProdutos() {
+    setCarregando(true);
     try {
-      const response = await fetch(config.endpoint, {
-        method: 'POST',
+      // Constrói URL com parâmetros de query
+      const params = new URLSearchParams({
+        pagina: paginaAtual.toString(),
+        limite: '6' // Mantém o limite de 6 itens por página
+      });
+
+      // Adiciona termo de busca se existir
+      if (termoBusca.trim()) {
+        params.append('busca', termoBusca.trim());
+      }
+
+      const response = await fetch(`http://localhost:3000/products/administrador/products?${params}`);
+      
+      if (!response.ok) {
+        throw new Error('Erro ao buscar dados');
+      }
+
+      const data = await response.json();
+      
+      setProdutos(data.produtos || []);
+      setPaginacao(data.paginacao || {
+        totalPaginas: 1,
+        totalItens: 0,
+        temProximaPagina: false,
+        temPaginaAnterior: false
+      });
+
+    } catch (error) {
+      console.error('Erro ao buscar produtos:', error);
+      setProdutos([]);
+      setPaginacao({
+        totalPaginas: 1,
+        totalItens: 0,
+        temProximaPagina: false,
+        temPaginaAnterior: false
+      });
+    } finally {
+      setCarregando(false);
+    }
+  }
+
+  // FETCH DELETE - Função para excluir produto
+  async function excluirProduto(id_interno) {
+    try {
+      const response = await fetch(`http://localhost:3000/products/administrador/products/${id_interno}`, {
+        method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          ...produto,
-          acao: acao // Tipo de ação a ser executada
-        })
       });
-      // ⚠️ ERRO proposital: este return impede o if abaixo de ser executado
-      return true;
       
-      if (response.ok) {
-        console.log(`Produto ${acao} com sucesso`);
-        return true;
-      } else {
-        console.error(`Erro ao ${acao} produto`);
-        return false;
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Erro ao excluir produto');
       }
+
+      const data = await response.json();
+      console.log('Produto excluído com sucesso:', data);
+      
+      // Recarrega a lista após operação bem-sucedida
+      await buscarProdutos();
+      return { sucesso: true, data };
+      
     } catch (error) {
-      console.error('Erro na requisição:', error);
-      return false;
+      console.error('Erro ao excluir produto:', error);
+      return { sucesso: false, erro: error.message };
     }
   }
+
+  // Função pública para recarregar a lista de produtos (usada pelos componentes filhos)
+  const recarregarProdutos = async () => {
+    await buscarProdutos();
+  };
+
+  // Efeito para buscar dados quando página ou termo de busca mudam
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      buscarProdutos();
+    }, termoBusca ? 500 : 0); // Debounce para busca
+
+    return () => clearTimeout(timer);
+  }, [paginaAtual, termoBusca]);
+
+  // Reseta a página atual para 1 sempre que o termo de busca muda
+  useEffect(() => {
+    if (termoBusca !== '') {
+      setPaginaAtual(1);
+    }
+  }, [termoBusca]);
 
   // Função de callback para atualizar termo de busca
   function handleBuscar(termo) {
@@ -138,22 +152,46 @@ function DashEstoque({
 
   // Exclui produto e atualiza a lista se sucesso
   async function handleExcluir(produto) {
-    console.log('Excluir produto:', produto);
-    const sucesso = await enviarProduto(produto, 'excluir');
+    // Confirma antes de excluir
+    if (!window.confirm(`Tem certeza que deseja excluir ${produto.nome}?`)) {
+      return;
+    }
 
-    if (sucesso) {
-      onRemoverProduto(produto.id);
+    console.log('Excluir produto:', produto);
+    
+    const resultado = await excluirProduto(produto.id_interno);
+    
+    if (resultado.sucesso) {
+      // Chama callback do pai para atualizar estado global se necessário
+      onRemoverProduto(produto.id_interno);
+      
+      // Mostra mensagem de sucesso
+      alert(`${produto.nome} foi excluído com sucesso!`);
+    } else {
+      // Mostra mensagem de erro
+      alert(`Erro ao excluir ${produto.nome}: ${resultado.erro}`);
     }
   }
 
-  // Função para avançar uma página na paginação
+  // Função para retroceder uma página na paginação
   const irParaPaginaAnterior = () => {
-    if (paginaAtual > 1) setPaginaAtual(paginaAtual - 1);
+    if (paginacao.temPaginaAnterior) {
+      setPaginaAtual(paginaAtual - 1);
+    }
   };
 
-  // Função para retroceder uma página na paginação
+  // Função para avançar uma página na paginação
   const irParaProximaPagina = () => {
-    if (paginaAtual < totalPaginas) setPaginaAtual(paginaAtual + 1);
+    if (paginacao.temProximaPagina) {
+      setPaginaAtual(paginaAtual + 1);
+    }
+  };
+
+  // Expõe as funções para uso externo (apenas buscar e excluir)
+  const apiMethods = {
+    buscarProdutos,
+    excluirProduto,
+    recarregarProdutos
   };
 
   // Estrutura visual do componente
@@ -179,32 +217,59 @@ function DashEstoque({
           </div>
         </div>
 
+        {/* Indicador de carregamento */}
+        {carregando && (
+          <div className="dash-estoque-carregando">
+            <p>Carregando...</p>
+          </div>
+        )}
+
         {/* Tabela com produtos e ações de edição/exclusão */}
-        <TabelaEstoque 
-          termoBusca={termoBusca}
-          produtos={produtosPaginados}
-          onEditar={handleEditar}
-          onExcluir={handleExcluir}
-          onEnviarProduto={enviarProduto}
-        />
+        {!carregando && (
+          <TabelaEstoque 
+            termoBusca={termoBusca}
+            produtos={produtos}
+            onEditar={handleEditar}
+            onExcluir={handleExcluir}
+            apiMethods={apiMethods} // Passa os métodos da API para a tabela
+          />
+        )}
 
         {/* Exibe mensagem se não houver resultados */}
-        {produtosPaginados.length === 0 && termoBusca && (
+        {!carregando && produtos.length === 0 && termoBusca && (
           <div className="sem-resultados">
             <p>Nenhum produto encontrado para "{termoBusca}"</p>
           </div>
         )}
 
+        {/* Mensagem exibida caso não haja dados */}
+        {!carregando && produtos.length === 0 && !termoBusca && (
+          <div className="sem-resultados">
+            <p>Nenhum produto cadastrado</p>
+          </div>
+        )}
+
         {/* Controles de paginação */}
-        <div className="dash-estoque-paginacao">
-          <button onClick={irParaPaginaAnterior} disabled={paginaAtual === 1}>
-            Página Anterior
-          </button>
-          <span>Página {paginaAtual} de {totalPaginas}</span>
-          <button onClick={irParaProximaPagina} disabled={paginaAtual === totalPaginas}>
-            Próxima Página
-          </button>
-        </div>
+        {!carregando && paginacao.totalPaginas > 1 && (
+          <div className="dash-estoque-paginacao">
+            <button 
+              onClick={irParaPaginaAnterior} 
+              disabled={!paginacao.temPaginaAnterior}
+            >
+              Página Anterior
+            </button>
+            <span>
+              Página {paginaAtual} de {paginacao.totalPaginas} 
+              ({paginacao.totalItens} produto{paginacao.totalItens !== 1 ? 's' : ''} encontrado{paginacao.totalItens !== 1 ? 's' : ''})
+            </span>
+            <button 
+              onClick={irParaProximaPagina} 
+              disabled={!paginacao.temProximaPagina}
+            >
+              Próxima Página
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

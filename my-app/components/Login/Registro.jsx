@@ -21,15 +21,16 @@ function Registro({ onLoginSuccess }) {
 
   // Função para lidar com envio do formulário de registro
   async function handleSubmit(formData) {
-    // Validação simples: campos obrigatórios nome, email e senha
-    if (!formData.nome || !formData.email || !formData.senha) {
+    // Validação simples: campos obrigatórios
+    if (!formData.nome || !formData.email || !formData.senha || !formData.telefone || 
+        !formData.rua || !formData.cidade || !formData.estado || !formData.cep || !formData.pais) {
       alert("Por favor, preencha todos os campos obrigatórios.");
       return;
     }
 
     try {
-      // Envia dados para endpoint /api/usuarios via POST
-      const response = await fetch('/api/usuarios', {
+      // Envia dados para endpoint /api/login/registro via POST
+      const response = await fetch('http://localhost:3000/users/login/registro', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -39,25 +40,17 @@ function Registro({ onLoginSuccess }) {
           email: formData.email,
           senha: formData.senha,
           telefone: formData.telefone,
-          endereco: {
-            rua: formData.rua,
-            cidade: formData.cidade,
-            estado: formData.estado,
-            cep: formData.cep,
-            pais: formData.pais
-          },
-          tipo: "cliente" // Define tipo do usuário como cliente
+          rua: formData.rua,
+          cidade: formData.cidade,
+          estado: formData.estado,
+          cep: formData.cep,
+          pais: formData.pais
         })
       });
 
-      // Erro: para efeito de demonstração o if sempre será true
-      // if (response.ok) {
-      if (true) {
-        //const result = await response.json();
-        // Simulação de resposta do servidor com token e tipo
-        const result = { token: "tk16", tipo: "cliente"};
+      if (response.ok) {
+        const result = await response.json();
         console.log("Usuário registrado:", result);
-        //alert("Registro realizado com sucesso!");
         
         // Se receber token e função onLoginSuccess definida, faz login automático
         if (result.token && onLoginSuccess) {
@@ -81,7 +74,7 @@ function Registro({ onLoginSuccess }) {
     } catch (err) {
       // Trata erros de requisição e exibe alerta ao usuário
       console.error("Erro ao registrar:", err);
-      alert("Erro ao criar conta. Tente novamente.");
+      alert(err.message || "Erro ao criar conta. Tente novamente.");
     }
   }
 

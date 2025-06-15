@@ -11,13 +11,12 @@ function Login({ onLoginSuccess }) {
   // Hook para navegação programática
   const navigate = useNavigate();
 
-  /*
-  // Função para envio do formulário com chamada real a API
+  // Função para envio do formulário com chamada a API
   async function handleSubmit(e) {
     e.preventDefault();
   
     try {
-      const response = await fetch('/api/login', {
+      const response = await fetch('http://localhost:3000/users/login/entrar', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, senha }),
@@ -28,7 +27,7 @@ function Login({ onLoginSuccess }) {
       if (response.ok && data.token && data.tipo) {
         onLoginSuccess(data.token, data.tipo); // atualiza estado no App
         if (data.tipo === "administrador") {
-          navigate('/administrador');
+          navigate('/admin');
         } else {
           navigate('/home');
         }
@@ -38,37 +37,6 @@ function Login({ onLoginSuccess }) {
     } catch (err) {
       console.error("Erro ao fazer login:", err);
       alert("Erro de rede.");
-    }
-  }
-  */
-
-  // Função para envio do formulário usando arquivo local JSON para login fake
-  async function handleSubmit(e) {
-    e.preventDefault();
-
-    try {
-      // Busca usuários do arquivo local usuarios.json
-      const response = await fetch('/usuarios.json'); 
-      const usuarios = await response.json();
-
-      // Procura usuário que combine email e senha
-      const usuario = usuarios.find(
-        (u) => u.email === email && u.senha === senha
-      );
-
-      if (usuario) {
-        onLoginSuccess(usuario.token, usuario.tipo); // atualiza estado no App
-        if (usuario.tipo === "administrador") {
-          navigate('/admin'); // redireciona para página admin
-        } else {
-          navigate('/home'); // redireciona para página home
-        }
-      } else {
-        alert("Login inválido."); // alerta se dados não conferem
-      }
-    } catch (err) {
-      console.error("Erro ao carregar dados locais:", err);
-      alert("Erro ao acessar os dados de login."); // alerta em caso de erro no fetch
     }
   }
 

@@ -1,63 +1,5 @@
 import React, { useState } from 'react';
 
-// ==========================================
-// FUNÇÃO TEMPORÁRIA - SERÁ REMOVIDA NO FUTURO
-// ==========================================
-// Esta função atualiza o estoque e envia para o servidor salvar
-const atualizarEstoque = async (carrinho) => {
-  try {
-    // Fazer requisição para ler o arquivo bd.json do servidor Glitch
-    const response = await fetch('https://button-discreet-talk.glitch.me/api/bd');
-    const produtos = await response.json();
-    
-    // Criar uma cópia dos produtos para modificar localmente
-    const produtosAtualizados = [...produtos];
-    
-    // Para cada item no carrinho, encontrar o produto e diminuir a quantidade do estoque
-    carrinho.forEach(itemCarrinho => {
-      // Encontrar índice do produto no array produtosAtualizados
-      const produtoIndex = produtosAtualizados.findIndex(p => p.id === itemCarrinho.id);
-      
-      if (produtoIndex !== -1) {
-        const produto = produtosAtualizados[produtoIndex];
-        // Encontrar índice do tamanho do produto selecionado
-        const tamanhoIndex = produto.tamanhos.indexOf(itemCarrinho.tamanho);
-        
-        if (tamanhoIndex !== -1) {
-          // Diminuir a quantidade disponível do tamanho específico, garantindo que não fique negativo
-          produto.quantidade[tamanhoIndex] = Math.max(0, produto.quantidade[tamanhoIndex] - itemCarrinho.quantidade);
-        }
-      }
-    });
-    
-    // Enviar o JSON atualizado para o servidor Glitch para salvar o novo estoque
-    const saveResponse = await fetch('https://button-discreet-talk.glitch.me/api/salvar-bd', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(produtosAtualizados)
-    });
-    
-    if (saveResponse.ok) {
-      // Log de sucesso no console
-      console.log('Estoque atualizado e salvo com sucesso!');
-    } else {
-      // Log de erro caso a resposta não seja ok
-      console.error('Erro ao salvar estoque no servidor');
-    }
-    
-  } catch (error) {
-    // Captura e log de erro durante o processo de atualização do estoque
-    console.error('Erro ao atualizar estoque:', error);
-    // Re-lança o erro para ser tratado na função que chamou atualizarEstoque
-    throw error;
-  }
-};
-// ==========================================
-// FIM DA FUNÇÃO TEMPORÁRIA
-// ==========================================
-
 // Componente de formulário para dados do cartão de crédito
 const FormCartao = ({ token, carrinhoFinal, subtotal, desconto, total, onCompraRealizada }) => {
   // Estado para armazenar os dados do cartão preenchidos pelo usuário
@@ -157,12 +99,9 @@ const FormCartao = ({ token, carrinhoFinal, subtotal, desconto, total, onCompraR
 
       // Log para debug dos dados da compra
       console.log(dadosCompra);
-      
-      // Atualiza o estoque antes de processar o pagamento
-      await atualizarEstoque(dadosCompra.carrinho);
 
-      // Envia a requisição de compra para o servidor com token de autenticação
-      const response = await fetch('https://button-discreet-talk.glitch.me/api/comprar', {
+      // Envia a requisição de pagamento para o novo endpoint
+      const response = await fetch('http://localhost:3000/products/pagamento', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -172,8 +111,9 @@ const FormCartao = ({ token, carrinhoFinal, subtotal, desconto, total, onCompraR
       });
 
       if (response.ok) {
-        // Caso a compra seja processada com sucesso
+        // Caso o pagamento seja processado com sucesso
         const resultado = await response.json();
+        console.log('Pagamento processado:', resultado);
         // Chama callback informando que a compra foi realizada
         onCompraRealizada();
       } else {
