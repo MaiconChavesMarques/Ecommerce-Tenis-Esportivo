@@ -247,9 +247,11 @@ await fetch('/bd.json');
 
 
 ## 6. Procedimentos de Build
-### Como Rodar o Projeto (React + Vite)
+### Como Rodar o Projeto (React + Vite + Node.js/Express)
 
-Siga os passos abaixo para rodar o projeto localmente:
+Siga os passos abaixo para rodar o projeto localmente.
+
+---
 
 ### 1. Instale o Node.js (caso ainda não tenha)
 
@@ -266,14 +268,24 @@ sudo apt install nodejs npm
 
 ```bash
 git clone https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo.git
-cd Ecommerce-Tenis-Esportivo/my-app
+cd Ecommerce-Tenis-Esportivo
 ```
 
 ---
 
 ### 3. Instale as dependências
 
+#### 3.1 Frontend
+
 ```bash
+cd my-app
+npm install
+```
+
+#### 3.2 Backend (servidor)
+
+```bash
+cd ../servidor
 npm install
 ```
 
@@ -281,18 +293,44 @@ npm install
 
 ### 4. Rode o projeto localmente
 
+#### 4.1 Frontend
+
 ```bash
+cd ../my-app
 npm run dev
 ```
 
-Abra no navegador: [http://localhost:5173](http://localhost:5173)
+Acesse: [http://localhost:5173](http://localhost:5173)
+
+#### 4.2 Backend
+
+Abra outro terminal:
+
+```bash
+cd Ecommerce-Tenis-Esportivo/my-app/servidor/bin
+node server.js
+```
+
+Servidor disponível em: [http://localhost:3000](http://localhost:3000)
 
 ---
-Email Administrador: a@gmail.com<br>
-Senha: 1
 
-Email Cliente: b@gmail.com<br>
-Senha: 2
+### 5. Contas de Acesso
+
+- **Administrador**  
+  Email: a@gmail.com  
+  Senha: 1
+
+- **Cliente**  
+  Email: b@gmail.com  
+  Senha: 2
+
+---
+
+### 6. Observações
+
+- No arquivo `my-app/src/chat.jsx`, substitua a **chave da API real**.  
+  Remova o texto `"dilvan moreira"` e junte as partes sem deixar espaço.
 
 ## 7. Problemas Encontrados
 Não foram encontrados problemas até o momento.
