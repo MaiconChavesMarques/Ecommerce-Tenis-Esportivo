@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import './FormPerfil.css';
 
 function FormPerfil({
-  // Dados iniciais padrão para o formulário de perfil, incluindo tipo de usuário e informações pessoais
   dadosIniciais = {
     tipo: "cliente",
     nome: "",
@@ -15,19 +14,22 @@ function FormPerfil({
     cep: "",
     pais: ""
   },
-  onSubmit,  // Função chamada ao submeter o formulário
-  onSair,    // Função chamada ao clicar no botão sair
-  tipoUsuario // Tipo do usuário atual (cliente ou administrador)
+  onSubmit,
+  onSair,
+  tipoUsuario
 }) {
-  // Estado para armazenar os dados do formulário
   const [formData, setFormData] = useState(dadosIniciais);
+  const [senhaData, setSenhaData] = useState({
+    senhaAtual: "",
+    novaSenha: "",
+    confirmarSenha: ""
+  });
+  const [errosSenha, setErrosSenha] = useState({});
 
-  // Atualiza o estado do formulário sempre que os dados iniciais mudam
   useEffect(() => {
     setFormData(dadosIniciais);
   }, [dadosIniciais]);
 
-  // Atualiza o estado local ao mudar qualquer campo do formulário
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -36,10 +38,67 @@ function FormPerfil({
     }));
   };
 
-  // Função para lidar com o envio do formulário, chama onSubmit com os dados atuais
+  const handleSenhaChange = (e) => {
+    const { name, value } = e.target;
+    setSenhaData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    
+    // Limpa erros quando o usuário começa a digitar
+    if (errosSenha[name]) {
+      setErrosSenha(prev => ({
+        ...prev,
+        [name]: ""
+      }));
+    }
+  };
+
+  const validarSenhas = () => {
+    const novosErros = {};
+
+    // Se algum campo de senha foi preenchido, todos são obrigatórios
+    const algumCampoSenhaPreenchido = senhaData.senhaAtual || senhaData.novaSenha || senhaData.confirmarSenha;
+
+    if (algumCampoSenhaPreenchido) {
+      if (!senhaData.senhaAtual) {
+        novosErros.senhaAtual = "Senha atual é obrigatória para alterar a senha";
+      }
+
+      if (!senhaData.novaSenha) {
+        novosErros.novaSenha = "Nova senha é obrigatória";
+      }
+
+      if (!senhaData.confirmarSenha) {
+        novosErros.confirmarSenha = "Confirmação de senha é obrigatória";
+      } else if (senhaData.novaSenha !== senhaData.confirmarSenha) {
+        novosErros.confirmarSenha = "As senhas não coincidem";
+      }
+    }
+
+    setErrosSenha(novosErros);
+    return Object.keys(novosErros).length === 0;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData);
+    
+    // Valida as senhas
+    if (!validarSenhas()) {
+      return;
+    }
+
+    // Prepara os dados para envio
+    const dadosParaEnvio = { ...formData };
+    
+    // Se há dados de senha, inclui eles
+    if (senhaData.senhaAtual && senhaData.novaSenha) {
+      dadosParaEnvio.senhaAtual = senhaData.senhaAtual;
+      dadosParaEnvio.novaSenha = senhaData.novaSenha;
+      dadosParaEnvio.confirmarSenha = senhaData.confirmarSenha;
+    }
+
+    onSubmit(dadosParaEnvio);
   };
 
   return (
@@ -54,7 +113,6 @@ function FormPerfil({
           <div className="cabecalho-card">
             <h2 className="titulo-secao-perfil">Informações do perfil</h2>
             <div className="tipo-usuario">
-              {/* Exibe o tipo do usuário de forma legível */}
               <strong>Tipo: {tipoUsuario === 'cliente' ? 'Cliente' : 'Administrador'}</strong>
             </div>
           </div>
@@ -191,7 +249,7 @@ function FormPerfil({
 
             {/* Seção para alteração de senha */}
             <div className="secao-senha-perfil">
-              <h3 className="titulo-senha">Senha</h3>
+              <h3 className="titulo-senha">Alterar Senha</h3>
               
               <div className="linha-senha-dupla">
                 {/* Campo para senha atual */}
@@ -203,9 +261,14 @@ function FormPerfil({
                     type="password"
                     id="senhaAtual"
                     name="senhaAtual"
-                    className="input-campo-perfil"
+                    className={`input-campo-perfil ${errosSenha.senhaAtual ? 'erro' : ''}`}
+                    value={senhaData.senhaAtual}
+                    onChange={handleSenhaChange}
                     placeholder="Digite sua senha atual"
                   />
+                  {errosSenha.senhaAtual && (
+                    <span className="mensagem-erro">{errosSenha.senhaAtual}</span>
+                  )}
                 </div>
 
                 {/* Campo para nova senha */}
@@ -217,9 +280,14 @@ function FormPerfil({
                     type="password"
                     id="novaSenha"
                     name="novaSenha"
-                    className="input-campo-perfil"
+                    className={`input-campo-perfil ${errosSenha.novaSenha ? 'erro' : ''}`}
+                    value={senhaData.novaSenha}
+                    onChange={handleSenhaChange}
                     placeholder="Digite a nova senha"
                   />
+                  {errosSenha.novaSenha && (
+                    <span className="mensagem-erro">{errosSenha.novaSenha}</span>
+                  )}
                 </div>
               </div>
 
@@ -232,9 +300,14 @@ function FormPerfil({
                   type="password"
                   id="confirmarSenha"
                   name="confirmarSenha"
-                  className="input-campo-perfil"
+                  className={`input-campo-perfil ${errosSenha.confirmarSenha ? 'erro' : ''}`}
+                  value={senhaData.confirmarSenha}
+                  onChange={handleSenhaChange}
                   placeholder="Confirme a nova senha"
                 />
+                {errosSenha.confirmarSenha && (
+                  <span className="mensagem-erro">{errosSenha.confirmarSenha}</span>
+                )}
               </div>
             </div>
 

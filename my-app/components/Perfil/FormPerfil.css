@@ -322,3 +322,32 @@
     font-size: 14px;
   }
 }
+
+/* Adicione estes estilos ao seu arquivo FormPerfil.css existente */
+
+/* Estilo para campos com erro */
+.input-campo-perfil.erro {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 1px #ef4444;
+}
+
+/* Mensagens de erro */
+.mensagem-erro {
+  display: block;
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  font-weight: 500;
+}
+
+/* Ajuste no grupo de campo para acomodar a mensagem de erro */
+.grupo-campo-perfil {
+  margin-bottom: 1.5rem;
+}
+
+/* Responsividade para mensagens de erro */
+@media (max-width: 768px) {
+  .mensagem-erro {
+      font-size: 0.8rem;
+  }
+}

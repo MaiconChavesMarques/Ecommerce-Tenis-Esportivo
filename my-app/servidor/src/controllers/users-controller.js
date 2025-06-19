@@ -410,20 +410,22 @@ controller.getPerfil = async (req, res) => {
 
 controller.putPerfil = async (req, res) => {
     try {
-        const { token } = req.params; // Mudança: pega do parâmetro da rota
+        const { token } = req.params;
         const { 
             nome, 
             email, 
-            senha, 
             telefone, 
             rua, 
             cidade, 
             estado, 
             cep, 
-            pais
+            pais,
+            senhaAtual,
+            novaSenha,
+            confirmarSenha
         } = req.body;
         
-        // Validação do token (identificador do usuário)
+        // Validação do token
         if (!token) {
             return res.status(400).send({ 
                 message: 'Token do usuário é obrigatório para atualização do perfil.' 
@@ -436,6 +438,28 @@ controller.putPerfil = async (req, res) => {
             return res.status(404).send({ 
                 message: 'Usuário não encontrado.' 
             });
+        }
+
+        // Verifica se é uma tentativa de alteração de senha
+        let senhaAlterada = false;
+        let erroSenha = null;
+        
+        if (senhaAtual || novaSenha || confirmarSenha) {
+            // Validações de senha
+            if (!senhaAtual) {
+                erroSenha = 'Senha atual é obrigatória para alterar a senha.';
+            } else if (!novaSenha) {
+                erroSenha = 'Nova senha é obrigatória.';
+            } else if (!confirmarSenha) {
+                erroSenha = 'Confirmação de senha é obrigatória.';
+            } else if (novaSenha !== confirmarSenha) {
+                erroSenha = 'Nova senha e confirmação de senha não coincidem.';
+            } else if (usuarioExistente.senha !== senhaAtual) {
+                erroSenha = 'Senha atual incorreta.';
+            } else {
+                // Se chegou até aqui, todas as validações passaram
+                senhaAlterada = true;
+            }
         }
 
         // Verifica se o novo email já está em uso por outro usuário
@@ -455,13 +479,17 @@ controller.putPerfil = async (req, res) => {
         const atualizacao = {};
         if (nome !== undefined) atualizacao.nome = nome;
         if (email !== undefined) atualizacao.email = email;
-        if (senha !== undefined) atualizacao.senha = senha;
         if (telefone !== undefined) atualizacao.telefone = telefone;
         if (rua !== undefined) atualizacao.rua = rua;
         if (cidade !== undefined) atualizacao.cidade = cidade;
         if (estado !== undefined) atualizacao.estado = estado;
         if (cep !== undefined) atualizacao.cep = cep;
         if (pais !== undefined) atualizacao.pais = pais;
+        
+        // Se a senha foi validada com sucesso, inclui a nova senha
+        if (senhaAlterada) {
+            atualizacao.senha = novaSenha;
+        }
 
         // Atualiza o perfil do usuário
         const usuarioAtualizado = await User.findOneAndUpdate(
@@ -470,14 +498,25 @@ controller.putPerfil = async (req, res) => {
             { new: true, runValidators: true }
         ).select('-senha'); // Exclui a senha do retorno
 
+        // Prepara a mensagem de resposta
+        let mensagem = '';
+        if (senhaAlterada) {
+            mensagem = 'Perfil e senha atualizados com sucesso!';
+        } else if (erroSenha) {
+            mensagem = `Perfil atualizado com sucesso, mas houve um erro com a senha: ${erroSenha}`;
+        } else {
+            mensagem = 'Perfil atualizado com sucesso!';
+        }
+
         res.status(200).send({
             usuario: usuarioAtualizado,
-            message: 'Perfil atualizado com sucesso!'
+            message: mensagem,
+            senhaAlterada: senhaAlterada,
+            erroSenha: erroSenha
         });
         
     } catch (e) {
         if (e.code === 11000) {
-            // Erro de duplicação (email único)
             return res.status(400).send({
                 message: 'Este email já está em uso.'
             });
