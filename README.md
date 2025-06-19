@@ -329,7 +329,7 @@ Servidor disponível em: [http://localhost:3000](http://localhost:3000)
 
 ### 6. Observações
 
-- No arquivo `my-app/src/chat.jsx`, substitua a **chave da API real**.  
+- No arquivo `my-app\components\Chat\chat.jsx`, substitua a **chave da API real**.  
   Remova o texto `"dilvan moreira"` e junte as partes sem deixar espaço.
 
 ## 7. Problemas Encontrados
