@@ -3,31 +3,33 @@ import crypto from 'crypto';
 
 const controller = {};
 
+// GET - Buscar usuários com paginação e filtros opcionais
 controller.getUsers = async (req, res) => {
     try {
+        // Recebe filtros e parâmetros de paginação da query string
         const { 
-            tipo, 
-            pagina = 1, 
-            limite = 8, 
-            busca 
+            tipo,           // filtro opcional por tipo de usuário ('cliente' ou 'administrador')
+            pagina = 1,     // página atual, padrão 1
+            limite = 8,     // itens por página, padrão 8
+            busca           // termo para busca por nome ou email (case insensitive)
         } = req.query;
 
-        // Converte parâmetros para números
+        // Converte pagina e limite para números inteiros
         const paginaNum = parseInt(pagina);
         const limiteNum = parseInt(limite);
-        const skip = (paginaNum - 1) * limiteNum;
+        const skip = (paginaNum - 1) * limiteNum; // cálculo para pular itens na consulta
 
-        // Constrói filtro de busca
+        // Inicializa filtro vazio
         let filtro = {};
         
-        // Adiciona filtro por tipo se especificado
+        // Se fornecido, adiciona filtro por tipo de usuário
         if (tipo) {
             filtro.tipo = tipo;
         }
 
-        // Adiciona filtro de busca por nome ou email se especificado
+        // Se fornecido termo de busca, cria regex case-insensitive para nome ou email
         if (busca) {
-            const termoRegex = new RegExp(busca, 'i'); // 'i' = case-insensitive
+            const termoRegex = new RegExp(busca, 'i');
         
             filtro.$or = [
                 { nome: termoRegex },
@@ -35,17 +37,18 @@ controller.getUsers = async (req, res) => {
             ];
         }    
 
-        // Busca usuários com paginação
+        // Consulta usuários no banco com filtro, excluindo senha, ordenando por nome
         const usuarios = await User.find(filtro)
-            .select('-senha') // Exclui senha dos resultados
-            .sort({ nome: 1 }) // Ordena por nome
+            .select('-senha') 
+            .sort({ nome: 1 })
             .skip(skip)
             .limit(limiteNum);
 
-        // Conta total de usuários para calcular páginas
+        // Conta total de usuários que batem com o filtro para paginação
         const total = await User.countDocuments(filtro);
         const totalPaginas = Math.ceil(total / limiteNum);
 
+        // Retorna dados com usuários e informações de paginação
         res.status(200).send({
             usuarios,
             paginacao: {
@@ -59,6 +62,7 @@ controller.getUsers = async (req, res) => {
         });
 
     } catch (e) {
+        // Em caso de erro, retorna status 400 com mensagem e dados do erro
         res.status(400).send({
             message: 'Erro ao buscar usuários.',
             data: e
@@ -66,11 +70,12 @@ controller.getUsers = async (req, res) => {
     }
 };
 
+// POST - Login de usuário (autenticação simples com email e senha)
 controller.entrar = async (req, res) => {
     try {
         const { email, senha } = req.body;
         
-        // Busca usuário por email e senha, apenas se conta estiver ativa
+        // Busca usuário ativo com email e senha informados
         const user = await User.findOne({ 
             email: email, 
             senha: senha, 
@@ -78,12 +83,13 @@ controller.entrar = async (req, res) => {
         });
 
         if (!user) {
+            // Se não encontrou usuário, retorna erro 401 Unauthorized
             return res.status(401).send({ 
                 message: 'Login inválido.' 
             });
         }
 
-        // Retorna dados do usuário para o login
+        // Retorna token, tipo e mensagem de sucesso para o cliente
         res.status(200).send({
             token: user.token,
             tipo: user.tipo,
@@ -91,6 +97,7 @@ controller.entrar = async (req, res) => {
         });
         
     } catch (e) {
+        // Erro inesperado retorna status 400
         res.status(400).send({
             message: 'Erro ao fazer login.',
             data: e
@@ -98,18 +105,20 @@ controller.entrar = async (req, res) => {
     }
 };
 
+// POST - Registrar novo usuário (cliente por padrão)
 controller.registrar = async (req, res) => {
     try {
+        // Extrai dados obrigatórios do corpo da requisição
         const { nome, email, senha, telefone, rua, cidade, estado, cep, pais } = req.body;
         
-        // Validação dos campos obrigatórios
+        // Validação: todos os campos obrigatórios devem estar presentes
         if (!nome || !email || !senha || !telefone || !rua || !cidade || !estado || !cep || !pais) {
             return res.status(400).send({ 
                 message: 'Todos os campos são obrigatórios.' 
             });
         }
 
-        // Verifica se o email já está em uso
+        // Verifica se já existe usuário com esse email para evitar duplicidade
         const usuarioExistente = await User.findOne({ email: email });
         if (usuarioExistente) {
             return res.status(400).send({ 
@@ -117,10 +126,10 @@ controller.registrar = async (req, res) => {
             });
         }
 
-        // Gera token único
+        // Gera um token único aleatório para o usuário
         const token = crypto.randomBytes(32).toString('hex');
 
-        // Cria novo usuário
+        // Cria e salva o novo usuário com tipo 'cliente' e conta ativa
         const novoUsuario = new User({
             nome,
             email,
@@ -141,7 +150,7 @@ controller.registrar = async (req, res) => {
 
         await novoUsuario.save();
 
-        // Retorna dados do usuário para login automático
+        // Retorna token e tipo para login automático após registro
         res.status(201).send({
             token: novoUsuario.token,
             tipo: novoUsuario.tipo,
@@ -149,8 +158,8 @@ controller.registrar = async (req, res) => {
         });
         
     } catch (e) {
+        // Caso erro seja de duplicação de chave única (email)
         if (e.code === 11000) {
-            // Erro de duplicação (email único)
             return res.status(400).send({
                 message: 'Este email já está em uso.'
             });
@@ -163,19 +172,12 @@ controller.registrar = async (req, res) => {
     }
 };
 
+// POST - Criar novo usuário com tipo definido (cliente ou administrador)
 controller.postUsers = async (req, res) => {
     try {
+        // Extrai dados do corpo, tipo padrão é 'cliente'
         const { 
-            nome, 
-            email, 
-            senha, 
-            telefone, 
-            rua, 
-            cidade, 
-            estado, 
-            cep, 
-            pais, 
-            tipo = 'cliente' 
+            nome, email, senha, telefone, rua, cidade, estado, cep, pais, tipo = 'cliente' 
         } = req.body;
         
         // Validação dos campos obrigatórios
@@ -185,14 +187,14 @@ controller.postUsers = async (req, res) => {
             });
         }
 
-        // Validação do tipo de usuário
+        // Validação do tipo de usuário (deve ser 'cliente' ou 'administrador')
         if (!['cliente', 'administrador'].includes(tipo)) {
             return res.status(400).send({ 
                 message: 'Tipo de usuário inválido. Use "cliente" ou "administrador".' 
             });
         }
 
-        // Verifica se o email já está em uso
+        // Verifica se email já está cadastrado
         const usuarioExistente = await User.findOne({ email: email });
         if (usuarioExistente) {
             return res.status(400).send({ 
@@ -203,7 +205,7 @@ controller.postUsers = async (req, res) => {
         // Gera token único
         const token = crypto.randomBytes(32).toString('hex');
 
-        // Cria novo usuário
+        // Cria e salva novo usuário com tipo informado
         const novoUsuario = new User({
             nome,
             email,
@@ -224,13 +226,14 @@ controller.postUsers = async (req, res) => {
 
         await novoUsuario.save();
 
+        // Retorna mensagem de sucesso com tipo formatado (primeira letra maiúscula)
         res.status(201).send({
             message: `${tipo.charAt(0).toUpperCase() + tipo.slice(1)} criado com sucesso!`
         });
         
     } catch (e) {
         if (e.code === 11000) {
-            // Erro de duplicação (email único)
+            // Retorna erro caso email já exista
             return res.status(400).send({
                 message: 'Este email já está em uso.'
             });
@@ -243,31 +246,22 @@ controller.postUsers = async (req, res) => {
     }
 };
 
+// PUT - Atualizar usuário pelo token (parâmetro de rota)
 controller.putUsers = async (req, res) => {
     try {
-        const { token } = req.params; // Mudança: pega do parâmetro da rota
+        const { token } = req.params; // token identificador do usuário
         const { 
-            nome, 
-            email, 
-            senha, 
-            telefone, 
-            rua, 
-            cidade, 
-            estado, 
-            cep, 
-            pais, 
-            tipo,
-            estadoConta
+            nome, email, senha, telefone, rua, cidade, estado, cep, pais, tipo, estadoConta
         } = req.body;
         
-        // Validação do token (identificador do usuário)
+        // Valida token obrigatório
         if (!token) {
             return res.status(400).send({ 
                 message: 'Token do usuário é obrigatório para atualização.' 
             });
         }
 
-        // Busca o usuário pelo token
+        // Busca usuário existente pelo token
         const usuarioExistente = await User.findOne({ token: token });
         if (!usuarioExistente) {
             return res.status(404).send({ 
@@ -275,7 +269,7 @@ controller.putUsers = async (req, res) => {
             });
         }
 
-        // Verifica se o novo email já está em uso por outro usuário
+        // Se email foi alterado, verifica se já está em uso por outro usuário
         if (email && email !== usuarioExistente.email) {
             const emailJaUsado = await User.findOne({ 
                 email: email, 
@@ -288,21 +282,21 @@ controller.putUsers = async (req, res) => {
             }
         }
 
-        // Validação do tipo de usuário se fornecido
+        // Valida tipo de usuário se fornecido
         if (tipo && !['cliente', 'administrador'].includes(tipo)) {
             return res.status(400).send({ 
                 message: 'Tipo de usuário inválido. Use "cliente" ou "administrador".' 
             });
         }
 
-        // Validação do estado da conta se fornecido
+        // Valida estado da conta se fornecido
         if (estadoConta && !['ativo', 'inativo'].includes(estadoConta)) {
             return res.status(400).send({ 
                 message: 'Estado da conta inválido. Use "ativo" ou "inativo".' 
             });
         }
 
-        // Constrói objeto de atualização apenas com campos fornecidos
+        // Monta objeto somente com campos a atualizar que foram enviados
         const atualizacao = {};
         if (nome !== undefined) atualizacao.nome = nome;
         if (email !== undefined) atualizacao.email = email;
@@ -316,7 +310,7 @@ controller.putUsers = async (req, res) => {
         if (tipo !== undefined) atualizacao.tipo = tipo;
         if (estadoConta !== undefined) atualizacao.estadoConta = estadoConta;
 
-        // Atualiza o usuário
+        // Atualiza o usuário no banco, retornando o novo documento (new: true) e validando campos
         await User.findOneAndUpdate(
             { token: token },
             atualizacao,
@@ -329,7 +323,7 @@ controller.putUsers = async (req, res) => {
         
     } catch (e) {
         if (e.code === 11000) {
-            // Erro de duplicação (email único)
+            // Retorna erro para email duplicado
             return res.status(400).send({
                 message: 'Este email já está em uso.'
             });
@@ -342,18 +336,19 @@ controller.putUsers = async (req, res) => {
     }
 };
 
+// DELETE - Excluir usuário pelo token (parâmetro de rota)
 controller.deleteUsers = async (req, res) => {
     try {
-        const { token } = req.params; // Mudança: pega do parâmetro da rota
+        const { token } = req.params; // token obrigatório
         
-        // Validação do token
+        // Validação token
         if (!token) {
             return res.status(400).send({ 
                 message: 'Token do usuário é obrigatório para exclusão.' 
             });
         }
 
-        // Busca e remove o usuário pelo token
+        // Remove usuário pelo token
         const usuarioRemovido = await User.findOneAndDelete({ token: token });
         
         if (!usuarioRemovido) {
@@ -374,18 +369,19 @@ controller.deleteUsers = async (req, res) => {
     }
 };
 
+// GET - Buscar perfil do usuário pelo token (parâmetro de rota)
 controller.getPerfil = async (req, res) => {
     try {
-        const { token } = req.params; // Mudança: pega do parâmetro da rota
+        const { token } = req.params;
         
-        // Validação do token
+        // Validação token obrigatório
         if (!token) {
             return res.status(400).send({ 
                 message: 'Token é obrigatório para buscar perfil.' 
             });
         }
 
-        // Busca usuário pelo token, excluindo a senha dos resultados
+        // Busca usuário pelo token, excluindo senha do resultado
         const usuario = await User.findOne({ token: token })
             .select('-senha');
         
@@ -408,31 +404,23 @@ controller.getPerfil = async (req, res) => {
     }
 };
 
+// PUT - Atualizar perfil do usuário (com possibilidade de alterar senha)
 controller.putPerfil = async (req, res) => {
     try {
         const { token } = req.params;
         const { 
-            nome, 
-            email, 
-            telefone, 
-            rua, 
-            cidade, 
-            estado, 
-            cep, 
-            pais,
-            senhaAtual,
-            novaSenha,
-            confirmarSenha
+            nome, email, telefone, rua, cidade, estado, cep, pais,
+            senhaAtual, novaSenha, confirmarSenha
         } = req.body;
         
-        // Validação do token
+        // Validação token obrigatório
         if (!token) {
             return res.status(400).send({ 
                 message: 'Token do usuário é obrigatório para atualização do perfil.' 
             });
         }
 
-        // Busca o usuário pelo token
+        // Busca usuário pelo token
         const usuarioExistente = await User.findOne({ token: token });
         if (!usuarioExistente) {
             return res.status(404).send({ 
@@ -440,12 +428,12 @@ controller.putPerfil = async (req, res) => {
             });
         }
 
-        // Verifica se é uma tentativa de alteração de senha
+        // Variáveis para controle da alteração de senha
         let senhaAlterada = false;
         let erroSenha = null;
         
+        // Se algum campo relacionado à senha foi enviado, valida a troca de senha
         if (senhaAtual || novaSenha || confirmarSenha) {
-            // Validações de senha
             if (!senhaAtual) {
                 erroSenha = 'Senha atual é obrigatória para alterar a senha.';
             } else if (!novaSenha) {
@@ -457,12 +445,12 @@ controller.putPerfil = async (req, res) => {
             } else if (usuarioExistente.senha !== senhaAtual) {
                 erroSenha = 'Senha atual incorreta.';
             } else {
-                // Se chegou até aqui, todas as validações passaram
+                // Se passou em todas validações, marca senha como alterada
                 senhaAlterada = true;
             }
         }
 
-        // Verifica se o novo email já está em uso por outro usuário
+        // Verifica se novo email já está em uso por outro usuário
         if (email && email !== usuarioExistente.email) {
             const emailJaUsado = await User.findOne({ 
                 email: email, 
@@ -475,7 +463,7 @@ controller.putPerfil = async (req, res) => {
             }
         }
 
-        // Constrói objeto de atualização apenas com campos fornecidos
+        // Monta objeto para atualizar com campos fornecidos
         const atualizacao = {};
         if (nome !== undefined) atualizacao.nome = nome;
         if (email !== undefined) atualizacao.email = email;
@@ -486,19 +474,19 @@ controller.putPerfil = async (req, res) => {
         if (cep !== undefined) atualizacao.cep = cep;
         if (pais !== undefined) atualizacao.pais = pais;
         
-        // Se a senha foi validada com sucesso, inclui a nova senha
+        // Se senha foi validada e deve ser atualizada, inclui no objeto
         if (senhaAlterada) {
             atualizacao.senha = novaSenha;
         }
 
-        // Atualiza o perfil do usuário
+        // Atualiza perfil do usuário e retorna novo documento sem a senha
         const usuarioAtualizado = await User.findOneAndUpdate(
             { token: token },
             atualizacao,
             { new: true, runValidators: true }
-        ).select('-senha'); // Exclui a senha do retorno
+        ).select('-senha');
 
-        // Prepara a mensagem de resposta
+        // Prepara mensagem de retorno de acordo com alteração da senha
         let mensagem = '';
         if (senhaAlterada) {
             mensagem = 'Perfil e senha atualizados com sucesso!';
@@ -511,8 +499,8 @@ controller.putPerfil = async (req, res) => {
         res.status(200).send({
             usuario: usuarioAtualizado,
             message: mensagem,
-            senhaAlterada: senhaAlterada,
-            erroSenha: erroSenha
+            senhaAlterada,
+            erroSenha
         });
         
     } catch (e) {
@@ -529,18 +517,19 @@ controller.putPerfil = async (req, res) => {
     }
 };
 
+// GET - Buscar carrinho do usuário pelo token
 controller.getCarrinho = async (req, res) => {
     try {
         const { token } = req.params;
         
-        // Validação do token
+        // Validação token obrigatório
         if (!token) {
             return res.status(400).send({ 
                 message: 'Token do usuário é obrigatório para buscar carrinho.' 
             });
         }
 
-        // Busca usuário pelo token, selecionando apenas os campos do carrinho
+        // Busca usuário pelo token, retornando apenas os campos do carrinho
         const usuario = await User.findOne({ token: token })
             .select('carrinho tamanhoCarrinho quantiaCarrinho');
         
@@ -565,23 +554,24 @@ controller.getCarrinho = async (req, res) => {
     }
 };
 
+// PUT - Atualizar carrinho do usuário (arrays carrinho, tamanhoCarrinho e quantiaCarrinho devem ter mesmo tamanho)
 controller.putCarrinho = async (req, res) => {
     try {
-        const { token } = req.params; // Mudança: pega do parâmetro da rota
+        const { token } = req.params;
         const { 
             carrinho = [],
             tamanhoCarrinho = [],
             quantiaCarrinho = []
         } = req.body;
         
-        // Validação do token
+        // Validação token obrigatório
         if (!token) {
             return res.status(400).send({ 
                 message: 'Token do usuário é obrigatório para atualizar carrinho.' 
             });
         }
 
-        // Busca o usuário pelo token
+        // Busca usuário pelo token
         const usuarioExistente = await User.findOne({ token: token });
         if (!usuarioExistente) {
             return res.status(404).send({ 
@@ -589,14 +579,14 @@ controller.putCarrinho = async (req, res) => {
             });
         }
 
-        // Validação: os arrays devem ter o mesmo tamanho
+        // Valida que os três arrays possuem o mesmo tamanho
         if (carrinho.length !== tamanhoCarrinho.length || carrinho.length !== quantiaCarrinho.length) {
             return res.status(400).send({ 
                 message: 'Os arrays de carrinho, tamanho e quantidade devem ter o mesmo tamanho.' 
             });
         }
 
-        // Validação: quantidades devem ser números positivos
+        // Valida que todas as quantidades são números inteiros positivos
         for (let i = 0; i < quantiaCarrinho.length; i++) {
             if (!Number.isInteger(quantiaCarrinho[i]) || quantiaCarrinho[i] <= 0) {
                 return res.status(400).send({ 
@@ -605,7 +595,7 @@ controller.putCarrinho = async (req, res) => {
             }
         }
 
-        // Atualiza o carrinho do usuário
+        // Atualiza campos do carrinho do usuário
         await User.findOneAndUpdate(
             { token: token },
             {
@@ -628,16 +618,18 @@ controller.putCarrinho = async (req, res) => {
     }
 };
 
-// POST - Registrar múltiplos usuários
+// POST - Registrar múltiplos usuários em lote
 controller.usersLote = async (req, res) => {
     try {
         const usuarios = req.body;
 
+        // Valida que o corpo é um array não vazio
         if (!Array.isArray(usuarios) || usuarios.length === 0) {
             return res.status(400).send({ message: 'Envie um array de usuários.' });
         }
 
         const criados = [];
+        // Para cada usuário no array, cria token, seta estado e salva no banco
         for (let u of usuarios) {
             const token = crypto.randomBytes(32).toString('hex');
             const novo = new User({ ...u, token, estadoConta: 'ativo' });
@@ -645,13 +637,14 @@ controller.usersLote = async (req, res) => {
             criados.push(novo);
         }
 
+        // Retorna quantidade criada e dados
         res.status(201).send({ message: `${criados.length} usuários criados.`, usuarios: criados });
     } catch (e) {
         res.status(400).send({ message: 'Erro ao criar usuários em lote.', data: e });
     }
 };
 
-// GET - Buscar todos os usuários
+// GET - Buscar todos os usuários (sem paginação), excluindo senha, ordenado por nome
 controller.usersTodos = async (req, res) => {
     try {
         const usuarios = await User.find().select('-senha').sort({ nome: 1 });
