@@ -38,11 +38,7 @@ Todos os Mockups estão também no figma com nomes iguais aqueles encontrados no
 
 ## 3. Comentários sobre o Código
 <!-- Insira comentários que ajudem a entender melhor a estrutura e as decisões do código. -->
-O carrinho é o único componente que usa um servidor de verdade. Usamos um serviço gratuito que mantém o servidor online. Contudo após 5 minutos sem requisições ele entra no modo (sleep). Para ser acordado é necessário uma requisição, então a primeira requisição sempre demora um tempo considerável. Caso as requisições seguintes sejam feitas antes de passar 5 minutos terão tempo de resposta normal.
-
-Como não podemos escrever em um servidor local, tudo sem ser o carrinho atualiza temporariamente, caso haja uma troca de páginas, algumas páginas buscam novamente as informações do servidor local (não alteradas). Por isso, as mudanças realizadas só são persistentes enquanto se está na página. Isso não é um problema de fato, já que enviam as mudanças ao servidor, que futuramente devolverá os dados atualizados.
-
-O registro envia dados para o servidor, contudo, como não recebo um token que representa esse usuário de volta por não haver um servidor, uso um token de usuário qualquer. Por isso, seu usuário registrado não é o mesmo do seu perfil. Atualizar perfil também envia as mudanças ao servidor, mas não tem efeito aparente justamente por trocar de página.
+Sem comentários.
 
 ## 4. Plano de Testes
 
@@ -245,6 +241,121 @@ await fetch('/bd.json');
 - Busca as informações tanto do produto desejado quanto dos produtos relacionados.
 ![Produto Detalhe](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/Captura%20de%20tela%20de%202025-05-30%2017-05-53.png)
 
+# 🧪 Testes de API - Sistema de Produtos e Usuários
+
+Este projeto implementa rotas públicas, administrativas e de usuário para manipulação de produtos, autenticação e carrinho de compras.
+
+---
+
+## 👤 Usuários
+
+### 🔹 POST `/login/entrar`
+**Descrição:** Login de usuário.  
+![POST /login/entrar](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/teste1.png)
+
+---
+
+### 🔹 POST `/login/registro`
+**Descrição:** Cadastro de novo usuário.  
+![POST /login/registro](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/teste2.png)
+
+---
+
+### 🔹 GET `/administrador/users`
+**Descrição:** Lista de todos os usuários.  
+![GET /admin/users](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/teste3.png)
+
+---
+
+### 🔹 POST `/administrador/users`
+**Descrição:** Adiciona usuário manualmente.  
+![POST /admin/users](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/teste4.png)
+
+---
+
+### 🔹 PUT `/administrador/users/:token`
+**Descrição:** Edita dados de um usuário.  
+![PUT /admin/users](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/teste5.png)
+
+---
+
+### 🔹 DELETE `/administrador/users/:token`
+**Descrição:** Exclui usuário.  
+![DELETE /admin/users](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/teste6.png)
+
+---
+
+### 🔹 GET `/perfil/:token`
+**Descrição:** Busca dados do perfil do usuário autenticado.  
+![GET /perfil](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/teste7.png)
+
+---
+
+### 🔹 PUT `/perfil/:token`
+**Descrição:** Atualiza o perfil do usuário.  
+![PUT /perfil](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/teste8.png)
+
+---
+
+### 🔹 GET `/user/carrinho/:token`
+**Descrição:** Recupera os itens do carrinho do usuário autenticado.  
+![GET /user/carrinho](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/teste9.png)
+
+---
+
+### 🔹 PUT `/user/carrinho/:token`
+**Descrição:** Atualiza os itens do carrinho do usuário.  
+![PUT /user/carrinho](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/teste10.png)
+
+---
+
+## 📦 Produtos
+
+### 🔹 GET `/home`
+**Descrição:** Página inicial com listagem de produtos.  
+![GET /home](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/teste11.png)
+
+---
+
+### 🔹 GET `/productPage/:id_interno`
+**Descrição:** Página de um produto específico.  
+![GET /productPage](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/teste12.png)
+
+---
+
+### 🔹 POST `/carrinho`
+**Descrição:** Retorna detalhes dos produtos no carrinho via array de IDs.  
+![POST /carrinho](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/teste13.png)
+
+---
+
+### 🔹 GET `/administrador/products`
+**Descrição:** Lista todos os produtos (admin).  
+![GET /admin/products](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/teste14.png)
+
+---
+
+### 🔹 POST `/administrador/products`
+**Descrição:** Cadastra um novo produto.  
+![POST /admin/products](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/teste15.png)
+
+---
+
+### 🔹 PUT `/administrador/products/:id_interno`
+**Descrição:** Atualiza um produto existente.  
+![PUT /admin/products](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/teste16.png)
+
+---
+
+### 🔹 DELETE `/administrador/products/:id_interno`
+**Descrição:** Remove um produto existente.  
+![DELETE /admin/products](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/teste17.png)
+
+---
+
+### 🔹 POST `/pagamento`
+**Descrição:** Processa o pagamento do carrinho.  
+![POST /pagamento](https://github.com/MaiconChavesMarques/Ecommerce-Tenis-Esportivo/blob/main/Imagens/teste18.png)
 
 ## 6. Procedimentos de Build
 ### Como Rodar o Projeto (React + Vite + Node.js/Express)
